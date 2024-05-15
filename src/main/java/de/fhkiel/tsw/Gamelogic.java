@@ -16,6 +16,8 @@ public class Gamelogic implements Game {
 
     private boolean GameIsRunning;
 
+    private Color[] CPlayers;
+
 
     @Override
     public boolean newGame(int i) {
@@ -24,7 +26,7 @@ public class Gamelogic implements Game {
 
     @Override
     public Color[] players() {
-        return new Color[0];
+        return CPlayers;
     }
 
     @Override
@@ -79,6 +81,7 @@ public class Gamelogic implements Game {
             System.out.println("Spiel kann nicht gestartet werden. Zu viele oder zu wenige Spieler");
             return;
         }
+        CPlayers = new Color[spieler];
         SpielBeutel = new Beutel(spieler * 10);
         for (int i = 0; i < 2 * spieler; ++i) {
             SpielBeutel.FroschNehmen();

@@ -38,6 +38,8 @@ Funktionalität: AoF-L-240: Das Plugin muss der GUI die Möglichkeit
       |4      |   1  |
       |5      |   0  |
 
+
+
   Szenario: : Rick überprüft die ausgewählte Farbe
   (Testfall: 2)
     Angenommen ein Spieler hat die Farbe <Farbe> ausgewählt
