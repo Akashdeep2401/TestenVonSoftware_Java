@@ -33,10 +33,10 @@ Funktionalität: AoF-L-240: Das Plugin muss der GUI die Möglichkeit
     Beispiele:
       |Spieler| nicht|
       |1      | 0    |
-      |2      |    1 |
-      |3      | 1   |
-      |4      |   1  |
-      |5      |   0  |
+      |2      | 1    |
+      |3      | 1    |
+      |4      | 1    |
+      |5      | 0    |
 
 
 

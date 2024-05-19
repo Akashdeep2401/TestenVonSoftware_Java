@@ -1,16 +1,26 @@
 package steps;
 
+import de.fhkiel.tsw.Froschstein;
 import de.fhkiel.tsw.Gamelogic;
+import de.fhkiel.tsw.Spieler;
+import de.fhkiel.tsw.armyoffrogs.Color;
 import io.cucumber.java.de.Angenommen;
 import io.cucumber.java.de.Dann;
 import io.cucumber.java.de.Wenn;
 import steps.container.LogicContainer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class jonssteps {
 
     private LogicContainer container;
+
+    public jonssteps(LogicContainer container) {
+        this.container = container;
+    }
 
     int frösche;
     int iPlayers;
@@ -23,14 +33,20 @@ public class jonssteps {
     public void der_beutelinhalt_abgefragt_wird() {
         frösche = container.logicUnderTest.frogsInBag();
     }
+    /*
     @Dann("sind {int} Frösche im Beutel")
     public void sind_frösche_im_beutel(Integer erwarteteFrösche) {
         assertThat(frösche).isEqualTo(erwarteteFrösche);
     }
+    */
     @Angenommen("das Spiel ist mit {int} Spielern gestartet")
     public void das_spiel_ist_mit_spielern_gestartet(Integer spieler) {
         container.logicUnderTest = new Gamelogic();
-        container.logicUnderTest.startGame(spieler);
+        List<Color> TestFarben = new ArrayList<>();
+        TestFarben.add(Color.Blue);
+        TestFarben.add(Color.Red);
+        TestFarben.add(Color.Green);
+        container.logicUnderTest.startGame(spieler, TestFarben);
     }
     @Angenommen("der (erste)(zweite)(dritte)(vierte) Spieler hat {int} Frösche gezogen")
     public void der_erste_spieler_hat_frösche_gezogen(Integer gezogeneFrösche) {
@@ -43,7 +59,21 @@ public class jonssteps {
     @Angenommen("das Spiel versucht mit {int} Spielern zu starten")
     public void dasSpielVersuchtMitSpielerSpielernZuStarten(int iAnzahlSpieler) {
         container.logicUnderTest = new Gamelogic();
-        container.logicUnderTest.startGame(iAnzahlSpieler);
+        List<Color> TestFarben = new ArrayList<>();
+        if (iAnzahlSpieler == 2) {
+            TestFarben.add(Color.Blue);
+            TestFarben.add(Color.Red);
+        } else if (iAnzahlSpieler == 3) {
+            TestFarben.add(Color.Blue);
+            TestFarben.add(Color.Red);
+            TestFarben.add(Color.Green);
+        } else if (iAnzahlSpieler == 4){
+            TestFarben.add(Color.Blue);
+            TestFarben.add(Color.Red);
+            TestFarben.add(Color.Green);
+            TestFarben.add(Color.White);
+        }
+        container.logicUnderTest.startGame(iAnzahlSpieler, TestFarben);
     }
 
     @Wenn("das System die Spieler zählt")

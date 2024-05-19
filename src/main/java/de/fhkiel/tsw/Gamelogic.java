@@ -10,13 +10,14 @@ import java.util.Set;
 public class Gamelogic implements Game {
 
 
-    private Beutel SpielBeutel = new Beutel();
+    private Beutel SpielBeutel;
 
     private int iSpieler;
 
     private boolean GameIsRunning;
 
     private Color[] CPlayers;
+    private Spieler[] AlleSpieler;
 
 
     @Override
@@ -36,7 +37,7 @@ public class Gamelogic implements Game {
 
     @Override
     public int frogsInBag() {
-        return SpielBeutel.getFrösche();
+        return SpielBeutel.getAnzFrösche();
     }
 
     @Override
@@ -74,7 +75,8 @@ public class Gamelogic implements Game {
         return false;
     }
 
-    public void startGame(int spieler) {
+    public void startGame(int spieler, List<Color> SpielerFarben) {
+        AlleSpieler = new Spieler[spieler];
         iSpieler = spieler;
         if (!checkPlayerCount(spieler)) {
             GameIsRunning = false;
@@ -82,12 +84,23 @@ public class Gamelogic implements Game {
             return;
         }
         CPlayers = new Color[spieler];
-        SpielBeutel = new Beutel(spieler * 10);
-        for (int i = 0; i < 2 * spieler; ++i) {
+        int j = 0;
+        for (Color EinzSpielerFarbe : SpielerFarben) {
+            AlleSpieler[j] = new Spieler(EinzSpielerFarbe);
+            CPlayers[j] = EinzSpielerFarbe;
+            j++;
+        }
+
+        BeutelBefüllen(SpielerFarben);
+
+        GameIsRunning = true;
+    }
+
+    public void ErstesFröscheNehmen() {
+        for (int i = 0; i < 2 * iSpieler; ++i) {
             SpielBeutel.FroschNehmen();
         }
-        GameIsRunning = true;
-        System.out.println("Das Spiel wurde gestartet");
+        System.out.println("Die ersten Frösche wurden gezogen");
     }
 
     public void takeFrogFromBag() {
@@ -97,11 +110,18 @@ public class Gamelogic implements Game {
     private boolean checkPlayerCount(int iAnzSpieler) {
         return iAnzSpieler <= 4 && iAnzSpieler >= 2;
     }
+    private void BeutelBefüllen(List<Color> FarbenInBeutel) {
+        SpielBeutel = new Beutel(iSpieler * 10, FarbenInBeutel);
+    }
     public int getPlayerCount(){
         return iSpieler;
     }
 
     public boolean isGameIsRunning() {
         return GameIsRunning;
+    }
+
+    public Beutel getSpielBeutel() {
+        return SpielBeutel;
     }
 }

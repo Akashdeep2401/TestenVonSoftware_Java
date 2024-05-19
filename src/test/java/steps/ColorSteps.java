@@ -56,11 +56,33 @@ public class ColorSteps {
 
     @Angenommen("alle Spieler haben eine Farbe ausgewählt")
     public void alle_spieler_haben_eine_farbe_ausgewählt() {
-
+        container.bereitsAusgewählteFarben.add(Color.Red);
+        container.bereitsAusgewählteFarben.add(Color.Blue);
+        container.bereitsAusgewählteFarben.add(Color.Green);
         container.FarbenWurdenAusgewählt = true;
+
         container.AlleSpieler.add(new Spieler(Color.Red));
         container.AlleSpieler.add(new Spieler(Color.Blue));
         container.AlleSpieler.add(new Spieler(Color.Green));
+    }
+
+    @Angenommen("alle {int} Spieler haben eine Farbe ausgewählt")
+    public void alle_spieler_spieler_haben_eine_farbe_ausgewählt(int AnzahlSpieler) {
+        container.FarbenWurdenAusgewählt = true;
+
+        if (AnzahlSpieler == 2) {
+            container.AlleSpieler.add(new Spieler(Color.Red));
+            container.AlleSpieler.add(new Spieler(Color.Blue));
+        } else if (AnzahlSpieler == 3) {
+            container.AlleSpieler.add(new Spieler(Color.Red));
+            container.AlleSpieler.add(new Spieler(Color.Blue));
+            container.AlleSpieler.add(new Spieler(Color.Green));
+        } else if (AnzahlSpieler == 4){
+            container.AlleSpieler.add(new Spieler(Color.Red));
+            container.AlleSpieler.add(new Spieler(Color.Blue));
+            container.AlleSpieler.add(new Spieler(Color.Green));
+            container.AlleSpieler.add(new Spieler(Color.White));
+        }
     }
 
     @Wenn("die ausgewählte Farbe überprüft wird")

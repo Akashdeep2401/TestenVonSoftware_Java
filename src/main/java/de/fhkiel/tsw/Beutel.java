@@ -1,21 +1,37 @@
 package de.fhkiel.tsw;
 
-public class Beutel {
-    public Beutel(int frösche) {
-        this.frösche = frösche;
-    }
-    public Beutel() {
-        this(40);
-    }
-    private int frösche;
+import de.fhkiel.tsw.armyoffrogs.Color;
 
-    public int getFrösche() {
-        return frösche;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Beutel {
+    private boolean BeutelBefüllt = false;
+    private List<Froschstein> Froschsteine;
+    public Beutel(int frösche, List<Color> SpielerFarben) {
+        Froschsteine = new ArrayList<>();
+        this.AnzFrösche = frösche;
+        for (Color einzSpielerFarbe : SpielerFarben) {
+            for (int i = 0; i < 10; i++) {
+                this.Froschsteine.add(new Froschstein(einzSpielerFarbe));
+            }
+        }
+        this.BeutelBefüllt = true;
+    }
+
+    private int AnzFrösche;
+
+    public int getAnzFrösche() {
+        return AnzFrösche;
     }
 
     public void FroschNehmen() {
-        if(frösche > 0) {
-            frösche -= 1;
+        if(AnzFrösche > 0) {
+            AnzFrösche -= 1;
         }
+    }
+
+    public List<Froschstein> getFroschsteine() {
+        return Froschsteine;
     }
 }
