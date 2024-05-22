@@ -22,4 +22,13 @@ public class LogicContainer {
     public List<Spieler> getPlayersOrder() {
         return AlleSpieler;
     }
+
+    public void setPlayersOrder(ArrayList<Spieler> players) {
+
+
+    }
+
+    public void setStartspieler(Spieler player1) {
+    }
 }
+

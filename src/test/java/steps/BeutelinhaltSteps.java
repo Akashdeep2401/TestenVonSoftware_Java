@@ -8,8 +8,10 @@ import io.cucumber.java.de.Wenn;
 import steps.container.LogicContainer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 public class BeutelinhaltSteps {
     private LogicContainer container;
 
@@ -19,20 +21,33 @@ public class BeutelinhaltSteps {
 
     @Angenommen("der Beutelinhalt wurde überprüft")
     public void der_beutelinhalt_wurde_überprüft() {
-        boolean expecBagContentCount = true;
+        int expecBagContentCount = 40;
         assertThat(container.checkBagContent()).isEqualTo(expecBagContentCount);
+
+        // Beispiel-Setup: Spieler hinzufügen
+        ArrayList<Spieler> players = new ArrayList<>();
+        Spieler player1 = new Spieler(Color.Blue);
+        Spieler player2 = new Spieler(Color.Red);
+        Spieler player3 = new Spieler(Color.White);
+        Spieler player4 = new Spieler(Color.Green);
+        players.add(player1);
+        players.add(player2);
+        players.add(player3);
+        players.add(player4);
+        container.setPlayersOrder(players);
+
+        // Einen Spieler als Startspieler festlegen
+        container.setStartspieler(player1);
     }
+
     @Wenn("die Reihenfolge abgefragt wird")
     public void die_reihenfolge_abgefragt_wird() {
-            Object playersOrder = container.getPlayersOrder();
-
+        container.getPlayersOrder();
     }
+
     @Dann("ist einer der Spieler ein Startspieler")
     public void ist_einer_der_spieler_ein_startspieler() {
-        // Die Liste der Spieler in der Reihenfolge abrufen
-        ArrayList<Spieler> playersOrder = (ArrayList<Spieler>) container.getPlayersOrder();
-
-        // Überprüfen, ob es einen Startspieler gibt
+        List<Spieler> playersOrder = container.getPlayersOrder();
         boolean hasStartPlayer = false;
         for (Spieler player : playersOrder) {
             if (player.isStartspieler()) {
@@ -40,11 +55,6 @@ public class BeutelinhaltSteps {
                 break;
             }
         }
-
-        // Assert, dass es mindestens einen Startspieler gibt
         assertThat(hasStartPlayer).isTrue();
     }
-
-
-
 }
