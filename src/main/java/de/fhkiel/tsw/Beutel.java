@@ -26,7 +26,7 @@ public class Beutel {
         return AnzFrösche;
     }
 
-    public void FroschNehmen() {
+    public void froschNehmen() {
         if(AnzFrösche > 0) {
             AnzFrösche -= 1;
         }

@@ -98,13 +98,13 @@ public class Gamelogic implements Game {
 
     public void ErstesFröscheNehmen() {
         for (int i = 0; i < 2 * iSpieler; ++i) {
-            SpielBeutel.FroschNehmen();
+            SpielBeutel.froschNehmen();
         }
         System.out.println("Die ersten Frösche wurden gezogen");
     }
 
     public void takeFrogFromBag() {
-        SpielBeutel.FroschNehmen();
+        SpielBeutel.froschNehmen();
     }
 
     private boolean checkPlayerCount(int iAnzSpieler) {
