@@ -3,17 +3,26 @@ package de.fhkiel.tsw;
 import de.fhkiel.tsw.armyoffrogs.Color;
 
 public class Spieler {
-    Color SpielerFarbe = Color.None;
+    private Color spielerFarbe = Color.None;
+    private boolean startspieler = false;  // Neues Feld für Startspieler
 
-    public Spieler(Color NeueFarbe) {
-        this.SpielerFarbe = NeueFarbe;
+    public Spieler(Color neueFarbe) {
+        this.spielerFarbe = neueFarbe;
     }
 
     public Color getSpielerFarbe() {
-        return SpielerFarbe;
+        return spielerFarbe;
     }
 
     public void setSpielerFarbe(Color spielerFarbe) {
-        SpielerFarbe = spielerFarbe;
+        this.spielerFarbe = spielerFarbe;
+    }
+
+    public boolean isStartspieler() {
+        return startspieler;  // Rückgabe des Startspieler-Status
+    }
+
+    public void setStartspieler(boolean startspieler) {
+        this.startspieler = startspieler;  // Setzen des Startspieler-Status
     }
 }

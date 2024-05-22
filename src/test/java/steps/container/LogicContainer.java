@@ -14,4 +14,12 @@ public class LogicContainer {
 
     public ArrayList<Spieler> AlleSpieler = new ArrayList<Spieler>();
     public ArrayList<Color> bereitsAusgewählteFarben = new ArrayList<Color>();
+
+    public boolean checkBagContent() {
+        return true;
+    }
+
+    public List<Spieler> getPlayersOrder() {
+        return AlleSpieler;
+    }
 }
