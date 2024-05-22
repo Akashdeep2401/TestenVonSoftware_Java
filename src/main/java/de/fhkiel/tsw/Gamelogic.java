@@ -111,7 +111,7 @@ public class Gamelogic implements Game {
         return iAnzSpieler <= 4 && iAnzSpieler >= 2;
     }
     private void BeutelBefüllen(List<Color> FarbenInBeutel) {
-        SpielBeutel = new Beutel(iSpieler * 10, FarbenInBeutel);
+        SpielBeutel = new Beutel(FarbenInBeutel);
     }
     public int getPlayerCount(){
         return iSpieler;

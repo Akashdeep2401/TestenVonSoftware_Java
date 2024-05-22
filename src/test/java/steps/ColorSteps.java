@@ -71,13 +71,22 @@ public class ColorSteps {
         container.FarbenWurdenAusgewählt = true;
 
         if (AnzahlSpieler == 2) {
+            container.bereitsAusgewählteFarben.add(Color.Red);
+            container.bereitsAusgewählteFarben.add(Color.Blue);
             container.AlleSpieler.add(new Spieler(Color.Red));
             container.AlleSpieler.add(new Spieler(Color.Blue));
         } else if (AnzahlSpieler == 3) {
+            container.bereitsAusgewählteFarben.add(Color.Red);
+            container.bereitsAusgewählteFarben.add(Color.Blue);
+            container.bereitsAusgewählteFarben.add(Color.Green);
             container.AlleSpieler.add(new Spieler(Color.Red));
             container.AlleSpieler.add(new Spieler(Color.Blue));
             container.AlleSpieler.add(new Spieler(Color.Green));
         } else if (AnzahlSpieler == 4){
+            container.bereitsAusgewählteFarben.add(Color.Red);
+            container.bereitsAusgewählteFarben.add(Color.Blue);
+            container.bereitsAusgewählteFarben.add(Color.Green);
+            container.bereitsAusgewählteFarben.add(Color.White);
             container.AlleSpieler.add(new Spieler(Color.Red));
             container.AlleSpieler.add(new Spieler(Color.Blue));
             container.AlleSpieler.add(new Spieler(Color.Green));
