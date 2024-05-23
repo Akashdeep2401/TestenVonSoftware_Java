@@ -1,14 +1,15 @@
-package steps;
-
+package de.fhkiel.tsw;
 
 import de.fhkiel.tsw.armyoffrogs.Color;
 
 public class Spieler {
     private Color spielerFarbe = Color.None;
-    private boolean startspieler = false;  // Neues Feld für Startspieler
+    private boolean startspieler = false;
+    private int age;
 
-    public Spieler(Color neueFarbe) {
+    public Spieler(Color neueFarbe, int age) {
         this.spielerFarbe = neueFarbe;
+        this.age = age;
     }
 
     public Color getSpielerFarbe() {
@@ -20,10 +21,18 @@ public class Spieler {
     }
 
     public boolean isStartspieler() {
-        return startspieler;  // Getter für Startspieler
+        return startspieler;
     }
 
     public void setStartspieler(boolean startspieler) {
         this.startspieler = startspieler;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 }
