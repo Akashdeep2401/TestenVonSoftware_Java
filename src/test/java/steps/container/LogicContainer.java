@@ -14,7 +14,12 @@ public class LogicContainer {
     public boolean FarbenWurdenAusgewählt;
 
     public ArrayList<Spieler> AlleSpieler = new ArrayList<Spieler>();
+
+    public ArrayList<Spieler> Reihenfolge = new ArrayList<Spieler>();
+
     public ArrayList<Color> bereitsAusgewählteFarben = new ArrayList<Color>();
+
+    public Spieler StartSpieler;
 
     public int checkBagContent() {
         return 40;  // Rückgabe der richtigen Anzahl
@@ -29,6 +34,8 @@ public class LogicContainer {
     }
 
     public void setStartspieler(Spieler player1) {
+        StartSpieler = player1;
+        /*
         if (AlleSpieler.isEmpty()) {
             throw new IllegalStateException("Die Spielerliste ist leer");
         }
@@ -40,5 +47,11 @@ public class LogicContainer {
         for (Spieler spieler : AlleSpieler) {
             spieler.setStartspieler(spieler.equals(youngestPlayer));
         }
+
+         */
+    }
+
+    public Spieler getStartSpieler() {
+        return StartSpieler;
     }
 }

@@ -1,8 +1,6 @@
 package steps;
 
-import de.fhkiel.tsw.Froschstein;
 import de.fhkiel.tsw.Gamelogic;
-import de.fhkiel.tsw.Spieler;
 import de.fhkiel.tsw.armyoffrogs.Color;
 import io.cucumber.java.de.Angenommen;
 import io.cucumber.java.de.Dann;
@@ -10,25 +8,38 @@ import io.cucumber.java.de.Wenn;
 import steps.container.LogicContainer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class jonssteps {
+public class StartSteps {
 
     private LogicContainer container;
 
-    public jonssteps(LogicContainer container) {
+    public StartSteps(LogicContainer container) {
         this.container = container;
     }
 
     int frösche;
     int iPlayers;
 
+    Color[] TestColors = {Color.Blue, Color.Red, Color.White, Color.Green};
+
+    List<Color> TestColorsArrayList = new ArrayList<>();
+
     @Angenommen("es läuft kein Spiel")
     public void es_läuft_kein_spiel() {
         container.logicUnderTest = new Gamelogic();
     }
+
+    @Angenommen("das Spiel läuft")
+    public void das_spiel_läuft() {
+        container.logicUnderTest = new Gamelogic();
+        TestColorsArrayList.addAll(Arrays.asList(TestColors));
+        container.logicUnderTest.startGame(4, TestColorsArrayList);
+    }
+
     @Wenn("der Beutelinhalt abgefragt wird")
     public void der_beutelinhalt_abgefragt_wird() {
         frösche = container.logicUnderTest.frogsInBag();

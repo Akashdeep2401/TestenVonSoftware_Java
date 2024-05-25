@@ -9,6 +9,10 @@ public class Spieler {
         this.SpielerFarbe = NeueFarbe;
     }
 
+    public Spieler(Color neueFarbe, int age) {
+        this.SpielerFarbe = neueFarbe;
+    }
+
     public Color getSpielerFarbe() {
         return SpielerFarbe;
     }
@@ -17,7 +21,24 @@ public class Spieler {
         SpielerFarbe = spielerFarbe;
     }
 
+    private boolean startspieler = false;
+
+    private int ZugPosition;
+
     public boolean isStartspieler() {
-        return true;
+        return startspieler;
+    }
+
+    public void setStartspieler(boolean startspieler) {
+        this.startspieler = startspieler;
+    }
+
+
+    public void setZugPosition(int zugPosition) {
+        ZugPosition = zugPosition;
+    }
+
+    public int getZugPosition() {
+        return ZugPosition;
     }
 }
