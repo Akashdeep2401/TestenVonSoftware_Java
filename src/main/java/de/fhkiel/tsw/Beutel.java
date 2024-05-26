@@ -8,11 +8,12 @@ import java.util.List;
 public class Beutel {
     private boolean BeutelBefüllt = false;
     private List<Froschstein> Froschsteine;
-    public Beutel(int frösche, List<Color> SpielerFarben) {
+    public Beutel(List<Color> SpielerFarben) {
+        this.AnzFrösche = 0;
         Froschsteine = new ArrayList<>();
-        this.AnzFrösche = frösche;
         for (Color einzSpielerFarbe : SpielerFarben) {
             for (int i = 0; i < 10; i++) {
+                this.AnzFrösche++;
                 this.Froschsteine.add(new Froschstein(einzSpielerFarbe));
             }
         }
@@ -25,7 +26,7 @@ public class Beutel {
         return AnzFrösche;
     }
 
-    public void FroschNehmen() {
+    public void froschNehmen() {
         if(AnzFrösche > 0) {
             AnzFrösche -= 1;
         }

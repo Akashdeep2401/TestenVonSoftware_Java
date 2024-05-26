@@ -5,6 +5,7 @@ import de.fhkiel.tsw.armyoffrogs.Game;
 import de.fhkiel.tsw.armyoffrogs.Position;
 
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 public class Gamelogic implements Game {
@@ -18,6 +19,12 @@ public class Gamelogic implements Game {
 
     private Color[] CPlayers;
     private Spieler[] AlleSpieler;
+
+    private Spieler[] Reihenfolge;
+
+    int LastPlayer;
+
+    private int currentPlayer;
 
 
     @Override
@@ -77,6 +84,7 @@ public class Gamelogic implements Game {
 
     public void startGame(int spieler, List<Color> SpielerFarben) {
         AlleSpieler = new Spieler[spieler];
+        Reihenfolge = new Spieler[spieler];
         iSpieler = spieler;
         if (!checkPlayerCount(spieler)) {
             GameIsRunning = false;
@@ -91,27 +99,30 @@ public class Gamelogic implements Game {
             j++;
         }
 
-        BeutelBefüllen(SpielerFarben);
+        beutelBefüllen(SpielerFarben);
+
+        reihenfolgeBestimmen(AlleSpieler);
+
 
         GameIsRunning = true;
     }
 
     public void ErstesFröscheNehmen() {
         for (int i = 0; i < 2 * iSpieler; ++i) {
-            SpielBeutel.FroschNehmen();
+            SpielBeutel.froschNehmen();
         }
         System.out.println("Die ersten Frösche wurden gezogen");
     }
 
     public void takeFrogFromBag() {
-        SpielBeutel.FroschNehmen();
+        SpielBeutel.froschNehmen();
     }
 
     private boolean checkPlayerCount(int iAnzSpieler) {
         return iAnzSpieler <= 4 && iAnzSpieler >= 2;
     }
-    private void BeutelBefüllen(List<Color> FarbenInBeutel) {
-        SpielBeutel = new Beutel(iSpieler * 10, FarbenInBeutel);
+    private void beutelBefüllen(List<Color> FarbenInBeutel) {
+        SpielBeutel = new Beutel(FarbenInBeutel);
     }
     public int getPlayerCount(){
         return iSpieler;
@@ -123,5 +134,50 @@ public class Gamelogic implements Game {
 
     public Beutel getSpielBeutel() {
         return SpielBeutel;
+    }
+
+    public void reihenfolgeBestimmen(Spieler[] AlleSpieler) {
+        int Index = new Random().nextInt(AlleSpieler.length);
+        Spieler ersterSpieler = AlleSpieler[Index];
+        Reihenfolge[0] = ersterSpieler;
+        Reihenfolge[0].setStartspieler(true);
+        Reihenfolge[0].setZugPosition(1);
+        int i = 1;
+        for (Spieler spieler : AlleSpieler) {
+            if (spieler == ersterSpieler) {
+                continue;
+            }
+            Reihenfolge[i] = spieler;
+            Reihenfolge[i].setZugPosition(i + 1);
+            i++;
+        }
+    }
+
+    public void zugBeenden(Spieler SpielerBeendet) {
+        LastPlayer = currentPlayer;
+    }
+
+    public boolean zugStarten(Spieler SpielerStarten) {
+        if (SpielerStarten.getZugPosition() == LastPlayer + 1  || ((LastPlayer == iSpieler) && (SpielerStarten.getZugPosition() == 1))) {
+            currentPlayer = SpielerStarten.getZugPosition();
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public Spieler getStartSpieler() {
+        return Reihenfolge[0];
+    }
+
+    public Spieler[] getReihenfolge() {
+        return Reihenfolge;
+    }
+
+    public int getLastPlayer() {
+        return LastPlayer;
+    }
+
+    public void setCurrentPlayer(int currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 }

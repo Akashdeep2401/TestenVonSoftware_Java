@@ -10,4 +10,4 @@ Funktionalität:
     Und die Aktion "Anlegen" ist nicht gespielt worden
     Und die Aktion "Bewegen" ist nicht gespielt worden
     Wenn der Zug abgefragt wird
-    Dann hat kein Spieler die Aktion "Nachziehen" gespielt // Hier Fragen
+    Dann hat kein Spieler die Aktion "Nachziehen" gespielt

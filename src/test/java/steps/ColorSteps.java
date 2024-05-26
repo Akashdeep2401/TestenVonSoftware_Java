@@ -61,9 +61,9 @@ public class ColorSteps {
         container.bereitsAusgewählteFarben.add(Color.Green);
         container.FarbenWurdenAusgewählt = true;
 
-        container.AlleSpieler.add(new Spieler(Color.Red));
-        container.AlleSpieler.add(new Spieler(Color.Blue));
-        container.AlleSpieler.add(new Spieler(Color.Green));
+        container.AlleSpieler.add(new Spieler(Color.Red, 1));
+        container.AlleSpieler.add(new Spieler(Color.Blue, 2));
+        container.AlleSpieler.add(new Spieler(Color.Green, 3));
     }
 
     @Angenommen("alle {int} Spieler haben eine Farbe ausgewählt")
@@ -71,17 +71,26 @@ public class ColorSteps {
         container.FarbenWurdenAusgewählt = true;
 
         if (AnzahlSpieler == 2) {
-            container.AlleSpieler.add(new Spieler(Color.Red));
-            container.AlleSpieler.add(new Spieler(Color.Blue));
+            container.bereitsAusgewählteFarben.add(Color.Red);
+            container.bereitsAusgewählteFarben.add(Color.Blue);
+            container.AlleSpieler.add(new Spieler(Color.Red, 1));
+            container.AlleSpieler.add(new Spieler(Color.Blue, 2));
         } else if (AnzahlSpieler == 3) {
-            container.AlleSpieler.add(new Spieler(Color.Red));
-            container.AlleSpieler.add(new Spieler(Color.Blue));
-            container.AlleSpieler.add(new Spieler(Color.Green));
+            container.bereitsAusgewählteFarben.add(Color.Red);
+            container.bereitsAusgewählteFarben.add(Color.Blue);
+            container.bereitsAusgewählteFarben.add(Color.Green);
+            container.AlleSpieler.add(new Spieler(Color.Red, 1));
+            container.AlleSpieler.add(new Spieler(Color.Blue, 2));
+            container.AlleSpieler.add(new Spieler(Color.Green, 3));
         } else if (AnzahlSpieler == 4){
-            container.AlleSpieler.add(new Spieler(Color.Red));
-            container.AlleSpieler.add(new Spieler(Color.Blue));
-            container.AlleSpieler.add(new Spieler(Color.Green));
-            container.AlleSpieler.add(new Spieler(Color.White));
+            container.bereitsAusgewählteFarben.add(Color.Red);
+            container.bereitsAusgewählteFarben.add(Color.Blue);
+            container.bereitsAusgewählteFarben.add(Color.Green);
+            container.bereitsAusgewählteFarben.add(Color.White);
+            container.AlleSpieler.add(new Spieler(Color.Red, 1));
+            container.AlleSpieler.add(new Spieler(Color.Blue, 2));
+            container.AlleSpieler.add(new Spieler(Color.Green, 3));
+            container.AlleSpieler.add(new Spieler(Color.White, 4));
         }
     }
 
@@ -107,6 +116,6 @@ public class ColorSteps {
 
     @Dann("hat jeder Spieler eine ihm zugewiesen Farbe")
     public void hat_jeder_spieler_eine_ihm_zugewiesen_farbe() {
-        assertThat(container.AlleSpieler).doesNotContain(new Spieler(Color.None));
+        assertThat(container.AlleSpieler).doesNotContain(new Spieler(Color.None, 0));
     }
 }
