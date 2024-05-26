@@ -2,11 +2,19 @@ package de.fhkiel.tsw;
 
 import de.fhkiel.tsw.armyoffrogs.Color;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Spieler {
+
+
     Color SpielerFarbe = Color.None;
+
+    private Beutel beutel;
 
     public Spieler(Color NeueFarbe) {
         this.SpielerFarbe = NeueFarbe;
+        this.beutel = new Beutel(new ArrayList<>()); //Initialize the bag
     }
 
     public Spieler(Color neueFarbe, int age) {
@@ -41,4 +49,12 @@ public class Spieler {
     public int getZugPosition() {
         return ZugPosition;
     }
+
+    public Beutel getBeutel() {
+        return beutel;
+    }
+
+
+
+
 }

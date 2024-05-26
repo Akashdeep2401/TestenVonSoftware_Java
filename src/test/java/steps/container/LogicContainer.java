@@ -5,13 +5,13 @@ import de.fhkiel.tsw.Spieler;
 import de.fhkiel.tsw.armyoffrogs.Color;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class LogicContainer {
     public Gamelogic logicUnderTest;
     public Color ausgewählteFarbe;
     public boolean FarbenWurdenAusgewählt;
+    public Spieler Playingnow;
 
     public ArrayList<Spieler> AlleSpieler = new ArrayList<Spieler>();
 

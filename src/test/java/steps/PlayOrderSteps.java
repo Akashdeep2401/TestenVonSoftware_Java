@@ -75,4 +75,15 @@ public class PlayOrderSteps {
     public void ist_der_startspieler_der_erste_spieler_in_der_spielreihenfolge() {
         assertThat(container.StartSpieler).isEqualTo(container.logicUnderTest.getReihenfolge()[0]);
     }
+
+    @Dann("ist jeder Spieler außer der Startspieler der Spielreihenfolge zugewiesen worden")
+    public void ist_jeder_spieler_außer_der_startspieler_der_spielreihenfolge_zugewiesen_worden() {
+        List<Spieler> playersOrder = container.Reihenfolge;
+        for (Spieler player : playersOrder) {
+            if (player.isStartspieler()) {
+                continue;
+            }
+            assertThat(player).isIn((Object) container.logicUnderTest.getReihenfolge());
+        }
+    }
 }
