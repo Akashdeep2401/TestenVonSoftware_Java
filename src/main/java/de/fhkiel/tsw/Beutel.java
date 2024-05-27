@@ -4,6 +4,7 @@ import de.fhkiel.tsw.armyoffrogs.Color;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Beutel {
     private boolean BeutelBefüllt = false;
@@ -23,11 +24,15 @@ public class Beutel {
     private int AnzFrösche;
 
     public int getAnzFrösche() {
+        AnzFrösche = Froschsteine.size();
         return AnzFrösche;
     }
 
-    public void froschNehmen() {
+    public void froschNehmen(Spieler EinSpieler) {
         if(AnzFrösche > 0) {
+            int Random = new Random().nextInt(Froschsteine.size());
+            EinSpieler.froschHinzufügen(Froschsteine.get(Random));
+            Froschsteine.remove(Random);
             AnzFrösche -= 1;
         }
     }

@@ -12,6 +12,8 @@ public class Spieler {
 
     private Beutel beutel;
 
+    private List<Froschstein> Inventar = new ArrayList<>();
+
     public Spieler(Color NeueFarbe) {
         this.SpielerFarbe = NeueFarbe;
         this.beutel = new Beutel(new ArrayList<>()); //Initialize the bag
@@ -54,7 +56,11 @@ public class Spieler {
         return beutel;
     }
 
+    public void froschHinzufügen(Froschstein EinFroschstein) {
+        Inventar.add(EinFroschstein);
+    }
 
-
-
+    public int getInventorySize() {
+        return Inventar.size();
+    }
 }

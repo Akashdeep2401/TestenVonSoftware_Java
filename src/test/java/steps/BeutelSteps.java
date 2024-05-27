@@ -3,6 +3,7 @@ package steps;
 import de.fhkiel.tsw.Froschstein;
 import de.fhkiel.tsw.Gamelogic;
 import de.fhkiel.tsw.armyoffrogs.Color;
+import io.cucumber.java.de.Angenommen;
 import io.cucumber.java.de.Dann;
 import io.cucumber.java.de.Wenn;
 import org.assertj.core.api.Condition;
@@ -20,6 +21,10 @@ public class BeutelSteps {
         this.container = container;
     }
 
+    @Angenommen("jeder Spieler sich am Anfang {int} Frösche genommen hat")
+    public void jeder_spieler_sich_am_anfang_frösche_genommen_hat(Integer AnzahlFrösche2) {
+        container.logicUnderTest.erstesFröscheNehmen(AnzahlFrösche2);
+    }
     @Wenn("der Beutel befüllt wurde")
     public void der_beutel_befüllt_wurde() {
         container.logicUnderTest = new Gamelogic();

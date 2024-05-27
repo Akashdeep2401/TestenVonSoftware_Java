@@ -4,6 +4,7 @@ import de.fhkiel.tsw.Spieler;
 import io.cucumber.java.de.Dann;
 import io.cucumber.java.de.Wenn;
 import steps.container.LogicContainer;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class FroschsteinSteps {
 
@@ -25,5 +26,11 @@ public class FroschsteinSteps {
             throw new IllegalStateException("Spieler hat mehr als zwei Froschsteine");
         }
 
+    }
+    @Dann("{int} Froschsteine im Inventar von jedem Spieler")
+    public void froschsteine_im_inventar_von_jedem_spieler(Integer AnzahlFrösche) {
+        for (Spieler EinSpieler : container.logicUnderTest.getAlleSpieler()) {
+            assertThat(EinSpieler.getInventorySize()).isEqualTo(AnzahlFrösche);
+        }
     }
 }
