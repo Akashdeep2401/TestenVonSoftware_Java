@@ -59,10 +59,10 @@ public class StartSteps {
         TestFarben.add(Color.Green);
         container.logicUnderTest.startGame(spieler, TestFarben);
     }
-    @Angenommen("der (erste)(zweite)(dritte)(vierte) Spieler hat {int} Frösche gezogen")
-    public void der_erste_spieler_hat_frösche_gezogen(Integer gezogeneFrösche) {
+    @Angenommen("der (erste)(zweite)(dritte)(vierte) {int} Spieler hat {int} Frösche gezogen")
+    public void der_erste_spieler_hat_frösche_gezogen(int Spieler, Integer gezogeneFrösche) {
         for (int i = 0; i < gezogeneFrösche; ++i) {
-            container.logicUnderTest.takeFrogFromBag();
+            container.logicUnderTest.takeFrogFromBag(container.logicUnderTest.getReihenfolge()[Spieler]);
         }
 
     }

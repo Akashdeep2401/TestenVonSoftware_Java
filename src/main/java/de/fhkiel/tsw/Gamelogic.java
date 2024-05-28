@@ -107,15 +107,17 @@ public class Gamelogic implements Game {
         GameIsRunning = true;
     }
 
-    public void ErstesFröscheNehmen() {
-        for (int i = 0; i < 2 * iSpieler; ++i) {
-            SpielBeutel.froschNehmen();
+    public void erstesFröscheNehmen(int AnzahlFrösche) {
+        for (Spieler EinSpieler : AlleSpieler) {
+            for (int i = 0; i < AnzahlFrösche; i++) {
+                SpielBeutel.froschNehmen(EinSpieler);
+            }
         }
         System.out.println("Die ersten Frösche wurden gezogen");
     }
 
-    public void takeFrogFromBag() {
-        SpielBeutel.froschNehmen();
+    public void takeFrogFromBag(Spieler EinSpieler) {
+        SpielBeutel.froschNehmen(EinSpieler);
     }
 
     private boolean checkPlayerCount(int iAnzSpieler) {
@@ -179,5 +181,9 @@ public class Gamelogic implements Game {
 
     public void setCurrentPlayer(int currentPlayer) {
         this.currentPlayer = currentPlayer;
+    }
+
+    public Spieler[] getAlleSpieler() {
+        return AlleSpieler;
     }
 }

@@ -10,10 +10,10 @@ Funktionalität: AoF-L-240: Das Plugin muss der GUI die Möglichkeit
   Szenariogrundriss: : Rick überprüft während des Spiels den Beutelinhalt
     (Testfall: 24-2)
     Angenommen das Spiel ist mit <Spieler> Spielern gestartet
-    Und der erste Spieler hat <erster Spieler> Frösche gezogen
-    Und der zweite Spieler hat <zweiter Spieler> Frösche gezogen
-    Und der dritte Spieler hat <dritter Spieler> Frösche gezogen
-    Und der vierte Spieler hat <vierter Spieler> Frösche gezogen
+    Und der erste 1 Spieler hat <erster Spieler> Frösche gezogen
+    Und der zweite 2 Spieler hat <zweiter Spieler> Frösche gezogen
+    Und der dritte 3 Spieler hat <dritter Spieler> Frösche gezogen
+    Und der vierte 4 Spieler hat <vierter Spieler> Frösche gezogen
     Wenn der Beutelinhalt abgefragt wird
     Dann sind <Anzahl> Frösche im Beutel
 
