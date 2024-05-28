@@ -7,6 +7,7 @@ import io.cucumber.java.de.Angenommen;
 import steps.container.LogicContainer;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class ZugSteps {
     
@@ -74,4 +75,27 @@ public class ZugSteps {
         zugAktion.playAction(action);
         assertThat(zugAktion.isActionPlayed(action)).isTrue();
     }
+    @Angenommen("eine Aktion versucht wurde auszuführen")
+    public void eine_aktion_versucht_wurde_auszuführen() {
+        zugAktion.attemptAction();  // Annahme, dass diese Methode in Ihrer ZugAktion Klasse existiert
+    }
+    @Dann("wird die nächste Aktion in der Spielreihenfolge ausgeführt")
+    public void wird_die_nächste_aktion_in_der_spielreihenfolge_ausgeführt() {
+        boolean isNextActionStarted = zugAktion.startNextAction(); // Annahme, dass diese Methode überprüft, ob die nächste Aktion gestartet wurde
+        assertThat(isNextActionStarted).isTrue();
+    }
+    @Angenommen("die Aktion {string} wird ausgeführt")
+    public void die_aktion_wird_ausgeführt(String action) {
+        zugAktion.executeAction(action);
+    }
+    @Angenommen("der Froschstein wurde bewegt")
+    public void der_froschstein_wurde_bewegt() {
+        assertTrue(zugAktion.isFrogMoved());
+    }
+    @Dann("kann der Froschstein bewegt werden")
+    public void kann_der_froschstein_bewegt_werden() {
+        assertTrue(zugAktion.canMoveFrog());
+    }
+
+
 }

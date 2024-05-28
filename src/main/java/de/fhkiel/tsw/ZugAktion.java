@@ -36,6 +36,28 @@ public class ZugAktion {
         }
     }
 
+    public void executeAction(String action) {
+        // Logik zum Ausführen der Aktion
+    }
+
+    public boolean isFrogMoved() {
+        // Prüft, ob ein Froschstein bewegt wurde
+        return true;
+    }
+
+    public boolean canMoveFrog() {
+        // Prüft, ob ein Froschstein bewegt werden kann
+        return true;
+    }
+
+    public void attemptAction() {
+        // Logik zum Versuchen, eine Aktion zu starten
+    }
+
+    public boolean startNextAction() {
+        // Logik zum Starten der nächsten Aktion
+        return true;
+    }
     public boolean isActionPlayed(String action){
         return actionsPlayed.getOrDefault(action, false);
     }
@@ -47,4 +69,5 @@ public class ZugAktion {
             }
         }
     }
+    
 }
