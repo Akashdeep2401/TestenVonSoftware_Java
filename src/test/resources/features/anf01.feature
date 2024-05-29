@@ -7,6 +7,11 @@ Funktionalität: AoF-L-240: Das Plugin muss der GUI die Möglichkeit
     Wenn der Beutelinhalt abgefragt wird
     Dann sind 40 Frösche im Beutel
 
+  Szenario: LOPWLDWd
+    (wdWDw)
+    Angenommen das Spiel ist a gestartet b
+    Dann ist das Spiel a gestartet
+
   Szenariogrundriss: : Rick überprüft während des Spiels den Beutelinhalt
     (Testfall: 24-2)
     Angenommen das Spiel ist mit <Spieler> Spielern gestartet

@@ -9,6 +9,7 @@ Funktionalität:
     Und jeder Spieler sich am Anfang 2 Frösche genommen hat
     Dann sind <Frösche> Frösche im Beutel
     Und 2 Froschsteine im Inventar von jedem Spieler
+    Und 2 Froschsteine von jeden Spieler werden in der GUI angezeigt
 
     Beispiele:
 

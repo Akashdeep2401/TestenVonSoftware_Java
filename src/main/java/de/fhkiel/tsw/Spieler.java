@@ -8,59 +8,63 @@ import java.util.List;
 public class Spieler {
 
 
-    Color SpielerFarbe = Color.None;
+  Color SpielerFarbe = Color.None;
 
-    private Beutel beutel;
+  private Beutel beutel;
 
-    private List<Froschstein> Inventar = new ArrayList<>();
+  private List<Froschstein> Inventar = new ArrayList<>();
 
-    public Spieler(Color NeueFarbe) {
-        this.SpielerFarbe = NeueFarbe;
-        this.beutel = new Beutel(new ArrayList<>()); //Initialize the bag
-    }
+  public Spieler(Color NeueFarbe) {
+    this.SpielerFarbe = NeueFarbe;
+    this.beutel = new Beutel(new ArrayList<>()); //Initialize the bag
+  }
 
-    public Spieler(Color neueFarbe, int age) {
-        this.SpielerFarbe = neueFarbe;
-    }
+  public Spieler(Color neueFarbe, int age) {
+    this.SpielerFarbe = neueFarbe;
+  }
 
-    public Color getSpielerFarbe() {
-        return SpielerFarbe;
-    }
+  public Color getSpielerFarbe() {
+    return SpielerFarbe;
+  }
 
-    public void setSpielerFarbe(Color spielerFarbe) {
-        SpielerFarbe = spielerFarbe;
-    }
+  public void setSpielerFarbe(Color spielerFarbe) {
+    SpielerFarbe = spielerFarbe;
+  }
 
-    private boolean startspieler = false;
+  private boolean startspieler = false;
 
-    private int ZugPosition;
+  private int ZugPosition;
 
-    public boolean isStartspieler() {
-        return startspieler;
-    }
+  public boolean isStartspieler() {
+    return startspieler;
+  }
 
-    public void setStartspieler(boolean startspieler) {
-        this.startspieler = startspieler;
-    }
+  public void setStartspieler(boolean startspieler) {
+    this.startspieler = startspieler;
+  }
 
 
-    public void setZugPosition(int zugPosition) {
-        ZugPosition = zugPosition;
-    }
+  public void setZugPosition(int zugPosition) {
+    ZugPosition = zugPosition;
+  }
 
-    public int getZugPosition() {
-        return ZugPosition;
-    }
+  public int getZugPosition() {
+    return ZugPosition;
+  }
 
-    public Beutel getBeutel() {
-        return beutel;
-    }
+  public Beutel getBeutel() {
+    return beutel;
+  }
 
-    public void froschHinzufügen(Froschstein EinFroschstein) {
-        Inventar.add(EinFroschstein);
-    }
+  public void froschHinzufügen(Froschstein EinFroschstein) {
+    Inventar.add(EinFroschstein);
+  }
 
-    public int getInventorySize() {
-        return Inventar.size();
-    }
+  public int getInventorySize() {
+    return Inventar.size();
+  }
+
+  public List<Froschstein> getInventar() {
+    return Inventar;
+  }
 }

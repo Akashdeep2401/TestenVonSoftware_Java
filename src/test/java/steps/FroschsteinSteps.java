@@ -2,6 +2,7 @@ package steps;
 
 import de.fhkiel.tsw.Spieler;
 import io.cucumber.java.de.Dann;
+import io.cucumber.java.de.Und;
 import io.cucumber.java.de.Wenn;
 import steps.container.LogicContainer;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,6 +32,13 @@ public class FroschsteinSteps {
     public void froschsteine_im_inventar_von_jedem_spieler(Integer AnzahlFrösche) {
         for (Spieler EinSpieler : container.logicUnderTest.getAlleSpieler()) {
             assertThat(EinSpieler.getInventorySize()).isEqualTo(AnzahlFrösche);
+        }
+    }
+
+    @Und("{int} Froschsteine von jeden Spieler werden in der GUI angezeigt")
+    public void froschsteineVonJedenSpielerWerdenInDerGUIAngezeigt(int Froschsteine) {
+        for (Spieler EinSpieler : container.logicUnderTest.getAlleSpieler()) {
+            assertThat(container.logicUnderTest.getFrogsInHand(EinSpieler.getSpielerFarbe())).hasSize(Froschsteine);
         }
     }
 }
