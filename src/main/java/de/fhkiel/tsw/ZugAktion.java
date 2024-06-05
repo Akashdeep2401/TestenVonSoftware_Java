@@ -38,7 +38,28 @@ public class ZugAktion {
   }
 
   public void executeAction(String action) {
+    switch (action) {
+      case "Bewegen":
+        moveFrog();
+        break;
+      case "Anlegen":
+        placeFrog();
+        break;
+      case "Nachziehen":
+        drawFrog();
+        break;
+    }
     // Logik zum Ausführen der Aktion
+  }
+
+  private void drawFrog() {
+  }
+
+  private void placeFrog() {
+  }
+
+  private void moveFrog() {
+
   }
 
   public boolean isFrogMoved() {

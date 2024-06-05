@@ -97,5 +97,13 @@ public class ZugSteps {
         assertTrue(zugAktion.canMoveFrog());
     }
 
+    @Dann("darf der Froschstein nicht an der selben Position wie am Anfang des Zuges sein")
+    public void darfDerFroschsteinNichtAnDerSelbenPositionWieAmAnfangDesZugesSein() {
 
+    }
+
+    @Wenn("der Froschstein bewegt wird")
+    public void derFroschsteinBewegtWird() {
+        assertTrue(zugAktion.isFrogMoved());
+    }
 }
