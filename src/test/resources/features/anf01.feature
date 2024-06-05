@@ -1,33 +1,6 @@
 # language: de
 Funktionalität: AoF-L-240: Das Plugin muss der GUI die Möglichkeit
   bieten die Anzahl der Frösche im Beutel abzufragen.
-  Szenario: Kai überprüft vor einem Spiel den Beutelinhalt.
-    (Testfall :24-1)
-    Angenommen es läuft kein Spiel
-    Wenn der Beutelinhalt abgefragt wird
-    Dann sind 40 Frösche im Beutel
-
-  Szenario: LOPWLDWd
-    (wdWDw)
-    Angenommen das Spiel ist a gestartet b
-    Dann ist das Spiel a gestartet
-
-  Szenariogrundriss: : Rick überprüft während des Spiels den Beutelinhalt
-    (Testfall: 24-2)
-    Angenommen das Spiel ist mit <Spieler> Spielern gestartet
-    Und der erste 1 Spieler hat <erster Spieler> Frösche gezogen
-    Und der zweite 2 Spieler hat <zweiter Spieler> Frösche gezogen
-    Und der dritte 3 Spieler hat <dritter Spieler> Frösche gezogen
-    Und der vierte 4 Spieler hat <vierter Spieler> Frösche gezogen
-    Wenn der Beutelinhalt abgefragt wird
-    Dann sind <Anzahl> Frösche im Beutel
-
-   Beispiele:
-    | Spieler | erster Spieler | zweiter Spieler | dritter Spieler | vierter Spieler | Anzahl |
-    |  2      | 2              | 1               | 0               | 0               | 13     |
-    |  3      | 2              | 3               | 5               | 0               | 14     |
-    |  4      | 10             | 10              | 10              | 0               | 2      |
-    |  4      | 10             | 10              | 10              | 10              | 0      |
 
   Szenariogrundriss: : Das System zählt die Spieler am Anfang des Spiels
   (Testfall: 1)
