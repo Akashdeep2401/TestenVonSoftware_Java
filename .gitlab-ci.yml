@@ -28,15 +28,8 @@ build:
 
 test:
   stage: test
-  script: gradle check
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: pull
-    paths:
-      - build
-      - .gradle
-
-deploy:
-  stage: deploy
-  script: echo "Define your deployment script!"
-  environment: production
+  script: gradle test
+  artifacts:
+    when: always
+    reports:
+      junit: build/test-results/test/**/TEST-*.xml
