@@ -1,9 +1,15 @@
 package steps;
 
+import de.fhkiel.tsw.Gamelogic;
 import de.fhkiel.tsw.ZugAktion;
+import de.fhkiel.tsw.armyoffrogs.Color;
+import de.fhkiel.tsw.armyoffrogs.Position;
 import io.cucumber.java.de.Dann;
 import io.cucumber.java.de.Wenn;
 import io.cucumber.java.de.Angenommen;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import steps.container.LogicContainer;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertFalse;
@@ -49,6 +55,36 @@ public class ZugSteps {
     public void die_aktion_ist_nicht_gespielt_worden(String action) {
        assertThat(zugAktion.isActionPlayed(action)).isFalse();
     }
+
+    @Angenommen("das Spiel hat angefangen und es wurden 10 Züge gespielt")
+    public void das_spiel_läuft() {
+        Set<Position> testBoard = new HashSet<>();
+        testBoard.add(new Position(Color.Red, 0 , 3, Color.None));
+        testBoard.add(new Position(Color.Red, 1 , 2, Color.None));
+        testBoard.add(new Position(Color.Red, 2 , 1, Color.None));
+        testBoard.add(new Position(Color.Red, 3 , 0, Color.None));
+        testBoard.add(new Position(Color.Red, 0 , 3, Color.None));
+        testBoard.add(new Position(Color.Red, 1 , 2, Color.None));
+        testBoard.add(new Position(Color.Red, 2 , 1, Color.None));
+        testBoard.add(new Position(Color.Red, 3 , 0, Color.None));
+        testBoard.add(new Position(Color.Red, 0 , 3, Color.None));
+        testBoard.add(new Position(Color.Red, 1 , 2, Color.None));
+        container.logicUnderTest = new Gamelogic(testBoard);
+
+        container.TestColorsArrayList.addAll(Arrays.asList(container.TestColors));
+        container.logicUnderTest.startGame(4, container.TestColorsArrayList);
+    }
+
+    @Angenommen("das Spiel hat angefangen und es wurde ein Zug gespielt")
+    public void das_spiel_läuft_mit_einem_zug() {
+        Set<Position> testBoard = new HashSet<>();
+        testBoard.add(new Position(Color.Red, 0 , 3, Color.None));
+        container.logicUnderTest = new Gamelogic(testBoard);
+
+        container.TestColorsArrayList.addAll(Arrays.asList(container.TestColors));
+        container.logicUnderTest.startGame(4, container.TestColorsArrayList);
+    }
+
     @Wenn("der Zug abgefragt wird")
     public void der_zug_abgefragt_wird() {
         zugAktion.checkCurrentTurn();
@@ -86,7 +122,7 @@ public class ZugSteps {
     }
     @Angenommen("die Aktion {string} wird ausgeführt")
     public void die_aktion_wird_ausgeführt(String action) {
-        zugAktion.executeAction(action);
+        zugAktion.playAction(action);
     }
     @Angenommen("der Froschstein wurde bewegt")
     public void der_froschstein_wurde_bewegt() {

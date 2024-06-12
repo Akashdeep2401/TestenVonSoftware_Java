@@ -1,7 +1,10 @@
 package de.fhkiel.tsw;
 
+import de.fhkiel.tsw.armyoffrogs.Color;
+import de.fhkiel.tsw.armyoffrogs.Position;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class ZugAktion {
 
@@ -30,6 +33,18 @@ public class ZugAktion {
   public void playAction(String action) {
     if (actionsPlayed.containsKey(action) && action.equals(actionOrder[currentActionIndex])) {
       actionsPlayed.put(action, true);
+      executeAction(action);
+      currentActionIndex++;
+    } else {
+      throw new IllegalStateException(
+          "Aktion " + action + " ist entweder ungültig oder in falscher Reihenfolge");
+    }
+  }
+
+  public void playAction(String action, Set<Position> board, Color frog, Position position) {
+    if (actionsPlayed.containsKey(action) && action.equals(actionOrder[currentActionIndex])) {
+      actionsPlayed.put(action, true);
+      executeAction(action, board, frog, position);
       currentActionIndex++;
     } else {
       throw new IllegalStateException(
@@ -42,8 +57,20 @@ public class ZugAktion {
       case "Bewegen":
         moveFrog();
         break;
+      case "Nachziehen":
+        drawFrog();
+        break;
+    }
+    // Logik zum Ausführen der Aktion
+  }
+
+  public void executeAction(String action, Set<Position> board, Color frog, Position position) {
+    switch (action) {
+      case "Bewegen":
+        moveFrog();
+        break;
       case "Anlegen":
-        placeFrog();
+        placeFrog(board, frog, position);
         break;
       case "Nachziehen":
         drawFrog();
@@ -55,7 +82,9 @@ public class ZugAktion {
   private void drawFrog() {
   }
 
-  private void placeFrog() {
+  private void placeFrog(Set<Position> board, Color frog, Position position) {
+    board.add(new Position(frog, position.x(), position.y(), position.border()));
+    frog = null;
   }
 
   private void moveFrog() {
@@ -76,10 +105,19 @@ public class ZugAktion {
     // Logik zum Versuchen, eine Aktion zu starten
   }
 
-  public boolean startNextAction() {
+  public boolean startNextAction(Set<Position> board, Color frog, Position position) {
     // Logik zum Starten der nächsten Aktion
+    playAction(actionOrder[currentActionIndex], board, frog, position);
     return true;
   }
+
+  public boolean startNextAction() {
+    // Logik zum Starten der nächsten Aktion
+    playAction(actionOrder[currentActionIndex]);
+    return true;
+  }
+
+
 
   public boolean isActionPlayed(String action) {
     return actionsPlayed.getOrDefault(action, false);
@@ -95,4 +133,7 @@ public class ZugAktion {
     }
   }
 
+  public String getCurrentAction() {
+    return actionOrder[currentActionIndex];
+  }
 }

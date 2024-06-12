@@ -24,7 +24,7 @@ public class Gamelogic implements Game {
   private int currentPlayer;
   private Set<Position> Board = new HashSet<>();
   private Color ausgewählterFrosch;
-
+  private ZugAktion zugAktion;
 
   public Gamelogic() {
     GameIsRunning = false;
@@ -33,6 +33,18 @@ public class Gamelogic implements Game {
     currentPlayer = 0;
     SpielBeutel = new Beutel(new ArrayList<>());
     CPlayers = new Color[0];
+    zugAktion = new ZugAktion();
+  }
+
+  public Gamelogic(Set<Position> newBoard) {
+    GameIsRunning = false;
+    iSpieler = 0;
+    LastPlayer = 0;
+    currentPlayer = 0;
+    SpielBeutel = new Beutel(new ArrayList<>());
+    CPlayers = new Color[0];
+    zugAktion = new ZugAktion();
+    Board = newBoard;
   }
 
   @Override
@@ -48,7 +60,7 @@ public class Gamelogic implements Game {
 
   @Override
   public String getInfo() {
-    return "null1111111111";
+    return zugAktion.getCurrentAction();
   }
 
   @Override
@@ -75,11 +87,14 @@ public class Gamelogic implements Game {
   @Override
   public void clicked(Position position) {
 
+    if (zugAktion.getCurrentAction().equals("Nachziehen")) {
+      return;
+    }
+
+    zugAktion.startNextAction(Board, ausgewählterFrosch, position);
+
     Board.add(new Position(ausgewählterFrosch, position.x(), position.y(), position.border()));
     ausgewählterFrosch = null;
-
-
-
   }
 
   @Override
@@ -87,8 +102,12 @@ public class Gamelogic implements Game {
     for (Spieler EinSpieler : AlleSpieler) {
       if (EinSpieler.getSpielerFarbe() == SpielerFarbe) {
         ausgewählterFrosch = FroschFarbe;
-        EinSpieler.getInventar()
-            .removeIf(froschstein -> froschstein.getFroschsteinFarbe() == FroschFarbe);
+        for (Froschstein froschstein : EinSpieler.getInventar()) {
+          if (froschstein.getFroschsteinFarbe() == FroschFarbe) {
+            EinSpieler.getInventar().remove(froschstein);
+            break;
+          }
+        }
       }
     }
   }
@@ -137,6 +156,7 @@ public class Gamelogic implements Game {
 
     System.out.println("Spiel ist gestartet");
     GameIsRunning = true;
+    zugAktion.startTurn();
     return GameIsRunning;
   }
 

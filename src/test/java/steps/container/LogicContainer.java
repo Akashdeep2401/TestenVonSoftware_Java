@@ -21,6 +21,10 @@ public class LogicContainer {
 
     public Spieler StartSpieler;
 
+    public Color[] TestColors = {Color.Blue, Color.Red, Color.White, Color.Green};
+
+    public ArrayList<Color> TestColorsArrayList;
+
     public int checkBagContent() {
         return 40;  // Rückgabe der richtigen Anzahl
     }

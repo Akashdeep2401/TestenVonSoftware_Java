@@ -2,10 +2,13 @@ package steps;
 
 import de.fhkiel.tsw.Gamelogic;
 import de.fhkiel.tsw.armyoffrogs.Color;
+import de.fhkiel.tsw.armyoffrogs.Position;
 import io.cucumber.java.de.Angenommen;
 import io.cucumber.java.de.Dann;
 import io.cucumber.java.de.Und;
 import io.cucumber.java.de.Wenn;
+import java.util.HashSet;
+import java.util.Set;
 import steps.container.LogicContainer;
 
 import java.util.ArrayList;
@@ -26,9 +29,6 @@ public class StartSteps {
     int iPlayers;
     private boolean SpielGestartet = false;
 
-    Color[] TestColors = {Color.Blue, Color.Red, Color.White, Color.Green};
-
-    List<Color> TestColorsArrayList = new ArrayList<>();
 
     @Angenommen("es läuft kein Spiel")
     public void es_läuft_kein_spiel() {
@@ -38,8 +38,8 @@ public class StartSteps {
     @Angenommen("das Spiel läuft")
     public void das_spiel_läuft() {
         container.logicUnderTest = new Gamelogic();
-        TestColorsArrayList.addAll(Arrays.asList(TestColors));
-        container.logicUnderTest.startGame(4, TestColorsArrayList);
+        container.TestColorsArrayList.addAll(Arrays.asList(container.TestColors));
+        container.logicUnderTest.startGame(4, container.TestColorsArrayList);
     }
 
     @Wenn("der Beutelinhalt abgefragt wird")
