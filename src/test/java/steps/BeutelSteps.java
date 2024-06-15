@@ -57,6 +57,14 @@ public class BeutelSteps {
             assertThat(container.logicUnderTest.getSpielBeutel().getFroschsteine()).haveExactly(AnzahlSteine, RichtigerStein); // Sind 10 Steine jeder Farbe im Beutel
         }
     }
+
+  @Dann("wird ein Froschstein zufällig aus dem Beutel genommen")
+  public void wirdEinFroschsteinZufälligAusDemBeutelGenommen() {
+        container.logicUnderTest.getSpielBeutel().froschNehmen(container.logicUnderTest.getAlleSpieler()[0]);
+        assertThat(container.logicUnderTest.frogsInBag()).isGreaterThan(container.AnzFröscheBeutelVorAktion);
+        int currentPlayer = container.logicUnderTest.getCurrentPlayer();
+        assertThat(container.logicUnderTest.getReihenfolge()[currentPlayer].getInventorySize()).isGreaterThan(container.AnzFröscheInventarVorAktion);
+  }
 }
 
 
