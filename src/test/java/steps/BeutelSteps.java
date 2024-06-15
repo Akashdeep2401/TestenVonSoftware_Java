@@ -65,6 +65,8 @@ public class BeutelSteps {
         int currentPlayer = container.logicUnderTest.getCurrentPlayer();
         assertThat(container.logicUnderTest.getReihenfolge()[currentPlayer].getInventorySize()).isGreaterThan(container.AnzFröscheInventarVorAktion);
   }
+
+
 }
 
 
