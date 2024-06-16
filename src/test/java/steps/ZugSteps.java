@@ -5,6 +5,7 @@ import de.fhkiel.tsw.ZugAktion;
 import de.fhkiel.tsw.armyoffrogs.Color;
 import de.fhkiel.tsw.armyoffrogs.Position;
 import io.cucumber.java.de.Dann;
+import io.cucumber.java.de.Und;
 import io.cucumber.java.de.Wenn;
 import io.cucumber.java.de.Angenommen;
 import java.util.Arrays;
@@ -31,25 +32,25 @@ public class ZugSteps {
     @Wenn("Spieler {int} seinen Zug beendet hat")
     public void spieler_spieler_seinen_zug_beendet_hat(int SpielerDran) {
         container.logicUnderTest.setCurrentPlayer(SpielerDran);
-        container.logicUnderTest.zugBeenden(container.logicUnderTest.getReihenfolge()[SpielerDran - 1]);
+        container.logicUnderTest.zugAktion.zugBeenden(container.logicUnderTest.getReihenfolge()[SpielerDran - 1]);
         //LetzterSpieler = container.logicUnderTest.getLastPlayer();
     }
 
     @Dann("ist Spieler {int} am Zug")
     public void istSpielerSpielerAmZug(int SpielerDran) {
-        assertThat(container.logicUnderTest.zugStarten(container.logicUnderTest.getReihenfolge()[SpielerDran - 1])).isTrue();
+        assertThat(container.logicUnderTest.zugAktion.zugStarten(container.logicUnderTest.getReihenfolge()[SpielerDran - 1])).isTrue();
     }
 
     @Dann("ist Spieler {int} nicht am Zug")
     public void ist_spieler_nicht_am_zug(int SpielerNichtDran) {
-        assertThat(container.logicUnderTest.zugStarten(container.logicUnderTest.getReihenfolge()[SpielerNichtDran - 1])).isFalse();
+        assertThat(container.logicUnderTest.zugAktion.zugStarten(container.logicUnderTest.getReihenfolge()[SpielerNichtDran - 1])).isFalse();
 
     }
 
 
     @Angenommen("ein Zug wird gespielt")
     public void ein_zug_wird_gespielt() {
-        zugAktion.startTurn();
+        container.logicUnderTest.zugAktion.zugStarten(container.logicUnderTest.getReihenfolge()[0]);
     }
     @Angenommen("die Aktion {string} ist nicht gespielt worden")
     public void die_aktion_ist_nicht_gespielt_worden(String action) {
@@ -120,9 +121,9 @@ public class ZugSteps {
         boolean isNextActionStarted = zugAktion.startNextAction(); // Annahme, dass diese Methode überprüft, ob die nächste Aktion gestartet wurde
         assertThat(isNextActionStarted).isTrue();
     }
-    @Angenommen("die Aktion {string} wird ausgeführt")
+    @Wenn("die Aktion {string} wird ausgeführt")
     public void die_aktion_wird_ausgeführt(String action) {
-        zugAktion.playAction(action);
+        container.logicUnderTest.zugAktion.setCurrentAction(action);
     }
     @Angenommen("der Froschstein wurde bewegt")
     public void der_froschstein_wurde_bewegt() {
@@ -141,5 +142,11 @@ public class ZugSteps {
     @Wenn("der Froschstein bewegt wird")
     public void derFroschsteinBewegtWird() {
         assertTrue(zugAktion.isFrogMoved());
+    }
+
+    @Wenn("der Spieler der am Zug ist hat mindestens einen Froschstein im Inventar")
+    public void derSpielerDerAmZugIstHatMindestensEinenFroschsteinImInventar() {
+        container.testFroschsteinInventar = container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer()].getInventar();
+        assertFalse(container.logicUnderTest.getAlleSpieler()[container.logicUnderTest.getCurrentPlayer()].getInventar().isEmpty());
     }
 }

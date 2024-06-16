@@ -38,6 +38,7 @@ public class StartSteps {
     @Angenommen("das Spiel läuft")
     public void das_spiel_läuft() {
         container.logicUnderTest = new Gamelogic();
+        container.TestColorsArrayList = new ArrayList<>();
         container.TestColorsArrayList.addAll(Arrays.asList(container.TestColors));
         container.logicUnderTest.startGame(4, container.TestColorsArrayList);
     }

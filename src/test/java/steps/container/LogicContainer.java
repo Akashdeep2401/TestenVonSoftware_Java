@@ -1,5 +1,6 @@
 package steps.container;
 
+import de.fhkiel.tsw.Froschstein;
 import de.fhkiel.tsw.Gamelogic;
 import de.fhkiel.tsw.Spieler;
 import de.fhkiel.tsw.armyoffrogs.Color;
@@ -23,7 +24,9 @@ public class LogicContainer {
 
     public Color[] TestColors = {Color.Blue, Color.Red, Color.White, Color.Green};
 
-    public ArrayList<Color> TestColorsArrayList;
+    public ArrayList<Color> TestColorsArrayList = new ArrayList<Color>();
+
+    public List<Froschstein> testFroschsteinInventar;
 
     public int checkBagContent() {
         return 40;  // Rückgabe der richtigen Anzahl

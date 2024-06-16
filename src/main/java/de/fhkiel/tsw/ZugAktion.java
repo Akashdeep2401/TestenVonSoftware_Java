@@ -12,6 +12,10 @@ public class ZugAktion {
   private Map<String, Boolean> actionsPlayed;
   private String[] actionOrder;
   private int currentActionIndex;
+  private int LastPlayer;
+  private int currentPlayer;
+
+  private int anzahlSpieler;
 
   public ZugAktion() {
     actionsPlayed = new HashMap<>();
@@ -19,14 +23,6 @@ public class ZugAktion {
     actionsPlayed.put("Anlegen", false);
     actionsPlayed.put("Nachziehen", false);
     actionOrder = new String[] {"Bewegen", "Anlegen", "Nachziehen"};
-    currentActionIndex = 0;
-  }
-
-  public void startTurn() {
-    turnStarted = true;
-    for (String action : actionOrder) {
-      actionsPlayed.put(action, false);
-    }
     currentActionIndex = 0;
   }
 
@@ -41,7 +37,7 @@ public class ZugAktion {
     }
   }
 
-  public void playAction(String action, Set<Position> board, Color frog, Position position) {
+  public void playAction(String action, Spielfeld board, Color frog, Position position) {
     if (actionsPlayed.containsKey(action) && action.equals(actionOrder[currentActionIndex])) {
       actionsPlayed.put(action, true);
       executeAction(action, board, frog, position);
@@ -64,7 +60,7 @@ public class ZugAktion {
     // Logik zum Ausführen der Aktion
   }
 
-  public void executeAction(String action, Set<Position> board, Color frog, Position position) {
+  public void executeAction(String action, Spielfeld board, Color frog, Position position) {
     switch (action) {
       case "Bewegen":
         moveFrog();
@@ -82,8 +78,8 @@ public class ZugAktion {
   private void drawFrog() {
   }
 
-  private void placeFrog(Set<Position> board, Color frog, Position position) {
-    board.add(new Position(frog, position.x(), position.y(), position.border()));
+  private void placeFrog(Spielfeld board, Color frog, Position position) {
+    board.froschSetzen(new Position(frog, position.x(), position.y(), position.border()));
     frog = null;
   }
 
@@ -105,7 +101,7 @@ public class ZugAktion {
     // Logik zum Versuchen, eine Aktion zu starten
   }
 
-  public boolean startNextAction(Set<Position> board, Color frog, Position position) {
+  public boolean startNextAction(Spielfeld board, Color frog, Position position) {
     // Logik zum Starten der nächsten Aktion
     playAction(actionOrder[currentActionIndex], board, frog, position);
     return true;
@@ -136,4 +132,40 @@ public class ZugAktion {
   public String getCurrentAction() {
     return actionOrder[currentActionIndex];
   }
+
+  public void setCurrentAction(String action) {
+    for (int i = 0; i < actionOrder.length; i++) {
+      if (actionOrder[i].equals(action)) {
+        currentActionIndex = i;
+        break;
+      }
+    }
+    // for every action in actionOrder, set every action to true until the specific action is reached
+    for (String actionInOrder : actionOrder) {
+      if (actionInOrder.equals(action)) {
+        break;
+      }
+      actionsPlayed.put(actionInOrder, true);
+    }
+  }
+
+  public boolean zugStarten(Spieler SpielerStarten) {
+    if (SpielerStarten.getZugPosition() == LastPlayer + 1 ||
+            ((LastPlayer == anzahlSpieler) && (SpielerStarten.getZugPosition() == 1))) {
+      currentPlayer = SpielerStarten.getZugPosition();
+      turnStarted = true;
+      for (String action : actionOrder) {
+        actionsPlayed.put(action, false);
+      }
+      currentActionIndex = 0;
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public void zugBeenden(Spieler SpielerBeendet) {
+    LastPlayer = currentPlayer;
+  }
+
 }

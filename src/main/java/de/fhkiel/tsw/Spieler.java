@@ -52,9 +52,6 @@ public class Spieler {
     return ZugPosition;
   }
 
-  public Beutel getBeutel() {
-    return beutel;
-  }
 
   public void froschHinzufügen(Froschstein EinFroschstein) {
     Inventar.add(EinFroschstein);

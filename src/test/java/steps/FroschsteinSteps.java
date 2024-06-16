@@ -22,7 +22,7 @@ public class FroschsteinSteps {
     }
     @Dann("hat Spieler {int} maximal zwei Froschsteine")
     public void hat_spieler_maximal_zwei_froschsteine(int speilerIndex) {
-        int froschsteine = container.Playingnow.getBeutel().getFroschsteine().size();
+        int froschsteine = container.Playingnow.getInventar().size();
         if (froschsteine > 2) {
             throw new IllegalStateException("Spieler hat mehr als zwei Froschsteine");
         }

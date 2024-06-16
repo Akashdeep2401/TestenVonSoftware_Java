@@ -22,9 +22,12 @@ public class Gamelogic implements Game {
   int LastPlayer;
 
   private int currentPlayer;
-  private Set<Position> Board = new HashSet<>();
+
+
+  //private Set<Position> frogBoard = new HashSet<>();
+  private Spielfeld frogBoard = new Spielfeld();
   private Color ausgewählterFrosch;
-  private ZugAktion zugAktion;
+  public ZugAktion zugAktion;
 
   public Gamelogic() {
     GameIsRunning = false;
@@ -44,7 +47,7 @@ public class Gamelogic implements Game {
     SpielBeutel = new Beutel(new ArrayList<>());
     CPlayers = new Color[0];
     zugAktion = new ZugAktion();
-    Board = newBoard;
+    frogBoard = new Spielfeld(newBoard);
   }
 
   @Override
@@ -81,7 +84,7 @@ public class Gamelogic implements Game {
 
   @Override
   public Set<Position> getBoard() {
-    return Board;
+    return frogBoard.getFroschfeld();
   }
 
   @Override
@@ -91,9 +94,9 @@ public class Gamelogic implements Game {
       return;
     }
 
-    zugAktion.startNextAction(Board, ausgewählterFrosch, position);
+    zugAktion.startNextAction(frogBoard, ausgewählterFrosch, position);
 
-    Board.add(new Position(ausgewählterFrosch, position.x(), position.y(), position.border()));
+    frogBoard.froschSetzen(new Position(ausgewählterFrosch, position.x(), position.y(), position.border()));
     ausgewählterFrosch = null;
   }
 
@@ -156,7 +159,7 @@ public class Gamelogic implements Game {
 
     System.out.println("Spiel ist gestartet");
     GameIsRunning = true;
-    zugAktion.startTurn();
+    zugAktion.zugStarten(Reihenfolge[0]);
     return GameIsRunning;
   }
 
@@ -210,20 +213,6 @@ public class Gamelogic implements Game {
     }
   }
 
-  public void zugBeenden(Spieler SpielerBeendet) {
-    LastPlayer = currentPlayer;
-  }
-
-  public boolean zugStarten(Spieler SpielerStarten) {
-    if (SpielerStarten.getZugPosition() == LastPlayer + 1 ||
-        ((LastPlayer == iSpieler) && (SpielerStarten.getZugPosition() == 1))) {
-      currentPlayer = SpielerStarten.getZugPosition();
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   public Spieler getStartSpieler() {
     return Reihenfolge[0];
   }
@@ -240,7 +229,14 @@ public class Gamelogic implements Game {
     this.currentPlayer = currentPlayer;
   }
 
+  public int getCurrentPlayer() {
+    return currentPlayer;
+  }
+
   public Spieler[] getAlleSpieler() {
     return AlleSpieler;
+  }
+  public Spielfeld getFrogBoard() {
+    return frogBoard;
   }
 }
