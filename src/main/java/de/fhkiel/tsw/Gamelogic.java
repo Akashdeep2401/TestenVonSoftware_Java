@@ -265,6 +265,6 @@ public class Gamelogic implements Game {
     if (wrongPlacement == null) {
       System.out.println("Keine falsche Position gefunden");
     }
-    return frogBoard.getChainPlacement();
+    return wrongPlacement;
   }
 }

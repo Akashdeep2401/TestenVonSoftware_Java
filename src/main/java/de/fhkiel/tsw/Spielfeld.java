@@ -155,7 +155,7 @@ public class Spielfeld {
         for (Position frog : froschfeld) {
             if (!visited.contains(frog)) {
                 chain.clear();
-                if (dfs(frog, visited, chain)) {
+                if (dfs(frog, visited, chain, 3)) {
                     return true;
                 }
             }
@@ -163,21 +163,34 @@ public class Spielfeld {
         return false;
     }
 
-    private boolean dfs(Position frog, Set<Position> visited, Set<Position> chain) {
+    private boolean dfs(Position frog, Set<Position> visited, Set<Position> chain, int chainLength) {
         visited.add(frog);
         chain.add(frog);
 
-        for (Position neighbor : getNeighbors(frog)) {
+        List<Position> neighbors = getNeighbors(frog);
+        if (neighbors.size() > 2) {
+            return false;
+        }
+
+        for (Position neighbor : neighbors) {
             if (!visited.contains(neighbor)) {
-                if (dfs(neighbor, visited, chain)) {
+                if (dfs(neighbor, visited, chain, chainLength)) {
                     return true;
                 }
-            } else if (chain.size() >= 3 && chain.contains(neighbor)) {
+            } else if (chain.size() >= chainLength && chain.contains(neighbor)) {
                 return true;
             }
         }
 
         chain.remove(frog);
+
+        // Check if there's an element in the chain that has only one neighbor
+        for (Position position : chain) {
+            if (getNeighbors(position).size() == 1) {
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -189,22 +202,29 @@ public class Spielfeld {
             for (Position actualFrog : froschfeld) {
                 if (actualFrog.x() == neighbor.x() && actualFrog.y() == neighbor.y()) {
                     neighbors.add(actualFrog);
+                    break;
                 }
             }
         }
         return neighbors;
     }
-    // returns a position where a frog creates a chain
+    // Gibt eine Position zurück, an der ein Froschstein platziert werden kann, um eine Kette zu bilden
     public Position getChainPlacement() {
         Set<Position> visited = new HashSet<>();
         Set<Position> chain = new HashSet<>();
         for (Position frog : froschfeld) {
             if (!visited.contains(frog)) {
                 chain.clear();
-                if (dfs(frog, visited, chain)) {
-                    for (Position neighbor : getNeighbors(frog)) {
-                        if (!chain.contains(neighbor)) {
-                            return neighbor;
+                if (dfs(frog, visited, chain, 2)) {
+                    for (Position neighbor : chain) {
+                        if (getNeighbors(neighbor).size() == 1) {
+                            for (AbstractMap.SimpleEntry<Integer, Integer> addend : neighbor.y() % 2 == 0 ? adjacentGerade : adjacentUngerade) {
+                                Position chainPosition = new Position(Color.None, neighbor.x() + addend.getKey(), neighbor.y() + addend.getValue(), Color.None);
+                                if (getNeighbors(chainPosition).size() == 1) {
+                                    return chainPosition;
+                                }
+
+                            }
                         }
                     }
                 }

@@ -53,8 +53,10 @@ public class ZugAktion {
     if (actionsPlayed.containsKey(action) && action.equals(actionOrder[currentActionIndex])) {
       actionsPlayed.put(action, true);
       executeAction(action, board, frog, position);
-      if (!bewegenIstFertig) {
-        return;
+      if (action.equals("Bewegen")) {
+        if (!bewegenIstFertig) {
+          return;
+        }
       }
       currentActionIndex++;
     } else {
