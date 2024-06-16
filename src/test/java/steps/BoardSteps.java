@@ -51,4 +51,9 @@ public class BoardSteps {
         container.logicUnderTest.clicked(playableFrog);
         assertThat(container.logicUnderTest.getBoard().size()).isGreaterThan(frogsOnBoard);
     }
+
+    @Dann("ist keine Kette aus Froschsteinen gebildet worden")
+    public void istKeineKetteAusFroschsteinenGebildetWorden() {
+        assertThat(container.logicUnderTest.hasNoChains()).isTrue();
+    }
 }

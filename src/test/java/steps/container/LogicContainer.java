@@ -13,6 +13,8 @@ public class LogicContainer {
     public Color ausgewählteFarbe;
     public boolean FarbenWurdenAusgewählt;
     public Spieler Playingnow;
+    public int AnzFröscheBeutelVorAktion;
+    public int AnzFröscheInventarVorAktion;
 
     public ArrayList<Spieler> AlleSpieler = new ArrayList<Spieler>();
 
@@ -27,6 +29,7 @@ public class LogicContainer {
     public ArrayList<Color> TestColorsArrayList = new ArrayList<Color>();
 
     public List<Froschstein> testFroschsteinInventar;
+    public Spieler testSpieler;
 
     public int checkBagContent() {
         return 40;  // Rückgabe der richtigen Anzahl

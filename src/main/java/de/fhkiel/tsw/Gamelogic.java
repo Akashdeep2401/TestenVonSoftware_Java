@@ -9,6 +9,7 @@ import java.util.*;
 public class Gamelogic implements Game {
 
 
+  public boolean keineKetten;
   private Beutel SpielBeutel;
   private int iSpieler;
 
@@ -238,5 +239,9 @@ public class Gamelogic implements Game {
   }
   public Spielfeld getFrogBoard() {
     return frogBoard;
+  }
+
+  public boolean hasNoChains() {
+    return froschfeld.keineKetten;
   }
 }
