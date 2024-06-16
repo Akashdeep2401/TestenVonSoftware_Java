@@ -242,6 +242,6 @@ public class Gamelogic implements Game {
   }
 
   public boolean hasNoChains() {
-    return froschfeld.keineKetten;
+    return frogBoard.keineKetten;
   }
 }

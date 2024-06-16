@@ -1,7 +1,7 @@
 # language: de
-Funktionalität:
+Funktionalität: Das System muss gewährleisten, dass bei der Aktion „Bewegen“ ein Froschstein mehrmals springen darf, aber nicht so dass dieser an der Ursprungsposition bleibt.
 
-
+ÄNDERN
 
   Szenario: : Rick überprüft während des Spiels wie ein Zug ausgeführt wird
   (Testfall: 22)

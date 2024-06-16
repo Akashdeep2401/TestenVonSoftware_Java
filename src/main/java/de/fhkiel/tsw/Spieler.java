@@ -53,8 +53,12 @@ public class Spieler {
   }
 
 
-  public void froschHinzufügen(Froschstein EinFroschstein) {
+  public boolean froschHinzufügen(Froschstein EinFroschstein) {
+    if (Inventar.size() >= 2) {
+      return false;
+    }
     Inventar.add(EinFroschstein);
+    return true;
   }
 
   public int getInventorySize() {

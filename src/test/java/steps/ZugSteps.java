@@ -1,6 +1,7 @@
 package steps;
 
 import de.fhkiel.tsw.Gamelogic;
+import de.fhkiel.tsw.Spieler;
 import de.fhkiel.tsw.ZugAktion;
 import de.fhkiel.tsw.armyoffrogs.Color;
 import de.fhkiel.tsw.armyoffrogs.Position;
@@ -28,6 +29,7 @@ public class ZugSteps {
     }
 
     private int LetzterSpieler;
+    private Spieler currentPlayer;
 
     @Wenn("Spieler {int} seinen Zug beendet hat")
     public void spieler_spieler_seinen_zug_beendet_hat(int SpielerDran) {
@@ -121,7 +123,7 @@ public class ZugSteps {
         boolean isNextActionStarted = zugAktion.startNextAction(); // Annahme, dass diese Methode überprüft, ob die nächste Aktion gestartet wurde
         assertThat(isNextActionStarted).isTrue();
     }
-    @Wenn("die Aktion {string} wird ausgeführt")
+    @Wenn("die Aktion {string} ausgeführt wird")
     public void die_aktion_wird_ausgeführt(String action) {
         container.logicUnderTest.zugAktion.setCurrentAction(action);
     }
@@ -148,5 +150,15 @@ public class ZugSteps {
     public void derSpielerDerAmZugIstHatMindestensEinenFroschsteinImInventar() {
         container.testFroschsteinInventar = container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer()].getInventar();
         assertFalse(container.logicUnderTest.getAlleSpieler()[container.logicUnderTest.getCurrentPlayer()].getInventar().isEmpty());
+    }
+
+    @Und("der Spieler der am Zug ist höchstens einen Froschstein im Inventar hat")
+    public void derSpielerDerAmZugIstHöchstensEinenFroschsteinImInventarHat() {
+        currentPlayer = container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer()];
+        if (currentPlayer.getInventar().size() > 1) {
+            currentPlayer.getInventar().remove(1);
+        }
+        container.testFroschsteinInventar = currentPlayer.getInventar();
+        assertThat(currentPlayer.getInventar().size()).isLessThanOrEqualTo(1);
     }
 }

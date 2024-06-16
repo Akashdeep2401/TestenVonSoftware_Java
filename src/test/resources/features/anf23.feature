@@ -1,14 +1,12 @@
 # language: de
-Funktionalität:
-
+Funktionalität: Das System muss gewährleisten, dass bei der Aktion „Anlegen“ ein Froschstein im Besitz des Spielers gelegt werden muss.
 
 
   Szenario: : Rick überprüft während des Spiels wie ein Zug ausgeführt wird
   (Testfall: 23)
-    Angenommen das Spiel läuft
+    Angenommen das Spiel hat angefangen und es wurde ein Zug gespielt
     Und ein Zug wird gespielt
-    Und die Aktion "Anlegen" wird ausgeführt
+    Wenn die Aktion "Anlegen" ausgeführt wird
     Und der Spieler der am Zug ist hat mindestens einen Froschstein im Inventar
-    Und der Froschstein gelegt werden kann
-    Wenn der Zug abgefragt wird
-    Dann wird der Froschstein neben einen anderen gelegt
+    Und mindestens einer kann gelegt werden
+    Dann wird ein Froschstein gelegt

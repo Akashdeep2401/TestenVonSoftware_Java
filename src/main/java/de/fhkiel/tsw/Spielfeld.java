@@ -16,6 +16,8 @@ public class Spielfeld {
 
     private Set<Position> froschfeld = new HashSet<>();
 
+    public boolean keineKetten;
+
     private List<AbstractMap.SimpleEntry<Integer, Integer>> adjacentGerade = Arrays.asList(
             new AbstractMap.SimpleEntry<>(-1, 0),  // left
             new AbstractMap.SimpleEntry<>(1, 0),   // right

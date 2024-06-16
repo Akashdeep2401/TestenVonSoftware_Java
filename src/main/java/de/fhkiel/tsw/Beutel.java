@@ -29,13 +29,18 @@ public class Beutel {
     return AnzFrösche;
   }
 
-  public void froschNehmen(Spieler EinSpieler) {
+  public boolean froschNehmen(Spieler EinSpieler) {
     if (AnzFrösche > 0) {
       int Random = new Random().nextInt(Froschsteine.size());
-      EinSpieler.froschHinzufügen(Froschsteine.get(Random));
-      Froschsteine.remove(Random);
-      AnzFrösche -= 1;
+      if (EinSpieler.froschHinzufügen(Froschsteine.get(Random))) {
+        Froschsteine.remove(Random);
+        AnzFrösche -= 1;
+        return true;
+      } else {
+        return false;
+      }
     }
+    return false;
   }
 
   public List<Froschstein> getFroschsteine() {
