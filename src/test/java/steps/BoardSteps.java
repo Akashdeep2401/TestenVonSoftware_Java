@@ -56,4 +56,25 @@ public class BoardSteps {
     public void istKeineKetteAusFroschsteinenGebildetWorden() {
         assertThat(container.logicUnderTest.hasNoChains()).isTrue();
     }
+    @Wenn("die Aktion {string} so gespielt wird das eine Kette entstehen würde")
+    public void dieAktionSoGespieltWirdDasEineKetteEntstehenWürde(String aktion) {
+        container.logicUnderTest.zugAktion.setCurrentAction(aktion);
+        if (aktion.equals("Anlegen")) {
+            container.AnzFröscheInventarVorAktion = container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer()].getInventorySize();
+            container.AnzFröscheAufSpielfeldVorAktion = container.logicUnderTest.getBoard().size();
+            Position wrongPlacement = container.logicUnderTest.getWrongPlacement();
+            container.logicUnderTest.clicked(wrongPlacement);
+        }
+        if (aktion.equals("Bewegen")) {
+            container.testBoard = container.logicUnderTest.getBoard();
+            container.logicUnderTest.clicked(new Position(Color.Red, 2, 0, Color.None));
+            container.logicUnderTest.clicked(new Position(Color.Red, 4, 4, Color.None));
+        }
+    }
+
+    @Dann("wird der Froschstein nicht angelegt")
+    public void wirdDerFroschsteinNichtAngelegt() {
+        assertThat(container.logicUnderTest.getBoard().size()).isEqualTo(container.AnzFröscheAufSpielfeldVorAktion);
+        assertThat(container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer()].getInventorySize()).isEqualTo(container.AnzFröscheInventarVorAktion);
+    }
 }

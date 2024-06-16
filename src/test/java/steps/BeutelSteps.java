@@ -3,6 +3,7 @@ package steps;
 import de.fhkiel.tsw.Froschstein;
 import de.fhkiel.tsw.Gamelogic;
 import de.fhkiel.tsw.armyoffrogs.Color;
+import de.fhkiel.tsw.armyoffrogs.Position;
 import io.cucumber.java.de.Angenommen;
 import io.cucumber.java.de.Dann;
 import io.cucumber.java.de.Wenn;
@@ -65,8 +66,6 @@ public class BeutelSteps {
         int currentPlayer = container.logicUnderTest.getCurrentPlayer();
         assertThat(container.logicUnderTest.getReihenfolge()[currentPlayer].getInventorySize()).isGreaterThan(container.AnzFröscheInventarVorAktion);
   }
-
-
 }
 
 

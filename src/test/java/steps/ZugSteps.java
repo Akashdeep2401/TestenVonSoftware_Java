@@ -59,19 +59,20 @@ public class ZugSteps {
        assertThat(zugAktion.isActionPlayed(action)).isFalse();
     }
 
-    @Angenommen("das Spiel hat angefangen und es wurden 10 Züge gespielt")
+    @Angenommen("das Spiel hat angefangen und es wurden 11 Züge gespielt")
     public void das_spiel_läuft() {
         Set<Position> testBoard = new HashSet<>();
         testBoard.add(new Position(Color.Red, 0 , 3, Color.None));
         testBoard.add(new Position(Color.Red, 1 , 2, Color.None));
         testBoard.add(new Position(Color.Red, 2 , 1, Color.None));
         testBoard.add(new Position(Color.Red, 3 , 0, Color.None));
-        testBoard.add(new Position(Color.Red, 0 , 3, Color.None));
-        testBoard.add(new Position(Color.Red, 1 , 2, Color.None));
-        testBoard.add(new Position(Color.Red, 2 , 1, Color.None));
-        testBoard.add(new Position(Color.Red, 3 , 0, Color.None));
-        testBoard.add(new Position(Color.Red, 0 , 3, Color.None));
-        testBoard.add(new Position(Color.Red, 1 , 2, Color.None));
+        testBoard.add(new Position(Color.Red, 0 , 2, Color.None));
+        testBoard.add(new Position(Color.Red, 1 , 1, Color.None));
+        testBoard.add(new Position(Color.Red, 2 , 0, Color.None));
+        testBoard.add(new Position(Color.Red, 3 , 3, Color.None));
+        testBoard.add(new Position(Color.Red, 0 , 1, Color.None));
+        testBoard.add(new Position(Color.Red, 1 , 0, Color.None));
+        testBoard.add(new Position(Color.Red, 3 , 2, Color.None));
         container.logicUnderTest = new Gamelogic(testBoard);
 
         container.TestColorsArrayList.addAll(Arrays.asList(container.TestColors));
@@ -160,5 +161,14 @@ public class ZugSteps {
         }
         container.testFroschsteinInventar = currentPlayer.getInventar();
         assertThat(currentPlayer.getInventar().size()).isLessThanOrEqualTo(1);
+    }
+
+    @Wenn("die Aktion {string} beendet wird")
+    public void dieAktionBeendetWird(String arg0) {
+    }
+
+    @Dann("wird der Froschstein nicht bewegt")
+    public void wirdDerFroschsteinNichtBewegt() {
+        assertThat(container.logicUnderTest.getBoard()).isEqualTo(container.testBoard);
     }
 }

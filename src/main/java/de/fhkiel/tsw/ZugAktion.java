@@ -16,6 +16,18 @@ public class ZugAktion {
   private int currentPlayer;
 
   private int anzahlSpieler;
+  private Gamelogic gamelogic;
+  private boolean bewegenIstFertig = false;
+
+  public ZugAktion(Gamelogic gamelogic) {
+    actionsPlayed = new HashMap<>();
+    actionsPlayed.put("Bewegen", false);
+    actionsPlayed.put("Anlegen", false);
+    actionsPlayed.put("Nachziehen", false);
+    actionOrder = new String[] {"Bewegen", "Anlegen", "Nachziehen"};
+    currentActionIndex = 0;
+    this.gamelogic = gamelogic;
+  }
 
   public ZugAktion() {
     actionsPlayed = new HashMap<>();
@@ -41,6 +53,9 @@ public class ZugAktion {
     if (actionsPlayed.containsKey(action) && action.equals(actionOrder[currentActionIndex])) {
       actionsPlayed.put(action, true);
       executeAction(action, board, frog, position);
+      if (!bewegenIstFertig) {
+        return;
+      }
       currentActionIndex++;
     } else {
       throw new IllegalStateException(
@@ -51,7 +66,7 @@ public class ZugAktion {
   public void executeAction(String action) {
     switch (action) {
       case "Bewegen":
-        moveFrog();
+        //moveFrog();
         break;
       case "Nachziehen":
         drawFrog();
@@ -63,10 +78,12 @@ public class ZugAktion {
   public void executeAction(String action, Spielfeld board, Color frog, Position position) {
     switch (action) {
       case "Bewegen":
-        moveFrog();
+        moveFrog(board, position);
+        gamelogic.infoString = "Froschstein wurde bewegt";
         break;
       case "Anlegen":
         placeFrog(board, frog, position);
+        gamelogic.infoString = "Froschstein wurde angelegt";
         break;
       case "Nachziehen":
         drawFrog();
@@ -83,7 +100,18 @@ public class ZugAktion {
     frog = null;
   }
 
-  private void moveFrog() {
+  private void moveFrog(Spielfeld board, Position position) {
+    if (board.isFrogSelected()) {
+      if (board.froschBewegen(position)) {
+        gamelogic.infoString += "Froschstein an Position X:" + position.x() + " Y:" + position.y() + " bewegt";
+        if (!board.isFrogSelected()) {
+          bewegenIstFertig = true;
+        }
+      }
+    } else {
+      bewegenIstFertig = false;
+      board.selectFrog(position);
+    }
 
   }
 
@@ -110,6 +138,7 @@ public class ZugAktion {
   public boolean startNextAction() {
     // Logik zum Starten der nächsten Aktion
     playAction(actionOrder[currentActionIndex]);
+    gamelogic.infoString = "Aktion " + actionOrder[currentActionIndex] + " wurde gestartet";
     return true;
   }
 

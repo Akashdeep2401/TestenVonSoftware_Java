@@ -4,9 +4,11 @@ import de.fhkiel.tsw.Froschstein;
 import de.fhkiel.tsw.Gamelogic;
 import de.fhkiel.tsw.Spieler;
 import de.fhkiel.tsw.armyoffrogs.Color;
+import de.fhkiel.tsw.armyoffrogs.Position;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class LogicContainer {
     public Gamelogic logicUnderTest;
@@ -15,6 +17,7 @@ public class LogicContainer {
     public Spieler Playingnow;
     public int AnzFröscheBeutelVorAktion;
     public int AnzFröscheInventarVorAktion;
+    public int AnzFröscheAufSpielfeldVorAktion;
 
     public ArrayList<Spieler> AlleSpieler = new ArrayList<Spieler>();
 
@@ -30,6 +33,7 @@ public class LogicContainer {
 
     public List<Froschstein> testFroschsteinInventar;
     public Spieler testSpieler;
+    public Set<Position> testBoard;
 
     public int checkBagContent() {
         return 40;  // Rückgabe der richtigen Anzahl

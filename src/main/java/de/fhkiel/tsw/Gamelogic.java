@@ -29,6 +29,7 @@ public class Gamelogic implements Game {
   private Spielfeld frogBoard = new Spielfeld();
   private Color ausgewählterFrosch;
   public ZugAktion zugAktion;
+  public String infoString;
 
   public Gamelogic() {
     GameIsRunning = false;
@@ -37,7 +38,7 @@ public class Gamelogic implements Game {
     currentPlayer = 0;
     SpielBeutel = new Beutel(new ArrayList<>());
     CPlayers = new Color[0];
-    zugAktion = new ZugAktion();
+    zugAktion = new ZugAktion(this);
   }
 
   public Gamelogic(Set<Position> newBoard) {
@@ -47,15 +48,29 @@ public class Gamelogic implements Game {
     currentPlayer = 0;
     SpielBeutel = new Beutel(new ArrayList<>());
     CPlayers = new Color[0];
-    zugAktion = new ZugAktion();
-    frogBoard = new Spielfeld(newBoard);
+    zugAktion = new ZugAktion(this);
+    frogBoard = new Spielfeld(newBoard, Gamelogic.this);
+  }
+
+  private void clearPreviousGame() {
+    GameIsRunning = false;
+    iSpieler = 0;
+    LastPlayer = 0;
+    currentPlayer = 0;
+    SpielBeutel = new Beutel(new ArrayList<>());
+    CPlayers = new Color[0];
+    zugAktion = new ZugAktion(this);
+    frogBoard = new Spielfeld();
   }
 
   @Override
   public boolean newGame(int i) {
+    clearPreviousGame();
     return startGame(i,
         new ArrayList<>(Arrays.asList(Color.Red, Color.Blue, Color.Green, Color.White)));
   }
+
+
 
   @Override
   public Color[] players() {
@@ -64,7 +79,7 @@ public class Gamelogic implements Game {
 
   @Override
   public String getInfo() {
-    return zugAktion.getCurrentAction();
+    return infoString;
   }
 
   @Override
@@ -92,12 +107,13 @@ public class Gamelogic implements Game {
   public void clicked(Position position) {
 
     if (zugAktion.getCurrentAction().equals("Nachziehen")) {
+      infoString += "Du kannst keine Frösche setzen, wenn du ziehst";
       return;
     }
 
     zugAktion.startNextAction(frogBoard, ausgewählterFrosch, position);
 
-    frogBoard.froschSetzen(new Position(ausgewählterFrosch, position.x(), position.y(), position.border()));
+    //frogBoard.froschSetzen(new Position(ausgewählterFrosch, position.x(), position.y(), position.border()));
     ausgewählterFrosch = null;
   }
 
@@ -243,5 +259,12 @@ public class Gamelogic implements Game {
 
   public boolean hasNoChains() {
     return frogBoard.keineKetten;
+  }
+  public Position getWrongPlacement() {
+    Position wrongPlacement = frogBoard.getChainPlacement();
+    if (wrongPlacement == null) {
+      System.out.println("Keine falsche Position gefunden");
+    }
+    return frogBoard.getChainPlacement();
   }
 }
