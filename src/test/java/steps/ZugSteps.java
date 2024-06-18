@@ -65,13 +65,13 @@ public class ZugSteps {
         testBoard.add(new Position(Color.Red, 0 , 3, Color.None));
         testBoard.add(new Position(Color.Red, 1 , 2, Color.None));
         testBoard.add(new Position(Color.Red, 2 , 1, Color.None));
-        testBoard.add(new Position(Color.Red, 3 , 0, Color.None));
-        testBoard.add(new Position(Color.Red, 0 , 2, Color.None));
+        testBoard.add(new Position(Color.Green, 3 , 0, Color.None));
+        testBoard.add(new Position(Color.Blue, 0 , 2, Color.None));
         testBoard.add(new Position(Color.Red, 1 , 1, Color.None));
         testBoard.add(new Position(Color.Red, 2 , 0, Color.None));
         testBoard.add(new Position(Color.Red, 3 , 3, Color.None));
         testBoard.add(new Position(Color.Red, 0 , 1, Color.None));
-        testBoard.add(new Position(Color.Red, 1 , 0, Color.None));
+        testBoard.add(new Position(Color.White, 1 , 0, Color.None));
         testBoard.add(new Position(Color.Red, 3 , 2, Color.None));
         container.logicUnderTest = new Gamelogic(testBoard);
 

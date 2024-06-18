@@ -66,12 +66,27 @@ public class Spielfeld {
         if (!getJumpablePositions().contains(jumpingPosition)) {
             return false;
         }
-        boolean jumped = testPlacability(selectedFrog);
+        Position newFrogPosition = new Position(selectedFrog.frog(), jumpingPosition.x(), jumpingPosition.y(), jumpingPosition.border());
+        boolean jumped = testPlacability(newFrogPosition);
         if (jumped) {
             froschfeld.remove(selectedFrog);
-            selectedFrog = new Position(selectedFrog.frog(), jumpingPosition.x(), jumpingPosition.y(), jumpingPosition.border());
+            selectedFrog = newFrogPosition;
         }
         return jumped;
+    }
+
+    public boolean isFrogMovable(Position frog) {
+        if (frog.frog() != Color.None && frog.frog() != Color.Black) {
+            Position saveFrog = selectedFrog;
+            selectedFrog = frog;
+            if (!getJumpablePositions().isEmpty()) {
+                selectedFrog = saveFrog;
+                return true;
+            }
+            selectedFrog = saveFrog;
+            return false;
+        }
+        return false;
     }
     private boolean testPlacability(Position frog) {
         if (froschfeld.contains(frog)) {
@@ -245,7 +260,7 @@ public class Spielfeld {
     private List<Position> getJumpablePositions() {
         List<Position> jumpablePositions = new ArrayList<>();
         for (int i = 0; i < adjacentGerade.size(); i++) {
-            Position jumpPosition = searchJumpLoop(i, 0, selectedFrog);
+            Position jumpPosition = searchJumpLoop(i, 0, selectedFrog).getKey();
             if (jumpPosition == null) {
                 continue;
             }
@@ -254,18 +269,28 @@ public class Spielfeld {
         return jumpablePositions;
     }
 
-    private Position searchJumpLoop(int direction, int jumpDistance, Position oldJumpPosition) {
+    public Position getJumpablePosition() {
+        List<Position> jumpablePositions = getJumpablePositions();
+        if (jumpablePositions.isEmpty()) {
+            return null;
+        }
+        return jumpablePositions.get(0);
+    }
+
+    private AbstractMap.SimpleEntry<Position, Integer> searchJumpLoop(int direction, int jumpDistance, Position oldJumpPosition) {
         AbstractMap.SimpleEntry<Integer, Integer> addend = oldJumpPosition.y() % 2 == 0 ? adjacentGerade.get(direction) : adjacentUngerade.get(direction);
         Position jumpPosition = new Position(Color.None, oldJumpPosition.x() + addend.getKey(), oldJumpPosition.y() + addend.getValue(), Color.None);
         for (Position einzFeld : froschfeld) {
             if (jumpPosition.x() == einzFeld.x() && jumpPosition.y() == einzFeld.y()) {
-                jumpPosition = searchJumpLoop(direction, jumpDistance + 1, jumpPosition);
+                AbstractMap.SimpleEntry<Position, Integer> result = searchJumpLoop(direction, jumpDistance + 1, jumpPosition);
+                jumpPosition = result.getKey();
+                jumpDistance = result.getValue();
                 break;
             }
         }
         if (jumpDistance < 1) {
-            return null;
+            return new AbstractMap.SimpleEntry<>(null, jumpDistance);
         }
-        return jumpPosition;
+        return new AbstractMap.SimpleEntry<>(jumpPosition, jumpDistance);
     }
 }
