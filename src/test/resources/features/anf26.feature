@@ -1,5 +1,6 @@
 # language: de
-Funktionalität:
+Funktionalität: AoF-L-26: Das System muss gewährleisten,
+  dass bei der Aktion „Bewegen“ keine weitere Insel aus Froschsteinen entsteht.
 
 
 

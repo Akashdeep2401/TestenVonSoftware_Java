@@ -1,5 +1,6 @@
 # language: de
-Funktionalität:
+Funktionalität: AoF-L-11: Das System muss gewährleisten,
+  dass die restlichen Spieler zufällig der Spielreihenfolge zugewiesen werden.
 
 
 

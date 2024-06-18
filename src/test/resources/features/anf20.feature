@@ -1,5 +1,6 @@
 # language: de
-Funktionalität:
+Funktionalität: AoF-L-20: Das System muss gewährleisten,
+  dass bei der Aktion „Bewegen“ ein Froschstein der bewegt wird, in grader Linie bewegt wird.
 
 
   Szenario: : Rick überprüft während des Spiels wie ein Zug ausgeführt wird //    Hier fragen

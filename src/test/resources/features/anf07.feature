@@ -1,6 +1,6 @@
 # language: de
-Funktionalität:
-
+Funktionalität: AoF-L-07: Das System muss gewährleisten,
+  dass der Beutel am Anfang nur Froschsteine der Farben der Spieler enthält.
 
 
   Szenario: : Rick überprüft vor dem Spiel den Beutelinhalt

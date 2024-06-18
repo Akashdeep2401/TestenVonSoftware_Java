@@ -1,6 +1,6 @@
 # language: de
-Funktionalität:
-
+Funktionalität: AoF-L-06: Das System muss gewährleisten, dass der Beutel am Anfang des Spiels
+  (10 * Anzahl der Spieler) Froschsteine enthält.
 
 
   Szenariogrundriss: : Rick überprüft vor dem Spiel den Beutelinhalt

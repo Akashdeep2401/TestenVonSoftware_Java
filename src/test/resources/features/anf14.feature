@@ -1,5 +1,6 @@
 # language: de
-Funktionalität:
+Funktionalität: AoF-L-14: Das System muss gewährleisten, dass jeder Spieler einmal
+  am Anfang nacheinander 2 Froschsteine vom Beutel zufällig herausnehmen muss..
 
 
 

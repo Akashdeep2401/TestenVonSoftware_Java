@@ -1,6 +1,6 @@
 # language: de
-Funktionalität:
-
+Funktionalität: AoF-L-04: 5. 5.	Das System muss gewährleisten,
+  dass es einen Beutel mit Froschsteinen, welche nur die 4 o.g. Farben haben, gibt.
 
 
   Szenario: : Rick überprüft vor dem Spiel den Beutel

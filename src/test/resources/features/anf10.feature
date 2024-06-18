@@ -1,5 +1,6 @@
 # language: de
-Funktionalität:
+Funktionalität: AoF-L-10: Das System muss gewährleisten,
+  dass der Startspieler der erste Spieler in der Spielreihenfolge ist.
 
 
 

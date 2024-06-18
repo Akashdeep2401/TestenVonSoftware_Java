@@ -1,6 +1,6 @@
 # language: de
-Funktionalität:
-
+Funktionalität: AoF-L-03: Das System muss gewährleisten,
+  dass jeder Spieler unterschiedliche Farben hat.
 
 
   Szenario: : Rick überprüft die ausgewählten Farben

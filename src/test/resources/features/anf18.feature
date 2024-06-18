@@ -1,5 +1,6 @@
 # language: de
-Funktionalität:
+Funktionalität: AoF-L-18: 18.	Das System muss gewährleisten,
+  dass die Spieler ihre Züge in der festgelegten Spielreihenfolge ziehen.
 
 
 

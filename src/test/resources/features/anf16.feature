@@ -1,5 +1,6 @@
 # language: de
-Funktionalität:
+Funktionalität: AoF-L-16: Das System muss gewährleisten,
+  dass wenn eine Aktion nicht ausgeführt werden kann, die nächste Aktion ausgeführt wird.
 
 
 

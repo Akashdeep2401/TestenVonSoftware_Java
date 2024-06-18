@@ -1,6 +1,6 @@
 # language: de
-Funktionalität:
-
+Funktionalität: AoF-L-04: 4. Das System muss gewährleisten,
+  dass jeder Spieler eine Farbe auswählen muss.
 
 
   Szenario: : Rick überprüft die ausgewählten Farben

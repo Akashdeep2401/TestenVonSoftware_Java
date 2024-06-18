@@ -2,7 +2,6 @@
 Funktionalität: Das System muss gewährleisten, dass bei der Aktion „Bewegen oder Anlegen“ keine Kette aus vier oder mehr Froschsteinen entsteht.
 
 
-
   Szenario: : Rick überprüft während des Spiels wie ein Zug ausgeführt wird
   (Testfall: 25a)
     Angenommen das Spiel hat angefangen und es wurden 11 Züge gespielt

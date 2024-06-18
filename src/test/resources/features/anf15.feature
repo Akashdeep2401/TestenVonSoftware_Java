@@ -1,5 +1,6 @@
 # language: de
-Funktionalität:
+Funktionalität: AoF-L-15: Das System muss gewährleisten, dass ein Zug aus 3 Aktionen besteht,
+  die in einer festen Reihenfolge ausgeführt werden müssen, wenn diese möglich sind.
 
 
 

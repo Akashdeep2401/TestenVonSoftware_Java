@@ -1,6 +1,6 @@
 # language: de
-Funktionalität:
-
+Funktionalität: AoF-L-17: Das System muss gewährleisten, dass die 3 Aktionen in dieser
+  Reihenfolge ausgeführt werden müssen: 1. Bewegen, 2. Anlegen , 3. Nachziehen.
 
 
   Szenario: : Rick überprüft während des Spiels wie ein Zug ausgeführt wird

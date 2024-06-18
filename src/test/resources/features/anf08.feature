@@ -1,5 +1,6 @@
 # language: de
-Funktionalität:
+Funktionalität: AoF-L-08 : Das System muss gewährleisten,
+  dass der Beutel am Anfang 10 Steine der jeweiligen Farben enthält.
 
 
 

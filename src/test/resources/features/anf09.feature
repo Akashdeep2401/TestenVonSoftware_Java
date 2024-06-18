@@ -1,5 +1,6 @@
 # language: de
-Funktionalität:
+Funktionalität: AoF-L-07: Das System muss gewährleisten,
+  dass ein zufälliger Spieler der Startspieler ist.
 
 
 
