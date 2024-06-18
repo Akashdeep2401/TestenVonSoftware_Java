@@ -52,7 +52,7 @@ public class ZugSteps {
 
     @Angenommen("ein Zug wird gespielt")
     public void ein_zug_wird_gespielt() {
-        container.logicUnderTest.zugAktion.zugStarten(container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer()]);
+        container.logicUnderTest.zugAktion.zugStarten(container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer() - 1]);
     }
     @Angenommen("die Aktion {string} ist nicht gespielt worden")
     public void die_aktion_ist_nicht_gespielt_worden(String action) {
@@ -149,13 +149,14 @@ public class ZugSteps {
 
     @Wenn("der Spieler der am Zug ist hat mindestens einen Froschstein im Inventar")
     public void derSpielerDerAmZugIstHatMindestensEinenFroschsteinImInventar() {
-        container.testFroschsteinInventar = container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer()].getInventar();
+        container.testFroschsteinInventar = container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer() - 1].getInventar();
         assertFalse(container.logicUnderTest.getAlleSpieler()[container.logicUnderTest.getCurrentPlayer()].getInventar().isEmpty());
+        assertFalse(container.testFroschsteinInventar.isEmpty());
     }
 
     @Und("der Spieler der am Zug ist höchstens einen Froschstein im Inventar hat")
     public void derSpielerDerAmZugIstHöchstensEinenFroschsteinImInventarHat() {
-        currentPlayer = container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer()];
+        currentPlayer = container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer() - 1];
         if (currentPlayer.getInventar().size() > 1) {
             currentPlayer.getInventar().remove(1);
         }
@@ -184,7 +185,6 @@ public class ZugSteps {
         container.logicUnderTest.zugAktion = new ZugAktion(container.logicUnderTest);
         switch (farbe) {
             case "Blau" -> container.logicUnderTest.zugAktion.setNextPlayer(Color.Blue);
-
             case "Grün" -> container.logicUnderTest.zugAktion.setNextPlayer(Color.Green);
             case "Weiß" -> container.logicUnderTest.zugAktion.setNextPlayer(Color.White);
             case "Rot" -> container.logicUnderTest.zugAktion.setNextPlayer(Color.Red);

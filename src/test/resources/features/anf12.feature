@@ -1,6 +1,8 @@
 # language: de
-Funktionalität: AoF-L-12: Das System muss gewährleisten,
-  dass die Spieler in der Spielreihenfolge ihre Züge machen.
+Funktionalität: Das System muss gewährleisten, dass die Spieler in der Spielreihenfolge
+  ihre Züge machen.
+
+
 
 
   Szenariogrundriss: : Rick überprüft wer gerade am Zug ist

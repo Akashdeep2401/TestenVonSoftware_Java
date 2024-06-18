@@ -1,17 +1,12 @@
 # language: de
-Funktionalität: Das System muss gewährleisten, dass bei der Aktion „Bewegen oder Anlegen“ keine Kette aus vier oder mehr Froschsteinen entsteht.
+Funktionalität: (25)Das System muss gewährleisten, dass bei der Aktion „Bewegen“ keine weitere Insel aus Froschsteinen entsteht.
 
 
   Szenario: : Rick überprüft während des Spiels wie ein Zug ausgeführt wird
-  (Testfall: 25a)
+  (Testfall: 26)
     Angenommen das Spiel hat angefangen und es wurden 11 Züge gespielt
+    Und "Grün" ist am Zug
     Und ein Zug wird gespielt
-    Wenn die Aktion "Bewegen" so gespielt wird das eine Kette entstehen würde
-    Dann wird der Froschstein nicht bewegt
-
-  Szenario: : Rick überprüft während des Spiels wie ein Zug ausgeführt wird
-  (Testfall: 25b)
-    Angenommen das Spiel hat angefangen und es wurden 11 Züge gespielt
-    Und ein Zug wird gespielt
-    Wenn die Aktion "Anlegen" so gespielt wird das eine Kette entstehen würde
-    Dann wird der Froschstein nicht angelegt
+    Wenn die Aktion "Bewegen" ausgeführt wird
+    Und der Froschstein so bewegt wird, dass eine weitere Insel aus Froschsteinen entsteht
+    Dann wird der Froschstein "nicht" bewegt

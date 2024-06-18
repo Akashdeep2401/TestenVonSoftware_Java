@@ -1,13 +1,9 @@
 # language: de
-Funktionalität: Das System muss gewährleisten, dass bei der Aktion „Bewegen“ keine weitere Insel aus Froschsteinen entsteht.
+Funktionalität: (26)Das System muss gewährleisten, dass eine Kette eine Verbindung von
+  Froschsteinen mit drei oder mehr Einzelverbindung und einem offenem Ende ist.
 
-
-
-  Szenario: : Rick überprüft während des Spiels wie ein Zug ausgeführt wird
-  (Testfall: 26)
+  Szenario: : Rick überprüft was eine Kette ist
+    (Testfall: 27)
     Angenommen das Spiel hat angefangen und es wurden 11 Züge gespielt
-    Und "Grün" ist am Zug
     Und ein Zug wird gespielt
-    Wenn die Aktion "Bewegen" ausgeführt wird
-    Und der Froschstein so bewegt wird, dass eine weitere Insel aus Froschsteinen entsteht
-    Dann wird der Froschstein "nicht" bewegt
+    Wenn die Aktion "Anlegen" so gespielt wird das eine Kette entstehen würde

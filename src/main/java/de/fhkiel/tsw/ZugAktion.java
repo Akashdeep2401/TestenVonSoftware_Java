@@ -112,7 +112,7 @@ public class ZugAktion {
           bewegenIstFertig = true;
         }
       }
-    } else if(gamelogic.getReihenfolge()[getCurrentPlayer()].getSpielerFarbe() == position.frog() && board.isFrogMovable(position)){ // Ob der Spieler den Froschstein fürs Bewegen auswählen darf
+    } else if(gamelogic.getReihenfolge()[getCurrentPlayer() - 1].getSpielerFarbe() == position.frog() && board.isFrogMovable(position)){ // Ob der Spieler den Froschstein fürs Bewegen auswählen darf
       bewegenIstFertig = false;
       board.selectFrog(position);
     }
