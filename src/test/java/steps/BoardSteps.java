@@ -163,4 +163,12 @@ public class BoardSteps {
         }
 
     }
+
+    @Und("der Froschstein so bewegt wird, dass eine weitere Insel aus Froschsteinen entsteht")
+    public void derFroschsteinSoBewegtWirdDassEineWeitereInselAusFroschsteinenEntsteht() {
+        container.logicUnderTest.clicked(new Position(Color.Green, 3, 0, Color.None));
+        testFroschfeld = new HashSet<>(container.logicUnderTest.getFrogBoard().getFroschfeld());
+        container.logicUnderTest.clicked(new Position(Color.None, -1, 0, Color.None));
+        container.logicUnderTest.clicked(new Position(Color.Green, -1, 0, Color.None));
+    }
 }
