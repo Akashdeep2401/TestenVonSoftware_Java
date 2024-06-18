@@ -204,10 +204,12 @@ public class ZugAktion {
   public void setNextPlayer(Color color) {
     for (int i = 0; i < gamelogic.getReihenfolge().length; i++) {
       if (gamelogic.getReihenfolge()[i].getSpielerFarbe() == color) {
+        currentPlayer = i;
         if (i == 0) {
           LastPlayer = anzahlSpieler - 1;
+        } else {
+          LastPlayer = i - 1;
         }
-        LastPlayer = i - 1;
       }
     }
   }

@@ -1,5 +1,5 @@
 # language: de
-Funktionalität:
+Funktionalität: Das System muss gewährleisten, dass bei der Aktion „Bewegen“ ein Froschstein der Farbe des Spielers, der gerade am Zug ist, bewegt werden muss.
 
 Szenario: : Rick überprüft während des Spiels wie ein Zug ausgeführt wird //    Hier fragen
 (Testfall: 19)

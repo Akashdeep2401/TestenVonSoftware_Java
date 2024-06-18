@@ -52,7 +52,7 @@ public class ZugSteps {
 
     @Angenommen("ein Zug wird gespielt")
     public void ein_zug_wird_gespielt() {
-        container.logicUnderTest.zugAktion.zugStarten(container.logicUnderTest.getReihenfolge()[0]);
+        container.logicUnderTest.zugAktion.zugStarten(container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer()]);
     }
     @Angenommen("die Aktion {string} ist nicht gespielt worden")
     public void die_aktion_ist_nicht_gespielt_worden(String action) {
@@ -179,10 +179,16 @@ public class ZugSteps {
         container.logicUnderTest.zugAktion.setNextPlayer(Color.Red);
     }
 
-    @Und("Blau ist am Zug")
-    public void blauIstAmZug() {
-        //set current player to blue
-        container.logicUnderTest.zugAktion.setNextPlayer(Color.Blue);
+    @Und("{string} ist am Zug")
+    public void blauIstAmZug(String farbe) {
+        container.logicUnderTest.zugAktion = new ZugAktion(container.logicUnderTest);
+        switch (farbe) {
+            case "Blau" -> container.logicUnderTest.zugAktion.setNextPlayer(Color.Blue);
+
+            case "Grün" -> container.logicUnderTest.zugAktion.setNextPlayer(Color.Green);
+            case "Weiß" -> container.logicUnderTest.zugAktion.setNextPlayer(Color.White);
+            case "Rot" -> container.logicUnderTest.zugAktion.setNextPlayer(Color.Red);
+        }
     }
 
 }

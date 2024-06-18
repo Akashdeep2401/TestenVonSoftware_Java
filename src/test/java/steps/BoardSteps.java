@@ -22,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 public class BoardSteps {
     private LogicContainer container;
     private Spielfeld testBoard;
+    private Set<Position> testFroschfeld;
     private Position playableFrog;
     private int frogsOnBoard;
 
@@ -105,13 +106,14 @@ public class BoardSteps {
 
     @Und("der Froschstein {string} versucht wird in gerade Linie zu bewegen")
     public void derFroschsteinNichtVersuchtWirdInGeradeLinieZuBewegen(String nicht) {
-        testBoard = container.logicUnderTest.getFrogBoard();
         if (nicht.equals("nicht")) {
             container.logicUnderTest.clicked(new Position(Color.Blue, 0, 2, Color.None));
+            testFroschfeld = new HashSet<>(container.logicUnderTest.getFrogBoard().getFroschfeld());
             container.logicUnderTest.clicked(new Position(Color.None, 0, 4, Color.None));
             container.logicUnderTest.clicked(new Position(Color.Blue, 0, 4, Color.None));
         } else {
             container.logicUnderTest.clicked(new Position(Color.Blue, 0, 2, Color.None));
+            testFroschfeld = new HashSet<>(container.logicUnderTest.getFrogBoard().getFroschfeld());
             container.logicUnderTest.clicked(new Position(Color.None, 1, 4, Color.None));
             container.logicUnderTest.clicked(new Position(Color.Blue, 1, 4, Color.None));
         }
@@ -120,10 +122,24 @@ public class BoardSteps {
     @Dann("wird der Froschstein {string} bewegt")
     public void wirdDerFroschsteinNichtBewegt(String nicht) {
         if (nicht.equals("nicht")) {
-            assertThat(container.logicUnderTest.getBoard().contains(new Position(Color.Blue, 0, 4, Color.None))).isFalse();
+            assertThat(container.logicUnderTest.getBoard()).isEqualTo(testFroschfeld);
         } else {
-            assertThat(container.logicUnderTest.getBoard().contains(new Position(Color.Blue, 0, 2, Color.None))).isFalse();
-            assertThat(container.logicUnderTest.getBoard().contains(new Position(Color.Blue, 1, 4, Color.None))).isTrue();
+            assertThat(container.logicUnderTest.getBoard()).isNotEqualTo(testFroschfeld);
+        }
+    }
+
+    @Und("der Froschstein {string} versucht wird über einen anderen Froschstein springen zu lassen")
+    public void derFroschsteinNichtVersuchtWirdÜberEinenAnderenFroschsteinSpringenZuLassen(String nicht) {
+        if (nicht.equals("nicht")) {
+            container.logicUnderTest.clicked(new Position(Color.White, 1, 0, Color.None));
+            testFroschfeld = new HashSet<>(container.logicUnderTest.getFrogBoard().getFroschfeld());
+            container.logicUnderTest.clicked(new Position(Color.None, 0, 0, Color.None));
+            container.logicUnderTest.clicked(new Position(Color.White, 0, 0, Color.None));
+        } else {
+            container.logicUnderTest.clicked(new Position(Color.White, 1, 0, Color.None));
+            testFroschfeld = new HashSet<>(container.logicUnderTest.getFrogBoard().getFroschfeld());
+            container.logicUnderTest.clicked(new Position(Color.None, 2, 2, Color.None));
+            container.logicUnderTest.clicked(new Position(Color.White, 2, 2, Color.None));
         }
     }
 }
