@@ -22,8 +22,6 @@ public class Gamelogic implements Game {
 
   int LastPlayer;
 
-  private int currentPlayer;
-
 
   //private Set<Position> frogBoard = new HashSet<>();
   private Spielfeld frogBoard = new Spielfeld();
@@ -35,7 +33,6 @@ public class Gamelogic implements Game {
     GameIsRunning = false;
     iSpieler = 0;
     LastPlayer = 0;
-    currentPlayer = 0;
     SpielBeutel = new Beutel(new ArrayList<>());
     CPlayers = new Color[0];
     zugAktion = new ZugAktion(this);
@@ -45,7 +42,6 @@ public class Gamelogic implements Game {
     GameIsRunning = false;
     iSpieler = 0;
     LastPlayer = 0;
-    currentPlayer = 0;
     SpielBeutel = new Beutel(new ArrayList<>());
     CPlayers = new Color[0];
     zugAktion = new ZugAktion(this);
@@ -56,7 +52,6 @@ public class Gamelogic implements Game {
     GameIsRunning = false;
     iSpieler = 0;
     LastPlayer = 0;
-    currentPlayer = 0;
     SpielBeutel = new Beutel(new ArrayList<>());
     CPlayers = new Color[0];
     zugAktion = new ZugAktion(this);
@@ -242,12 +237,9 @@ public class Gamelogic implements Game {
     return LastPlayer;
   }
 
-  public void setCurrentPlayer(int currentPlayer) {
-    this.currentPlayer = currentPlayer;
-  }
 
   public int getCurrentPlayer() {
-    return currentPlayer;
+    return zugAktion.getCurrentPlayer();
   }
 
   public Spieler[] getAlleSpieler() {

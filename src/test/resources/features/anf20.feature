@@ -2,11 +2,16 @@
 Funktionalität:
 
 
-  Szenario: : Rick überprüft während des Spiels wie ein Zug ausgeführt wird //    Hier fragen
+  Szenariogrundriss: : Rick überprüft während des Spiels wie ein Zug ausgeführt wird //    Hier fragen
   (Testfall: 20)
-    Angenommen das Spiel läuft
+    Angenommen das Spiel hat angefangen und es wurden 11 Züge gespielt
+    Und Blau ist am Zug
     Und ein Zug wird gespielt
-    Und die Aktion "Bewegen" wird ausgeführt
-    Und der Froschstein wurde bewegt
-    Wenn der Zug abgefragt wird
-    Dann kann der Froschstein bewegt werden
+    Wenn die Aktion "Bewegen" ausgeführt wird
+    Und der Froschstein <nicht> versucht wird in gerade Linie zu bewegen
+    Dann wird der Froschstein <nicht> bewegt
+
+  Beispiele:
+    | nicht  |  nicht  |
+    | ""     |    ""   |
+    | "nicht"| "nicht" |

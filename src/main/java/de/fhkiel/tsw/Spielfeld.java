@@ -188,7 +188,7 @@ public class Spielfeld {
         }
 
         for (Position neighbor : neighbors) {
-            if (!visited.contains(neighbor)) {
+            if (!visited.contains(neighbor) && getNeighbors(neighbor).size() <= 2) {
                 if (dfs(neighbor, visited, chain, chainLength)) {
                     return true;
                 }
@@ -201,7 +201,7 @@ public class Spielfeld {
 
         // Check if there's an element in the chain that has only one neighbor
         for (Position position : chain) {
-            if (getNeighbors(position).size() == 1) {
+            if (getNeighbors(position).size() == 1 && chain.size() >= 3) {
                 return true;
             }
         }

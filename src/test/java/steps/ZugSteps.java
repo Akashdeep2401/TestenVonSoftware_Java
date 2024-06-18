@@ -33,7 +33,7 @@ public class ZugSteps {
 
     @Wenn("Spieler {int} seinen Zug beendet hat")
     public void spieler_spieler_seinen_zug_beendet_hat(int SpielerDran) {
-        container.logicUnderTest.setCurrentPlayer(SpielerDran);
+        container.logicUnderTest.zugAktion.setCurrentPlayer(SpielerDran);
         container.logicUnderTest.zugAktion.zugBeenden(container.logicUnderTest.getReihenfolge()[SpielerDran - 1]);
         //LetzterSpieler = container.logicUnderTest.getLastPlayer();
     }
@@ -171,4 +171,18 @@ public class ZugSteps {
     public void wirdDerFroschsteinNichtBewegt() {
         assertThat(container.logicUnderTest.getBoard()).isEqualTo(container.testBoard);
     }
+
+    @Und("Rot ist am Zug")
+    public void rotIstAmZug() {
+        //set current player to red
+
+        container.logicUnderTest.zugAktion.setNextPlayer(Color.Red);
+    }
+
+    @Und("Blau ist am Zug")
+    public void blauIstAmZug() {
+        //set current player to blue
+        container.logicUnderTest.zugAktion.setNextPlayer(Color.Blue);
+    }
+
 }
