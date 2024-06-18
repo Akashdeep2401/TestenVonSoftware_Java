@@ -142,4 +142,25 @@ public class BoardSteps {
             container.logicUnderTest.clicked(new Position(Color.White, 2, 2, Color.None));
         }
     }
+
+    @Und("dabei der Froschstein mehrmals springt")
+    public void dabeiDerFroschsteinMehrmalsSpringt() {
+        container.logicUnderTest.clicked(new Position(Color.Green, 3, 0, Color.None));
+        container.logicUnderTest.clicked(new Position(Color.None, 2, 2, Color.None));
+        container.logicUnderTest.clicked(new Position(Color.None, 4, 2, Color.None));
+        container.logicUnderTest.clicked(new Position(Color.None, 2, 2, Color.None));
+
+    }
+
+    @Und("dieser {string} wieder an der Ursprungsposition ist")
+    public void nichtDasDieserAnDerUrsprungspositionIst(String nicht) {
+        testFroschfeld = new HashSet<>(container.logicUnderTest.getFrogBoard().getFroschfeld());
+        if (nicht.equals("nicht")) {
+            container.logicUnderTest.clicked(new Position(Color.Green, 2, 2, Color.None));
+        } else {
+            container.logicUnderTest.clicked(new Position(Color.None, 3, 0, Color.None));
+            container.logicUnderTest.clicked(new Position(Color.Green, 3, 0, Color.None));
+        }
+
+    }
 }
