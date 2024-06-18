@@ -33,7 +33,7 @@ public class ZugSteps {
 
     @Wenn("Spieler {int} seinen Zug beendet hat")
     public void spieler_spieler_seinen_zug_beendet_hat(int SpielerDran) {
-        container.logicUnderTest.setCurrentPlayer(SpielerDran);
+        container.logicUnderTest.zugAktion.setCurrentPlayer(SpielerDran);
         container.logicUnderTest.zugAktion.zugBeenden(container.logicUnderTest.getReihenfolge()[SpielerDran - 1]);
         //LetzterSpieler = container.logicUnderTest.getLastPlayer();
     }
@@ -52,7 +52,7 @@ public class ZugSteps {
 
     @Angenommen("ein Zug wird gespielt")
     public void ein_zug_wird_gespielt() {
-        container.logicUnderTest.zugAktion.zugStarten(container.logicUnderTest.getReihenfolge()[0]);
+        container.logicUnderTest.zugAktion.zugStarten(container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer()]);
     }
     @Angenommen("die Aktion {string} ist nicht gespielt worden")
     public void die_aktion_ist_nicht_gespielt_worden(String action) {
@@ -65,13 +65,13 @@ public class ZugSteps {
         testBoard.add(new Position(Color.Red, 0 , 3, Color.None));
         testBoard.add(new Position(Color.Red, 1 , 2, Color.None));
         testBoard.add(new Position(Color.Red, 2 , 1, Color.None));
-        testBoard.add(new Position(Color.Red, 3 , 0, Color.None));
-        testBoard.add(new Position(Color.Red, 0 , 2, Color.None));
+        testBoard.add(new Position(Color.Green, 3 , 0, Color.None));
+        testBoard.add(new Position(Color.Blue, 0 , 2, Color.None));
         testBoard.add(new Position(Color.Red, 1 , 1, Color.None));
         testBoard.add(new Position(Color.Red, 2 , 0, Color.None));
         testBoard.add(new Position(Color.Red, 3 , 3, Color.None));
         testBoard.add(new Position(Color.Red, 0 , 1, Color.None));
-        testBoard.add(new Position(Color.Red, 1 , 0, Color.None));
+        testBoard.add(new Position(Color.White, 1 , 0, Color.None));
         testBoard.add(new Position(Color.Red, 3 , 2, Color.None));
         container.logicUnderTest = new Gamelogic(testBoard);
 
@@ -171,4 +171,24 @@ public class ZugSteps {
     public void wirdDerFroschsteinNichtBewegt() {
         assertThat(container.logicUnderTest.getBoard()).isEqualTo(container.testBoard);
     }
+
+    @Und("Rot ist am Zug")
+    public void rotIstAmZug() {
+        //set current player to red
+
+        container.logicUnderTest.zugAktion.setNextPlayer(Color.Red);
+    }
+
+    @Und("{string} ist am Zug")
+    public void blauIstAmZug(String farbe) {
+        container.logicUnderTest.zugAktion = new ZugAktion(container.logicUnderTest);
+        switch (farbe) {
+            case "Blau" -> container.logicUnderTest.zugAktion.setNextPlayer(Color.Blue);
+
+            case "Grün" -> container.logicUnderTest.zugAktion.setNextPlayer(Color.Green);
+            case "Weiß" -> container.logicUnderTest.zugAktion.setNextPlayer(Color.White);
+            case "Rot" -> container.logicUnderTest.zugAktion.setNextPlayer(Color.Red);
+        }
+    }
+
 }

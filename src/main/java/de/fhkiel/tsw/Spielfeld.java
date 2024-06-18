@@ -66,12 +66,27 @@ public class Spielfeld {
         if (!getJumpablePositions().contains(jumpingPosition)) {
             return false;
         }
-        boolean jumped = testPlacability(selectedFrog);
+        Position newFrogPosition = new Position(selectedFrog.frog(), jumpingPosition.x(), jumpingPosition.y(), jumpingPosition.border());
+        boolean jumped = testPlacability(newFrogPosition);
         if (jumped) {
             froschfeld.remove(selectedFrog);
-            selectedFrog = new Position(selectedFrog.frog(), jumpingPosition.x(), jumpingPosition.y(), jumpingPosition.border());
+            selectedFrog = newFrogPosition;
         }
         return jumped;
+    }
+
+    public boolean isFrogMovable(Position frog) {
+        if (frog.frog() != Color.None && frog.frog() != Color.Black) {
+            Position saveFrog = selectedFrog;
+            selectedFrog = frog;
+            if (!getJumpablePositions().isEmpty()) {
+                selectedFrog = saveFrog;
+                return true;
+            }
+            selectedFrog = saveFrog;
+            return false;
+        }
+        return false;
     }
     private boolean testPlacability(Position frog) {
         if (froschfeld.contains(frog)) {
@@ -155,7 +170,7 @@ public class Spielfeld {
         for (Position frog : froschfeld) {
             if (!visited.contains(frog)) {
                 chain.clear();
-                if (dfs(frog, visited, chain)) {
+                if (dfs(frog, visited, chain, 3)) {
                     return true;
                 }
             }
@@ -163,21 +178,34 @@ public class Spielfeld {
         return false;
     }
 
-    private boolean dfs(Position frog, Set<Position> visited, Set<Position> chain) {
+    private boolean dfs(Position frog, Set<Position> visited, Set<Position> chain, int chainLength) {
         visited.add(frog);
         chain.add(frog);
 
-        for (Position neighbor : getNeighbors(frog)) {
-            if (!visited.contains(neighbor)) {
-                if (dfs(neighbor, visited, chain)) {
+        List<Position> neighbors = getNeighbors(frog);
+        if (neighbors.size() > 2) {
+            return false;
+        }
+
+        for (Position neighbor : neighbors) {
+            if (!visited.contains(neighbor) && getNeighbors(neighbor).size() <= 2) {
+                if (dfs(neighbor, visited, chain, chainLength)) {
                     return true;
                 }
-            } else if (chain.size() >= 3 && chain.contains(neighbor)) {
+            } else if (chain.size() >= chainLength && chain.contains(neighbor)) {
                 return true;
             }
         }
 
         chain.remove(frog);
+
+        // Check if there's an element in the chain that has only one neighbor
+        for (Position position : chain) {
+            if (getNeighbors(position).size() == 1 && chain.size() >= 3) {
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -189,22 +217,29 @@ public class Spielfeld {
             for (Position actualFrog : froschfeld) {
                 if (actualFrog.x() == neighbor.x() && actualFrog.y() == neighbor.y()) {
                     neighbors.add(actualFrog);
+                    break;
                 }
             }
         }
         return neighbors;
     }
-    // returns a position where a frog creates a chain
+    // Gibt eine Position zurück, an der ein Froschstein platziert werden kann, um eine Kette zu bilden
     public Position getChainPlacement() {
         Set<Position> visited = new HashSet<>();
         Set<Position> chain = new HashSet<>();
         for (Position frog : froschfeld) {
             if (!visited.contains(frog)) {
                 chain.clear();
-                if (dfs(frog, visited, chain)) {
-                    for (Position neighbor : getNeighbors(frog)) {
-                        if (!chain.contains(neighbor)) {
-                            return neighbor;
+                if (dfs(frog, visited, chain, 2)) {
+                    for (Position neighbor : chain) {
+                        if (getNeighbors(neighbor).size() == 1) {
+                            for (AbstractMap.SimpleEntry<Integer, Integer> addend : neighbor.y() % 2 == 0 ? adjacentGerade : adjacentUngerade) {
+                                Position chainPosition = new Position(Color.None, neighbor.x() + addend.getKey(), neighbor.y() + addend.getValue(), Color.None);
+                                if (getNeighbors(chainPosition).size() == 1) {
+                                    return chainPosition;
+                                }
+
+                            }
                         }
                     }
                 }
@@ -225,7 +260,7 @@ public class Spielfeld {
     private List<Position> getJumpablePositions() {
         List<Position> jumpablePositions = new ArrayList<>();
         for (int i = 0; i < adjacentGerade.size(); i++) {
-            Position jumpPosition = searchJumpLoop(i, 0, selectedFrog);
+            Position jumpPosition = searchJumpLoop(i, 0, selectedFrog).getKey();
             if (jumpPosition == null) {
                 continue;
             }
@@ -234,18 +269,28 @@ public class Spielfeld {
         return jumpablePositions;
     }
 
-    private Position searchJumpLoop(int direction, int jumpDistance, Position oldJumpPosition) {
+    public Position getJumpablePosition() {
+        List<Position> jumpablePositions = getJumpablePositions();
+        if (jumpablePositions.isEmpty()) {
+            return null;
+        }
+        return jumpablePositions.get(0);
+    }
+
+    private AbstractMap.SimpleEntry<Position, Integer> searchJumpLoop(int direction, int jumpDistance, Position oldJumpPosition) {
         AbstractMap.SimpleEntry<Integer, Integer> addend = oldJumpPosition.y() % 2 == 0 ? adjacentGerade.get(direction) : adjacentUngerade.get(direction);
         Position jumpPosition = new Position(Color.None, oldJumpPosition.x() + addend.getKey(), oldJumpPosition.y() + addend.getValue(), Color.None);
         for (Position einzFeld : froschfeld) {
             if (jumpPosition.x() == einzFeld.x() && jumpPosition.y() == einzFeld.y()) {
-                jumpPosition = searchJumpLoop(direction, jumpDistance + 1, jumpPosition);
+                AbstractMap.SimpleEntry<Position, Integer> result = searchJumpLoop(direction, jumpDistance + 1, jumpPosition);
+                jumpPosition = result.getKey();
+                jumpDistance = result.getValue();
                 break;
             }
         }
         if (jumpDistance < 1) {
-            return null;
+            return new AbstractMap.SimpleEntry<>(null, jumpDistance);
         }
-        return jumpPosition;
+        return new AbstractMap.SimpleEntry<>(jumpPosition, jumpDistance);
     }
 }

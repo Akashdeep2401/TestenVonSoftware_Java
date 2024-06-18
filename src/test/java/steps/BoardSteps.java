@@ -22,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 public class BoardSteps {
     private LogicContainer container;
     private Spielfeld testBoard;
+    private Set<Position> testFroschfeld;
     private Position playableFrog;
     private int frogsOnBoard;
 
@@ -76,5 +77,69 @@ public class BoardSteps {
     public void wirdDerFroschsteinNichtAngelegt() {
         assertThat(container.logicUnderTest.getBoard().size()).isEqualTo(container.AnzFröscheAufSpielfeldVorAktion);
         assertThat(container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer()].getInventorySize()).isEqualTo(container.AnzFröscheInventarVorAktion);
+    }
+
+    @Und("ein Froschstein der Farbe des Spielers der gerade am Zug ist kann bewegt werden")
+    public void einFroschsteinDerFarbeFarbeDesSpielersKannBewegtWerden() {
+        Color spielerFarbeEnum = container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer()].getSpielerFarbe();
+        Set<Position> froschfeld = container.logicUnderTest.getBoard();
+        playableFrog = null;
+        for (Position position : froschfeld) {
+            if (position.frog() == spielerFarbeEnum && container.logicUnderTest.getFrogBoard().isFrogMovable(position)) {
+                playableFrog = position;
+                break;
+            }
+        }
+        assertThat(playableFrog).isNotNull();
+        assertThat(container.logicUnderTest.getFrogBoard().isFrogMovable(playableFrog)).isTrue();
+    }
+
+    @Dann("wird ein Froschstein dieser Farbe bewegt")
+    public void wirdEinFroschsteinDieserFarbeBewegt() {
+        container.logicUnderTest.clicked(playableFrog);
+        Position jumpPosition = container.logicUnderTest.getFrogBoard().getJumpablePosition();
+        container.logicUnderTest.clicked(jumpPosition);
+        container.logicUnderTest.clicked(new Position(playableFrog.frog(), jumpPosition.x(), jumpPosition.y(), Color.None));
+        assertThat(container.logicUnderTest.getBoard().contains(playableFrog)).isFalse();
+        assertThat(container.logicUnderTest.getBoard().contains(new Position(playableFrog.frog(), jumpPosition.x(), jumpPosition.y(), playableFrog.border()))).isTrue();
+    }
+
+    @Und("der Froschstein {string} versucht wird in gerade Linie zu bewegen")
+    public void derFroschsteinNichtVersuchtWirdInGeradeLinieZuBewegen(String nicht) {
+        if (nicht.equals("nicht")) {
+            container.logicUnderTest.clicked(new Position(Color.Blue, 0, 2, Color.None));
+            testFroschfeld = new HashSet<>(container.logicUnderTest.getFrogBoard().getFroschfeld());
+            container.logicUnderTest.clicked(new Position(Color.None, 0, 4, Color.None));
+            container.logicUnderTest.clicked(new Position(Color.Blue, 0, 4, Color.None));
+        } else {
+            container.logicUnderTest.clicked(new Position(Color.Blue, 0, 2, Color.None));
+            testFroschfeld = new HashSet<>(container.logicUnderTest.getFrogBoard().getFroschfeld());
+            container.logicUnderTest.clicked(new Position(Color.None, 1, 4, Color.None));
+            container.logicUnderTest.clicked(new Position(Color.Blue, 1, 4, Color.None));
+        }
+    }
+
+    @Dann("wird der Froschstein {string} bewegt")
+    public void wirdDerFroschsteinNichtBewegt(String nicht) {
+        if (nicht.equals("nicht")) {
+            assertThat(container.logicUnderTest.getBoard()).isEqualTo(testFroschfeld);
+        } else {
+            assertThat(container.logicUnderTest.getBoard()).isNotEqualTo(testFroschfeld);
+        }
+    }
+
+    @Und("der Froschstein {string} versucht wird über einen anderen Froschstein springen zu lassen")
+    public void derFroschsteinNichtVersuchtWirdÜberEinenAnderenFroschsteinSpringenZuLassen(String nicht) {
+        if (nicht.equals("nicht")) {
+            container.logicUnderTest.clicked(new Position(Color.White, 1, 0, Color.None));
+            testFroschfeld = new HashSet<>(container.logicUnderTest.getFrogBoard().getFroschfeld());
+            container.logicUnderTest.clicked(new Position(Color.None, 0, 0, Color.None));
+            container.logicUnderTest.clicked(new Position(Color.White, 0, 0, Color.None));
+        } else {
+            container.logicUnderTest.clicked(new Position(Color.White, 1, 0, Color.None));
+            testFroschfeld = new HashSet<>(container.logicUnderTest.getFrogBoard().getFroschfeld());
+            container.logicUnderTest.clicked(new Position(Color.None, 2, 2, Color.None));
+            container.logicUnderTest.clicked(new Position(Color.White, 2, 2, Color.None));
+        }
     }
 }

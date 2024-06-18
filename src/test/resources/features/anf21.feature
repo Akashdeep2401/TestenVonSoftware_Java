@@ -3,10 +3,16 @@ Funktionalität: Das System muss gewährleisten, dass bei der Aktion „Bewegen�
   ein Froschstein der bewegt wird mindestens einen anderen Froschstein überspringt.
 
 
-  Szenario: : Rick überprüft während des Spiels wie ein Zug ausgeführt wird
+ Szenariogrundriss: : Rick überprüft während des Spiels wie ein Zug ausgeführt wird
   (Testfall: 21)
-    Angenommen das Spiel hat angefangen und es wurden 10 Züge gespielt
+    Angenommen das Spiel hat angefangen und es wurden 11 Züge gespielt
+    Und "Weiß" ist am Zug
     Und ein Zug wird gespielt
-    Und die Aktion "Bewegen" wird ausgeführt
-    Wenn der Froschstein bewegt wird
-    Dann darf der Froschstein nicht an der selben Position wie am Anfang des Zuges sein
+    Wenn die Aktion "Bewegen" ausgeführt wird
+    Und der Froschstein <nicht> versucht wird über einen anderen Froschstein springen zu lassen
+    Dann wird der Froschstein <nicht> bewegt
+
+  Beispiele:
+        | nicht | nicht|
+        | ""    | ""   |
+        | "nicht"  |   "nicht"  |

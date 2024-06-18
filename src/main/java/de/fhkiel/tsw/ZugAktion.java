@@ -13,6 +13,7 @@ public class ZugAktion {
   private String[] actionOrder;
   private int currentActionIndex;
   private int LastPlayer;
+
   private int currentPlayer;
 
   private int anzahlSpieler;
@@ -36,6 +37,7 @@ public class ZugAktion {
     actionsPlayed.put("Nachziehen", false);
     actionOrder = new String[] {"Bewegen", "Anlegen", "Nachziehen"};
     currentActionIndex = 0;
+    currentPlayer = 0;
   }
 
   public void playAction(String action) {
@@ -53,8 +55,10 @@ public class ZugAktion {
     if (actionsPlayed.containsKey(action) && action.equals(actionOrder[currentActionIndex])) {
       actionsPlayed.put(action, true);
       executeAction(action, board, frog, position);
-      if (!bewegenIstFertig) {
-        return;
+      if (action.equals("Bewegen")) {
+        if (!bewegenIstFertig) {
+          return;
+        }
       }
       currentActionIndex++;
     } else {
@@ -108,7 +112,7 @@ public class ZugAktion {
           bewegenIstFertig = true;
         }
       }
-    } else {
+    } else if(gamelogic.getReihenfolge()[getCurrentPlayer()].getSpielerFarbe() == position.frog() && board.isFrogMovable(position)){ // Ob der Spieler den Froschstein fürs Bewegen auswählen darf
       bewegenIstFertig = false;
       board.selectFrog(position);
     }
@@ -197,4 +201,24 @@ public class ZugAktion {
     LastPlayer = currentPlayer;
   }
 
+  public void setNextPlayer(Color color) {
+    for (int i = 0; i < gamelogic.getReihenfolge().length; i++) {
+      if (gamelogic.getReihenfolge()[i].getSpielerFarbe() == color) {
+        currentPlayer = i;
+        if (i == 0) {
+          LastPlayer = anzahlSpieler - 1;
+        } else {
+          LastPlayer = i - 1;
+        }
+      }
+    }
+  }
+
+  public void setCurrentPlayer(int currentPlayer) {
+    this.currentPlayer = currentPlayer;
+  }
+
+  public int getCurrentPlayer() {
+    return currentPlayer;
+  }
 }
