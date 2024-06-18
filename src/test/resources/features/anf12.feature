@@ -1,5 +1,7 @@
 # language: de
-Funktionalität:
+Funktionalität: Das System muss gewährleisten, dass die Spieler in der Spielreihenfolge
+  ihre Züge machen.
+
 
 
 

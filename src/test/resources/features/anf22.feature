@@ -1,17 +1,12 @@
 # language: de
-Funktionalität: Das System muss gewährleisten, dass bei der Aktion „Bewegen“ ein Froschstein mehrmals springen darf, aber nicht so dass dieser an der Ursprungsposition bleibt.
+Funktionalität: (22)Das System muss gewährleisten, dass bei der Aktion „Anlegen“ ein Froschstein im Besitz des Spielers gelegt werden muss.
 
-  Szenariogrundriss: : Rick überprüft während des Spiels wie ein Zug ausgeführt wird
-  (Testfall: 22)
-    Angenommen das Spiel hat angefangen und es wurden 11 Züge gespielt
-    Und "Grün" ist am Zug
+
+  Szenario: : Rick überprüft während des Spiels wie ein Zug ausgeführt wird
+  (Testfall: 23)
+    Angenommen das Spiel hat angefangen und es wurde ein Zug gespielt
     Und ein Zug wird gespielt
-    Wenn die Aktion "Bewegen" ausgeführt wird
-    Und dabei der Froschstein mehrmals springt
-    Und dieser <nicht> wieder an der Ursprungsposition ist
-    Dann wird der Froschstein <nicht> bewegt
-
-  Beispiele:
-        | nicht | nicht|
-        | ""    | "nicht"   |
-        | "nicht"  |   ""  |
+    Wenn die Aktion "Anlegen" ausgeführt wird
+    Und der Spieler der am Zug ist hat mindestens einen Froschstein im Inventar
+    Und mindestens einer kann gelegt werden
+    Dann wird ein Froschstein gelegt

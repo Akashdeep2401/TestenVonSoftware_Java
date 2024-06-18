@@ -61,7 +61,7 @@ public class BoardSteps {
     public void dieAktionSoGespieltWirdDasEineKetteEntstehenWürde(String aktion) {
         container.logicUnderTest.zugAktion.setCurrentAction(aktion);
         if (aktion.equals("Anlegen")) {
-            container.AnzFröscheInventarVorAktion = container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer()].getInventorySize();
+            container.AnzFröscheInventarVorAktion = container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer() - 1].getInventorySize();
             container.AnzFröscheAufSpielfeldVorAktion = container.logicUnderTest.getBoard().size();
             Position wrongPlacement = container.logicUnderTest.getWrongPlacement();
             container.logicUnderTest.clicked(wrongPlacement);
@@ -77,12 +77,12 @@ public class BoardSteps {
     @Dann("wird der Froschstein nicht angelegt")
     public void wirdDerFroschsteinNichtAngelegt() {
         assertThat(container.logicUnderTest.getBoard().size()).isEqualTo(container.AnzFröscheAufSpielfeldVorAktion);
-        assertThat(container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer()].getInventorySize()).isEqualTo(container.AnzFröscheInventarVorAktion);
+        assertThat(container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer() - 1].getInventorySize()).isEqualTo(container.AnzFröscheInventarVorAktion);
     }
 
     @Und("ein Froschstein der Farbe des Spielers der gerade am Zug ist kann bewegt werden")
     public void einFroschsteinDerFarbeFarbeDesSpielersKannBewegtWerden() {
-        Color spielerFarbeEnum = container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer()].getSpielerFarbe();
+        Color spielerFarbeEnum = container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer() - 1].getSpielerFarbe();
         Set<Position> froschfeld = container.logicUnderTest.getBoard();
         playableFrog = null;
         for (Position position : froschfeld) {

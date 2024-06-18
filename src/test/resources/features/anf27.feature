@@ -1,9 +1,7 @@
 # language: de
-Funktionalität:Das System muss gewährleisten, dass eine Kette eine Verbindung von
-  Froschsteinen mit drei oder mehr Einzelverbindung und einem offenem Ende ist.
+Funktionalität: (27)Das System muss gewährleisten, dass eine Insel ein Froschstein ohne Verbindung ist.
 
-  Szenario: : Rick überprüft was eine Kette ist
-    (Testfall: 27)
-    Angenommen das Spiel hat angefangen und es wurden 11 Züge gespielt
-    Und ein Zug wird gespielt
-    Wenn die Aktion "Anlegen" so gespielt wird das eine Kette entstehen würde
+  Szenario: : Rick überprüft was eine Insel ist
+  (Testfall: 28)
+    Angenommen ein Spielfeld hat eine zweite Insel
+    Dann erkennt das System die Insel
