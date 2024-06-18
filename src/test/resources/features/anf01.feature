@@ -1,6 +1,5 @@
 # language: de
-Funktionalität: AoF-L-01: Das System muss gewährleisten,
-  dass ein Spiel 2 bis 4 Spieler hat.
+Funktionalität: Das System muss gewährleisten, dass ein Spiel 2 bis 4 Spieler hat.
 
   Szenariogrundriss: : Das System zählt die Spieler am Anfang des Spiels
   (Testfall: 1)
@@ -15,5 +14,3 @@ Funktionalität: AoF-L-01: Das System muss gewährleisten,
       |3      | 1    |
       |4      | 1    |
       |5      | 0    |
-
-

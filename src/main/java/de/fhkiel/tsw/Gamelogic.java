@@ -171,6 +171,7 @@ public class Gamelogic implements Game {
 
     System.out.println("Spiel ist gestartet");
     GameIsRunning = true;
+    zugAktion.setAnzahlSpieler(iSpieler);
     zugAktion.zugStarten(Reihenfolge[0]);
     return GameIsRunning;
   }
@@ -192,7 +193,7 @@ public class Gamelogic implements Game {
     return iAnzSpieler <= 4 && iAnzSpieler >= 2;
   }
 
-  private void beutelBefüllen(List<Color> FarbenInBeutel) {
+  public void beutelBefüllen(List<Color> FarbenInBeutel) {
     SpielBeutel = new Beutel(FarbenInBeutel);
   }
 

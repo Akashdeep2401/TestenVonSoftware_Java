@@ -197,18 +197,22 @@ public class ZugAktion {
     }
   }
 
-  public void zugBeenden(Spieler SpielerBeendet) {
-    LastPlayer = currentPlayer;
+  public boolean zugBeenden(Spieler SpielerBeendet) {
+    if (SpielerBeendet.getZugPosition() == currentPlayer) {
+      LastPlayer = currentPlayer;
+      return true;
+    }
+    return false;
   }
 
   public void setNextPlayer(Color color) {
     for (int i = 0; i < gamelogic.getReihenfolge().length; i++) {
       if (gamelogic.getReihenfolge()[i].getSpielerFarbe() == color) {
-        currentPlayer = i;
+        currentPlayer = i + 1;
         if (i == 0) {
-          LastPlayer = anzahlSpieler - 1;
+          LastPlayer = anzahlSpieler;
         } else {
-          LastPlayer = i - 1;
+          LastPlayer = i;
         }
       }
     }
@@ -220,5 +224,9 @@ public class ZugAktion {
 
   public int getCurrentPlayer() {
     return currentPlayer;
+  }
+
+  public void setAnzahlSpieler(int anzahlSpieler) {
+    this.anzahlSpieler = anzahlSpieler;
   }
 }
