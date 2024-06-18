@@ -33,8 +33,8 @@ public class ZugSteps {
 
     @Wenn("Spieler {int} seinen Zug beendet hat")
     public void spieler_spieler_seinen_zug_beendet_hat(int SpielerDran) {
-        container.logicUnderTest.zugAktion.setCurrentPlayer(SpielerDran);
-        container.logicUnderTest.zugAktion.zugBeenden(container.logicUnderTest.getReihenfolge()[SpielerDran - 1]);
+        container.logicUnderTest.zugAktion.setNextPlayer(container.logicUnderTest.getReihenfolge()[SpielerDran - 1].getSpielerFarbe());
+        assertTrue(container.logicUnderTest.zugAktion.zugBeenden(container.logicUnderTest.getReihenfolge()[SpielerDran - 1]));
         //LetzterSpieler = container.logicUnderTest.getLastPlayer();
     }
 

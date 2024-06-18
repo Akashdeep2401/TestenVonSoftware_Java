@@ -65,6 +65,7 @@ public class BoardSteps {
             container.AnzFröscheAufSpielfeldVorAktion = container.logicUnderTest.getBoard().size();
             Position wrongPlacement = container.logicUnderTest.getWrongPlacement();
             container.logicUnderTest.clicked(wrongPlacement);
+            assertThat(wrongPlacement).isNotNull();
         }
         if (aktion.equals("Bewegen")) {
             container.testBoard = container.logicUnderTest.getBoard();
@@ -170,5 +171,34 @@ public class BoardSteps {
         testFroschfeld = new HashSet<>(container.logicUnderTest.getFrogBoard().getFroschfeld());
         container.logicUnderTest.clicked(new Position(Color.None, -1, 0, Color.None));
         container.logicUnderTest.clicked(new Position(Color.Green, -1, 0, Color.None));
+    }
+
+    @Dann("ist eine Kette entstanden")
+    public void istEineKetteEntstanden() {
+        assertThat(container.logicUnderTest.hasNoChains()).isFalse();
+    }
+
+
+    @Angenommen("ein Spielfeld hat eine zweite Insel")
+    public void einSpielfeldHatEineZweiteInsel() {
+        testBoard = new Spielfeld(new HashSet<>(Arrays.asList(
+                new Position(Color.Red, 0, 3, Color.None),
+                new Position(Color.Red, 1, 2, Color.None),
+                new Position(Color.Red, 2, 1, Color.None),
+                new Position(Color.Green, 3, 0, Color.None),
+                new Position(Color.Blue, 0, 2, Color.None),
+                new Position(Color.Red, 1, 1, Color.None),
+                new Position(Color.Red, 2, 0, Color.None),
+                new Position(Color.Red, 3, 3, Color.None),
+                new Position(Color.Red, 0, 1, Color.None),
+                new Position(Color.White, 1, 0, Color.None),
+                new Position(Color.Red, 3, 2, Color.None),
+                new Position(Color.Red, -1, 0, Color.None)
+        )), new Gamelogic());
+    }
+
+    @Dann("erkennt das System die Insel")
+    public void erkenntDasSystemDieInsel() {
+        assertThat(testBoard.hasIsland()).isTrue();
     }
 }

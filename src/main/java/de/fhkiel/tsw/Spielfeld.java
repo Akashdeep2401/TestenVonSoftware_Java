@@ -96,7 +96,7 @@ public class Spielfeld {
             return false;
         }
         froschfeld.add(frog);
-        if (hasChains()) {
+        if (hasChain()) {
             froschfeld.remove(frog);
             return false;
         }
@@ -164,17 +164,19 @@ public class Spielfeld {
     }
 
     // Check if there are chains of 3 individual connections between frogs
-    private boolean hasChains() {
+    private boolean hasChain() {
         Set<Position> visited = new HashSet<>();
         Set<Position> chain = new HashSet<>();
         for (Position frog : froschfeld) {
             if (!visited.contains(frog)) {
                 chain.clear();
                 if (dfs(frog, visited, chain, 3)) {
+                    keineKetten = false;
                     return true;
                 }
             }
         }
+        keineKetten = true;
         return false;
     }
 
@@ -292,5 +294,18 @@ public class Spielfeld {
             return new AbstractMap.SimpleEntry<>(null, jumpDistance);
         }
         return new AbstractMap.SimpleEntry<>(jumpPosition, jumpDistance);
+    }
+
+    public boolean hasIsland() {
+        if (froschfeld.size() == 1) {
+            return false;
+        } else {
+            for (Position frog : froschfeld) {
+                if (getNeighbors(frog).size() == 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

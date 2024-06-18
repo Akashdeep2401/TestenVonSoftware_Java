@@ -29,7 +29,7 @@ public class BeutelSteps {
     @Wenn("der Beutel befüllt wurde")
     public void der_beutel_befüllt_wurde() {
         container.logicUnderTest = new Gamelogic();
-        container.logicUnderTest.startGame(container.AlleSpieler.size(), container.bereitsAusgewählteFarben);
+        container.logicUnderTest.beutelBefüllen(container.bereitsAusgewählteFarben);
     }
     @Dann("sind nur Froschsteine im Beutel die Blau, Grün, Rot oder Weiß sind")
     public void sind_nur_froschsteine_im_beutel_die_blau_grün_rot_oder_weiß_sind() {
