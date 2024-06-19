@@ -47,12 +47,6 @@ public class StartSteps {
     frösche = container.logicUnderTest.frogsInBag();
   }
 
-  /*
-  @Dann("sind {int} Frösche im Beutel")
-  public void sind_frösche_im_beutel(Integer erwarteteFrösche) {
-      assertThat(frösche).isEqualTo(erwarteteFrösche);
-  }
-  */
   @Angenommen("das Spiel ist mit {int} Spielern gestartet")
   public void das_spiel_ist_mit_spielern_gestartet(Integer spieler) {
     container.logicUnderTest = new Gamelogic();
@@ -60,7 +54,6 @@ public class StartSteps {
     TestFarben.add(Color.Blue);
     TestFarben.add(Color.Red);
     TestFarben.add(Color.Green);
-    //container.logicUnderTest.startGame(spieler, TestFarben);
     assertThat(container.logicUnderTest.newGame(spieler)).isTrue();
   }
 

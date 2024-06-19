@@ -49,20 +49,6 @@ public class LogicContainer {
 
   public void setStartspieler(Spieler player1) {
     StartSpieler = player1;
-        /*
-        if (AlleSpieler.isEmpty()) {
-            throw new IllegalStateException("Die Spielerliste ist leer");
-        }
-
-        Spieler youngestPlayer = AlleSpieler.stream()
-                .min(Comparator.comparingInt(Spieler::getAge))  // Angenommen, `getAge` gibt das Alter des Spielers zurück
-                .orElseThrow(() -> new IllegalStateException("Kein Spieler gefunden"));
-
-        for (Spieler spieler : AlleSpieler) {
-            spieler.setStartspieler(spieler.equals(youngestPlayer));
-        }
-
-         */
   }
 
   public Spieler getStartSpieler() {

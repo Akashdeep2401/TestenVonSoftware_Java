@@ -39,7 +39,6 @@ public class ZugSteps {
         container.logicUnderTest.getReihenfolge()[SpielerDran - 1].getSpielerFarbe());
     assertTrue(container.logicUnderTest.zugAktion.zugBeenden(
         container.logicUnderTest.getReihenfolge()[SpielerDran - 1]));
-    //LetzterSpieler = container.logicUnderTest.getLastPlayer();
   }
 
   @Dann("ist Spieler {int} am Zug")
