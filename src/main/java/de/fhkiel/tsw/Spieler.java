@@ -8,11 +8,11 @@ import java.util.List;
 public class Spieler {
 
 
+  private final List<Froschstein> Inventar = new ArrayList<>();
   Color SpielerFarbe = Color.None;
-
   private Beutel beutel;
-
-  private List<Froschstein> Inventar = new ArrayList<>();
+  private boolean startspieler = false;
+  private int ZugPosition;
 
   public Spieler(Color NeueFarbe) {
     this.SpielerFarbe = NeueFarbe;
@@ -31,10 +31,6 @@ public class Spieler {
     SpielerFarbe = spielerFarbe;
   }
 
-  private boolean startspieler = false;
-
-  private int ZugPosition;
-
   public boolean isStartspieler() {
     return startspieler;
   }
@@ -43,15 +39,13 @@ public class Spieler {
     this.startspieler = startspieler;
   }
 
-
-  public void setZugPosition(int zugPosition) {
-    ZugPosition = zugPosition;
-  }
-
   public int getZugPosition() {
     return ZugPosition;
   }
 
+  public void setZugPosition(int zugPosition) {
+    ZugPosition = zugPosition;
+  }
 
   public boolean froschHinzufügen(Froschstein EinFroschstein) {
     if (Inventar.size() >= 2) {

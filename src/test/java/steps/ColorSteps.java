@@ -12,110 +12,112 @@ import java.util.ArrayList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ColorSteps {
-    private LogicContainer container;
+  private final LogicContainer container;
 
-    private Color ausgewählteFarbe = Color.Black;
+  private Color ausgewählteFarbe = Color.Black;
 
-    private ArrayList<Color> ausgewählteFarben;
+  private ArrayList<Color> ausgewählteFarben;
 
-    public ColorSteps(LogicContainer container) {
-        this.container = container;
+  public ColorSteps(LogicContainer container) {
+    this.container = container;
+  }
+
+  @Angenommen("ein Spieler hat die Farbe Blau ausgewählt")
+  public void ein_spieler_hat_die_farbe_blau_ausgewählt() {
+    if (ausgewählteFarbe != Color.Black) {
+      container.bereitsAusgewählteFarben.add(container.ausgewählteFarbe);
     }
+    container.ausgewählteFarbe = Color.Blue;
+  }
 
-    @Angenommen("ein Spieler hat die Farbe Blau ausgewählt")
-    public void ein_spieler_hat_die_farbe_blau_ausgewählt() {
-        if (ausgewählteFarbe != Color.Black) {
-            container.bereitsAusgewählteFarben.add(container.ausgewählteFarbe);
-        }
-        container.ausgewählteFarbe = Color.Blue;
+  @Angenommen("ein Spieler hat die Farbe Rot ausgewählt")
+  public void ein_spieler_hat_die_farbe_rot_ausgewählt() {
+    if (ausgewählteFarbe != Color.Black) {
+      container.bereitsAusgewählteFarben.add(container.ausgewählteFarbe);
     }
+    container.ausgewählteFarbe = Color.Red;
+  }
 
-    @Angenommen("ein Spieler hat die Farbe Rot ausgewählt")
-    public void ein_spieler_hat_die_farbe_rot_ausgewählt() {
-        if (ausgewählteFarbe != Color.Black) {
-            container.bereitsAusgewählteFarben.add(container.ausgewählteFarbe);
-        }
-        container.ausgewählteFarbe = Color.Red;
+  @Angenommen("ein Spieler hat die Farbe Grün ausgewählt")
+  public void ein_spieler_hat_die_farbe_grün_ausgewählt() {
+    if (ausgewählteFarbe != Color.Black) {
+      container.bereitsAusgewählteFarben.add(container.ausgewählteFarbe);
     }
+    container.ausgewählteFarbe = Color.Green;
+  }
 
-    @Angenommen("ein Spieler hat die Farbe Grün ausgewählt")
-    public void ein_spieler_hat_die_farbe_grün_ausgewählt() {
-        if (ausgewählteFarbe != Color.Black) {
-            container.bereitsAusgewählteFarben.add(container.ausgewählteFarbe);
-        }
-        container.ausgewählteFarbe = Color.Green;
+  @Angenommen("ein Spieler hat die Farbe Weiß ausgewählt")
+  public void ein_spieler_hat_die_farbe_weiß_ausgewählt() {
+    if (ausgewählteFarbe != Color.Black) {
+      container.bereitsAusgewählteFarben.add(container.ausgewählteFarbe);
     }
+    container.ausgewählteFarbe = Color.White;
+  }
 
-    @Angenommen("ein Spieler hat die Farbe Weiß ausgewählt")
-    public void ein_spieler_hat_die_farbe_weiß_ausgewählt() {
-        if (ausgewählteFarbe != Color.Black) {
-            container.bereitsAusgewählteFarben.add(container.ausgewählteFarbe);
-        }
-        container.ausgewählteFarbe = Color.White;
-    }
+  @Angenommen("alle Spieler haben eine Farbe ausgewählt")
+  public void alle_spieler_haben_eine_farbe_ausgewählt() {
+    container.bereitsAusgewählteFarben.add(Color.Red);
+    container.bereitsAusgewählteFarben.add(Color.Blue);
+    container.bereitsAusgewählteFarben.add(Color.Green);
+    container.FarbenWurdenAusgewählt = true;
 
-    @Angenommen("alle Spieler haben eine Farbe ausgewählt")
-    public void alle_spieler_haben_eine_farbe_ausgewählt() {
-        container.bereitsAusgewählteFarben.add(Color.Red);
-        container.bereitsAusgewählteFarben.add(Color.Blue);
-        container.bereitsAusgewählteFarben.add(Color.Green);
-        container.FarbenWurdenAusgewählt = true;
+    container.AlleSpieler.add(new Spieler(Color.Red, 1));
+    container.AlleSpieler.add(new Spieler(Color.Blue, 2));
+    container.AlleSpieler.add(new Spieler(Color.Green, 3));
+  }
 
-        container.AlleSpieler.add(new Spieler(Color.Red, 1));
-        container.AlleSpieler.add(new Spieler(Color.Blue, 2));
-        container.AlleSpieler.add(new Spieler(Color.Green, 3));
-    }
+  @Angenommen("alle {int} Spieler haben eine Farbe ausgewählt")
+  public void alle_spieler_spieler_haben_eine_farbe_ausgewählt(int AnzahlSpieler) {
+    container.FarbenWurdenAusgewählt = true;
 
-    @Angenommen("alle {int} Spieler haben eine Farbe ausgewählt")
-    public void alle_spieler_spieler_haben_eine_farbe_ausgewählt(int AnzahlSpieler) {
-        container.FarbenWurdenAusgewählt = true;
+    if (AnzahlSpieler == 2) {
+      container.bereitsAusgewählteFarben.add(Color.Red);
+      container.bereitsAusgewählteFarben.add(Color.Blue);
+      container.AlleSpieler.add(new Spieler(Color.Red, 1));
+      container.AlleSpieler.add(new Spieler(Color.Blue, 2));
+    } else if (AnzahlSpieler == 3) {
+      container.bereitsAusgewählteFarben.add(Color.Red);
+      container.bereitsAusgewählteFarben.add(Color.Blue);
+      container.bereitsAusgewählteFarben.add(Color.Green);
+      container.AlleSpieler.add(new Spieler(Color.Red, 1));
+      container.AlleSpieler.add(new Spieler(Color.Blue, 2));
+      container.AlleSpieler.add(new Spieler(Color.Green, 3));
+    } else if (AnzahlSpieler == 4) {
+      container.bereitsAusgewählteFarben.add(Color.Red);
+      container.bereitsAusgewählteFarben.add(Color.Blue);
+      container.bereitsAusgewählteFarben.add(Color.Green);
+      container.bereitsAusgewählteFarben.add(Color.White);
+      container.AlleSpieler.add(new Spieler(Color.Red, 1));
+      container.AlleSpieler.add(new Spieler(Color.Blue, 2));
+      container.AlleSpieler.add(new Spieler(Color.Green, 3));
+      container.AlleSpieler.add(new Spieler(Color.White, 4));
+    }
+  }
 
-        if (AnzahlSpieler == 2) {
-            container.bereitsAusgewählteFarben.add(Color.Red);
-            container.bereitsAusgewählteFarben.add(Color.Blue);
-            container.AlleSpieler.add(new Spieler(Color.Red, 1));
-            container.AlleSpieler.add(new Spieler(Color.Blue, 2));
-        } else if (AnzahlSpieler == 3) {
-            container.bereitsAusgewählteFarben.add(Color.Red);
-            container.bereitsAusgewählteFarben.add(Color.Blue);
-            container.bereitsAusgewählteFarben.add(Color.Green);
-            container.AlleSpieler.add(new Spieler(Color.Red, 1));
-            container.AlleSpieler.add(new Spieler(Color.Blue, 2));
-            container.AlleSpieler.add(new Spieler(Color.Green, 3));
-        } else if (AnzahlSpieler == 4){
-            container.bereitsAusgewählteFarben.add(Color.Red);
-            container.bereitsAusgewählteFarben.add(Color.Blue);
-            container.bereitsAusgewählteFarben.add(Color.Green);
-            container.bereitsAusgewählteFarben.add(Color.White);
-            container.AlleSpieler.add(new Spieler(Color.Red, 1));
-            container.AlleSpieler.add(new Spieler(Color.Blue, 2));
-            container.AlleSpieler.add(new Spieler(Color.Green, 3));
-            container.AlleSpieler.add(new Spieler(Color.White, 4));
-        }
-    }
+  @Wenn("die ausgewählte Farbe überprüft wird")
+  public void die_ausgewählte_farbe_überprüft_wird() {
+    ausgewählteFarbe = container.ausgewählteFarbe;            // WAS SOLL IN DAS "WENN"?
+  }
 
-    @Wenn("die ausgewählte Farbe überprüft wird")
-    public void die_ausgewählte_farbe_überprüft_wird() {
-        ausgewählteFarbe = container.ausgewählteFarbe;            // WAS SOLL IN DAS "WENN"?
-    }
+  @Wenn("die Farben überprüft werden")
+  public void die_farben_überprüft_werden() {
+    container.bereitsAusgewählteFarben.add(Color.Black);
+    ausgewählteFarben = container.bereitsAusgewählteFarben;         // WAS SOLL IN DAS "WENN"?
+    ausgewählteFarbe = container.ausgewählteFarbe;
+  }
 
-    @Wenn("die Farben überprüft werden")
-    public void die_farben_überprüft_werden() {
-        container.bereitsAusgewählteFarben.add(Color.Black);
-        ausgewählteFarben = container.bereitsAusgewählteFarben;         // WAS SOLL IN DAS "WENN"?
-        ausgewählteFarbe = container.ausgewählteFarbe;
-    }
-    @Dann("ist die Farbe Blau, Grün, Rot oder Weiß")
-    public void ist_die_farbe_blau_grün_rot_oder_weiß() {
-        assertThat(ausgewählteFarbe).isIn(Color.Blue, Color.Red, Color.Green, Color.White);
-    }
-    @Dann("ist die Farbe nicht eine der vorher ausgewählten Farben")
-    public void ist_die_farbe_nicht_eine_der_vorher_ausgewählten_farben() {
-        assertThat(ausgewählteFarbe).isNotIn(ausgewählteFarben);
-    }
+  @Dann("ist die Farbe Blau, Grün, Rot oder Weiß")
+  public void ist_die_farbe_blau_grün_rot_oder_weiß() {
+    assertThat(ausgewählteFarbe).isIn(Color.Blue, Color.Red, Color.Green, Color.White);
+  }
 
-    @Dann("hat jeder Spieler eine ihm zugewiesen Farbe")
-    public void hat_jeder_spieler_eine_ihm_zugewiesen_farbe() {
-        assertThat(container.AlleSpieler).doesNotContain(new Spieler(Color.None, 0));
-    }
+  @Dann("ist die Farbe nicht eine der vorher ausgewählten Farben")
+  public void ist_die_farbe_nicht_eine_der_vorher_ausgewählten_farben() {
+    assertThat(ausgewählteFarbe).isNotIn(ausgewählteFarben);
+  }
+
+  @Dann("hat jeder Spieler eine ihm zugewiesen Farbe")
+  public void hat_jeder_spieler_eine_ihm_zugewiesen_farbe() {
+    assertThat(container.AlleSpieler).doesNotContain(new Spieler(Color.None, 0));
+  }
 }

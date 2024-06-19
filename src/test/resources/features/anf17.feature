@@ -5,9 +5,8 @@ Funktionalität: AoF-L-17: Das System muss gewährleisten, dass die 3 Aktionen i
 
   Szenario: : Rick überprüft während des Spiels wie ein Zug ausgeführt wird
   (Testfall: 17)
-    Angenommen das Spiel läuft
-    Und ein Zug wird gespielt
-    Und die Aktion "Bewegen" ist gespielt worden
-    Und die Aktion "Anlegen" ist gespielt worden
+    Angenommen das Spiel hat angefangen und es wurden 11 Züge gespielt
+    Wenn die Aktion "Bewegen" ausgeführt wird
+    Und "Grün" ist am Zug
     Wenn der Zug abgefragt wird
-    Dann ist die Aktion "Nachziehen" nicht gespielt worden
+    Dann ist die Aktion "Anlegen" nicht gespielt worden

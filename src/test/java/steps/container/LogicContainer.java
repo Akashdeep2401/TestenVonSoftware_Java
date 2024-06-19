@@ -11,44 +11,44 @@ import java.util.List;
 import java.util.Set;
 
 public class LogicContainer {
-    public Gamelogic logicUnderTest;
-    public Color ausgewählteFarbe;
-    public boolean FarbenWurdenAusgewählt;
-    public Spieler Playingnow;
-    public int AnzFröscheBeutelVorAktion;
-    public int AnzFröscheInventarVorAktion;
-    public int AnzFröscheAufSpielfeldVorAktion;
+  public Gamelogic logicUnderTest;
+  public Color ausgewählteFarbe;
+  public boolean FarbenWurdenAusgewählt;
+  public Spieler Playingnow;
+  public int AnzFröscheBeutelVorAktion;
+  public int AnzFröscheInventarVorAktion;
+  public int AnzFröscheAufSpielfeldVorAktion;
 
-    public ArrayList<Spieler> AlleSpieler = new ArrayList<Spieler>();
+  public ArrayList<Spieler> AlleSpieler = new ArrayList<Spieler>();
 
-    public ArrayList<Spieler> Reihenfolge = new ArrayList<Spieler>();
+  public ArrayList<Spieler> Reihenfolge = new ArrayList<Spieler>();
 
-    public ArrayList<Color> bereitsAusgewählteFarben = new ArrayList<Color>();
+  public ArrayList<Color> bereitsAusgewählteFarben = new ArrayList<Color>();
 
-    public Spieler StartSpieler;
+  public Spieler StartSpieler;
 
-    public Color[] TestColors = {Color.Blue, Color.Red, Color.White, Color.Green};
+  public Color[] TestColors = {Color.Blue, Color.Red, Color.White, Color.Green};
 
-    public ArrayList<Color> TestColorsArrayList = new ArrayList<Color>();
+  public ArrayList<Color> TestColorsArrayList = new ArrayList<Color>();
 
-    public List<Froschstein> testFroschsteinInventar;
-    public Spieler testSpieler;
-    public Set<Position> testBoard;
+  public List<Froschstein> testFroschsteinInventar;
+  public Spieler testSpieler;
+  public Set<Position> testBoard;
 
-    public int checkBagContent() {
-        return 40;  // Rückgabe der richtigen Anzahl
-    }
+  public int checkBagContent() {
+    return 40;  // Rückgabe der richtigen Anzahl
+  }
 
-    public List<Spieler> getPlayersOrder() {
-        return AlleSpieler;
-    }
+  public List<Spieler> getPlayersOrder() {
+    return AlleSpieler;
+  }
 
-    public void setPlayersOrder(ArrayList<Spieler> players) {
-        this.AlleSpieler = players;
-    }
+  public void setPlayersOrder(ArrayList<Spieler> players) {
+    this.AlleSpieler = players;
+  }
 
-    public void setStartspieler(Spieler player1) {
-        StartSpieler = player1;
+  public void setStartspieler(Spieler player1) {
+    StartSpieler = player1;
         /*
         if (AlleSpieler.isEmpty()) {
             throw new IllegalStateException("Die Spielerliste ist leer");
@@ -63,9 +63,9 @@ public class LogicContainer {
         }
 
          */
-    }
+  }
 
-    public Spieler getStartSpieler() {
-        return StartSpieler;
-    }
+  public Spieler getStartSpieler() {
+    return StartSpieler;
+  }
 }

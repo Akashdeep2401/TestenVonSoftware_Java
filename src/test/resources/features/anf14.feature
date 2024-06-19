@@ -3,7 +3,6 @@ Funktionalität: AoF-L-14: Das System muss gewährleisten, dass jeder Spieler ei
   am Anfang nacheinander 2 Froschsteine vom Beutel zufällig herausnehmen muss..
 
 
-
   Szenariogrundriss: : Rick überprüft am Anfang des Spiels wie viele Froschsteine jeder besitzt
   (Testfall: 14)
     Angenommen das Spiel versucht mit <Spieler> Spielern zu starten
@@ -13,7 +12,7 @@ Funktionalität: AoF-L-14: Das System muss gewährleisten, dass jeder Spieler ei
 
     Beispiele:
 
-    |Spieler|Frösche|
-    |   2   |  16   |
-    |   3   |  24   |
-    |   4   |  32   |
+      | Spieler | Frösche |
+      | 2       | 16      |
+      | 3       | 24      |
+      | 4       | 32      |

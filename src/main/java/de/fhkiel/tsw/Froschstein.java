@@ -4,7 +4,7 @@ import de.fhkiel.tsw.armyoffrogs.Color;
 
 public class Froschstein {
 
-  private Color FroschsteinFarbe;
+  private final Color FroschsteinFarbe;
 
   public Froschstein(Color SteinFarbe) {
     this.FroschsteinFarbe = SteinFarbe;

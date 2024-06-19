@@ -8,9 +8,9 @@ Funktionalität: Das System muss gewährleisten, dass ein Spiel 2 bis 4 Spieler 
     Dann wird das Spiel <nicht> gestartet
 
     Beispiele:
-      |Spieler| nicht|
-      |1      | 0    |
-      |2      | 1    |
-      |3      | 1    |
-      |4      | 1    |
-      |5      | 0    |
+      | Spieler | nicht |
+      | 1       | 0     |
+      | 2       | 1     |
+      | 3       | 1     |
+      | 4       | 1     |
+      | 5       | 0     |

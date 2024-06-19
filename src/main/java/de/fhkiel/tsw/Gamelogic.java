@@ -10,24 +10,18 @@ public class Gamelogic implements Game {
 
 
   public boolean keineKetten;
+  public ZugAktion zugAktion;
+  public String infoString;
+  int LastPlayer;
   private Beutel SpielBeutel;
   private int iSpieler;
-
   private boolean GameIsRunning;
-
   private Color[] CPlayers;
   private Spieler[] AlleSpieler;
-
   private Spieler[] Reihenfolge;
-
-  int LastPlayer;
-
-
   //private Set<Position> frogBoard = new HashSet<>();
   private Spielfeld frogBoard = new Spielfeld();
   private Color ausgewählterFrosch;
-  public ZugAktion zugAktion;
-  public String infoString;
 
   public Gamelogic() {
     GameIsRunning = false;
@@ -36,6 +30,7 @@ public class Gamelogic implements Game {
     SpielBeutel = new Beutel(new ArrayList<>());
     CPlayers = new Color[0];
     zugAktion = new ZugAktion(this);
+    infoString = "Das Spiel wurde geladen";
   }
 
   public Gamelogic(Set<Position> newBoard) {
@@ -46,6 +41,7 @@ public class Gamelogic implements Game {
     CPlayers = new Color[0];
     zugAktion = new ZugAktion(this);
     frogBoard = new Spielfeld(newBoard, Gamelogic.this);
+    infoString = "Das Spiel wurde geladen";
   }
 
   private void clearPreviousGame() {
@@ -64,7 +60,6 @@ public class Gamelogic implements Game {
     return startGame(i,
         new ArrayList<>(Arrays.asList(Color.Red, Color.Blue, Color.Green, Color.White)));
   }
-
 
 
   @Override
@@ -87,7 +82,8 @@ public class Gamelogic implements Game {
     for (Spieler EinSpieler : AlleSpieler) {
       if (EinSpieler.getSpielerFarbe() == color) {
         System.out.println("Spieler hat " + EinSpieler.getInventar().size() + " Frösche ");
-        return EinSpieler.getInventar().stream().map(Froschstein::getFroschsteinFarbe).toList();
+        return EinSpieler.getInventar().stream().map(Froschstein::getFroschsteinFarbe)
+            .toList();
       }
     }
     return new ArrayList<>(List.of(new Color[] {Color.Blue, Color.Green}));
@@ -106,25 +102,35 @@ public class Gamelogic implements Game {
       return;
     }
 
-    zugAktion.startNextAction(frogBoard, ausgewählterFrosch, position);
+    if (zugAktion.ausgewählterHandFrosch == null &&
+        zugAktion.getCurrentAction().equals("Anlegen")) {
+      infoString = "Kein Froschstein ausgewählt";
+      return;
+    }
+    zugAktion.startNextAction(frogBoard, position);
 
     //frogBoard.froschSetzen(new Position(ausgewählterFrosch, position.x(), position.y(), position.border()));
-    ausgewählterFrosch = null;
+    zugAktion.ausgewählterHandFrosch = null;
   }
 
   @Override
   public void selectedFrogInHand(Color SpielerFarbe, Color FroschFarbe) {
+    infoString = "Spieler nicht gefunden";
     for (Spieler EinSpieler : AlleSpieler) {
-      if (EinSpieler.getSpielerFarbe() == SpielerFarbe) {
-        ausgewählterFrosch = FroschFarbe;
+      if (EinSpieler.getZugPosition() == getCurrentPlayer() &&
+          EinSpieler.getSpielerFarbe() == SpielerFarbe) {
         for (Froschstein froschstein : EinSpieler.getInventar()) {
           if (froschstein.getFroschsteinFarbe() == FroschFarbe) {
             EinSpieler.getInventar().remove(froschstein);
-            break;
+            zugAktion.ausgewählterHandFrosch = FroschFarbe;
+            infoString = "Froschstein ausgewählt";
+            return;
           }
         }
+        infoString = "Froschstein nicht im Inventar gefunden";
       }
     }
+    //zugAktion.executeAction("Anlegen", frogBoard, new Position(FroschFarbe, 0, 0, Color.None));
   }
 
   @Override
@@ -153,7 +159,8 @@ public class Gamelogic implements Game {
 
     if (!checkPlayerCount(spieler)) {
       GameIsRunning = false;
-      System.out.println("Spiel kann nicht gestartet werden. Zu viele oder zu wenige Spieler");
+      System.out.println(
+          "Spiel kann nicht gestartet werden. Zu viele oder zu wenige Spieler");
       return GameIsRunning;
     }
     CPlayers = new Color[spieler];
@@ -246,6 +253,7 @@ public class Gamelogic implements Game {
   public Spieler[] getAlleSpieler() {
     return AlleSpieler;
   }
+
   public Spielfeld getFrogBoard() {
     return frogBoard;
   }
@@ -253,6 +261,7 @@ public class Gamelogic implements Game {
   public boolean hasNoChains() {
     return frogBoard.keineKetten;
   }
+
   public Position getWrongPlacement() {
     Position wrongPlacement = frogBoard.getChainPlacement();
     if (wrongPlacement == null) {

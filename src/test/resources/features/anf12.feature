@@ -3,8 +3,6 @@ Funktionalität: Das System muss gewährleisten, dass die Spieler in der Spielre
   ihre Züge machen.
 
 
-
-
   Szenariogrundriss: : Rick überprüft wer gerade am Zug ist
   (Testfall: 12)
     Angenommen das Spiel läuft
@@ -13,13 +11,10 @@ Funktionalität: Das System muss gewährleisten, dass die Spieler in der Spielre
 
     Beispiele:
       | Spieler1 | Spieler2 |
-      |    3    |    4    |
-      |    2    |    3    |
-      |    1    |    2    |
-      |    4    |    1    |
-
-
-
+      | 3        | 4        |
+      | 2        | 3        |
+      | 1        | 2        |
+      | 4        | 1        |
 
 
   Szenariogrundriss: : Rick überprüft wer gerade nicht am Zug ist
@@ -30,15 +25,15 @@ Funktionalität: Das System muss gewährleisten, dass die Spieler in der Spielre
 
     Beispiele:
       | Spieler | Spieler |
-      |    3    |    1    |
-      |    2    |    1    |
-      |    1    |    1    |
-      |    4    |    2    |
-      |    3    |    2    |
-      |    2    |    2    |
-      |    4    |    3    |
-      |    3    |    3    |
-      |    1    |    3    |
-      |    4    |    4    |
-      |    2    |    4    |
-      |    1    |    4    |
+      | 3       | 1       |
+      | 2       | 1       |
+      | 1       | 1       |
+      | 4       | 2       |
+      | 3       | 2       |
+      | 2       | 2       |
+      | 4       | 3       |
+      | 3       | 3       |
+      | 1       | 3       |
+      | 4       | 4       |
+      | 2       | 4       |
+      | 1       | 4       |

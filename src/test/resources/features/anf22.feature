@@ -5,7 +5,6 @@ Funktionalität: (22)Das System muss gewährleisten, dass bei der Aktion „Anle
   Szenario: : Rick überprüft während des Spiels wie ein Zug ausgeführt wird
   (Testfall: 23)
     Angenommen das Spiel hat angefangen und es wurde ein Zug gespielt
-    Und ein Zug wird gespielt
     Wenn die Aktion "Anlegen" ausgeführt wird
     Und der Spieler der am Zug ist hat mindestens einen Froschstein im Inventar
     Und mindestens einer kann gelegt werden

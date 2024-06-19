@@ -3,7 +3,6 @@ Funktionalität: AoF-L-15: Das System muss gewährleisten, dass ein Zug aus 3 Ak
   die in einer festen Reihenfolge ausgeführt werden müssen, wenn diese möglich sind.
 
 
-
   Szenario: : Rick überprüft während des Spiels wie ein Zug ausgeführt wird
   (Testfall: 15)
     Angenommen das Spiel läuft

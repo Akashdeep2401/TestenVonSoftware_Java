@@ -3,7 +3,6 @@ Funktionalität: AoF-L-16: Das System muss gewährleisten,
   dass wenn eine Aktion nicht ausgeführt werden kann, die nächste Aktion ausgeführt wird.
 
 
-
   Szenario: : Rick überprüft während des Spiels wie ein Zug ausgeführt wird
   (Testfall: 16)
     Angenommen das Spiel läuft

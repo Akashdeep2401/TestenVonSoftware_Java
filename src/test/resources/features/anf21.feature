@@ -11,7 +11,7 @@ Funktionalität: (21)Das System muss gewährleisten, dass bei der Aktion „Bewe
     Und dieser <nicht> wieder an der Ursprungsposition ist
     Dann wird der Froschstein <nicht> bewegt
 
-  Beispiele:
-        | nicht | nicht|
-        | ""    | "nicht"   |
-        | "nicht"  |   ""  |
+    Beispiele:
+      | nicht   | nicht   |
+      | ""      | "nicht" |
+      | "nicht" | ""      |
