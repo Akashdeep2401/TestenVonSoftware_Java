@@ -110,4 +110,15 @@ public class StartSteps {
   public void ist_das_spiel_a_gestartet() {
     assertThat(SpielGestartet).isTrue();
   }
+
+  @Angenommen("das Spiel hat angefangen und es wurden 2 Züge gespielt")
+  public void dasSpielHatAngefangenUndEsWurdenZuegeGespielt() {
+    Set<Position> testBoard = new HashSet<>();
+    testBoard.add(new Position(Color.Red, 0, 0, Color.None));
+    testBoard.add(new Position(Color.Blue, -1, 0, Color.None));
+    container.logicUnderTest = new Gamelogic(testBoard);
+
+    container.TestColorsArrayList.addAll(Arrays.asList(container.TestColors));
+    container.logicUnderTest.startGame(3, container.TestColorsArrayList);
+  }
 }

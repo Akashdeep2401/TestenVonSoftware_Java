@@ -20,7 +20,7 @@ public class Gamelogic implements Game {
   private Spieler[] AlleSpieler;
   private Spieler[] Reihenfolge;
   //private Set<Position> frogBoard = new HashSet<>();
-  private Spielfeld frogBoard = new Spielfeld();
+  private Spielfeld frogBoard;
   private Color ausgewählterFrosch;
 
   public Gamelogic() {
@@ -30,6 +30,7 @@ public class Gamelogic implements Game {
     SpielBeutel = new Beutel(new ArrayList<>());
     CPlayers = new Color[0];
     zugAktion = new ZugAktion(this);
+    frogBoard = new Spielfeld(this);
     infoString = "Das Spiel wurde geladen";
   }
 
@@ -40,7 +41,7 @@ public class Gamelogic implements Game {
     SpielBeutel = new Beutel(new ArrayList<>());
     CPlayers = new Color[0];
     zugAktion = new ZugAktion(this);
-    frogBoard = new Spielfeld(newBoard, Gamelogic.this);
+    frogBoard = new Spielfeld(newBoard, this);
     infoString = "Das Spiel wurde geladen";
   }
 
@@ -51,7 +52,7 @@ public class Gamelogic implements Game {
     SpielBeutel = new Beutel(new ArrayList<>());
     CPlayers = new Color[0];
     zugAktion = new ZugAktion(this);
-    frogBoard = new Spielfeld();
+    frogBoard = new Spielfeld(this);
   }
 
   @Override
@@ -81,7 +82,7 @@ public class Gamelogic implements Game {
   public List<Color> getFrogsInHand(Color color) {
     for (Spieler EinSpieler : AlleSpieler) {
       if (EinSpieler.getSpielerFarbe() == color) {
-        System.out.println("Spieler hat " + EinSpieler.getInventar().size() + " Frösche ");
+        //System.out.println("Spieler hat " + EinSpieler.getInventar().size() + " Frösche ");
         return EinSpieler.getInventar().stream().map(Froschstein::getFroschsteinFarbe)
             .toList();
       }
@@ -98,19 +99,21 @@ public class Gamelogic implements Game {
   public void clicked(Position position) {
 
     if (zugAktion.getCurrentAction().equals("Nachziehen")) {
+      System.out.println("Du kannst keine Frösche setzen, wenn du ziehst");
       infoString += "Du kannst keine Frösche setzen, wenn du ziehst";
       return;
     }
 
     if (zugAktion.ausgewählterHandFrosch == null &&
         zugAktion.getCurrentAction().equals("Anlegen")) {
+      System.out.println("Kein Froschstein ausgewählt");
       infoString = "Kein Froschstein ausgewählt";
       return;
     }
     zugAktion.startNextAction(frogBoard, position);
 
     //frogBoard.froschSetzen(new Position(ausgewählterFrosch, position.x(), position.y(), position.border()));
-    zugAktion.ausgewählterHandFrosch = null;
+    //zugAktion.ausgewählterHandFrosch = null;
   }
 
   @Override
@@ -149,7 +152,6 @@ public class Gamelogic implements Game {
   }
 
   public boolean startGame(int spieler, List<Color> SpielerFarben) {
-    System.out.println("Spiel ist gestartet");
     AlleSpieler = new Spieler[spieler];
     Reihenfolge = new Spieler[spieler];
     iSpieler = spieler;
@@ -180,6 +182,7 @@ public class Gamelogic implements Game {
     GameIsRunning = true;
     zugAktion.setAnzahlSpieler(iSpieler);
     zugAktion.zugStarten(Reihenfolge[0]);
+    System.out.println("Der erste Spieler ist " + Reihenfolge[0].getSpielerFarbe());
     return GameIsRunning;
   }
 

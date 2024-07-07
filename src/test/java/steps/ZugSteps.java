@@ -173,8 +173,8 @@ public class ZugSteps {
   @Wenn("der Spieler der am Zug ist hat mindestens einen Froschstein im Inventar")
   public void derSpielerDerAmZugIstHatMindestensEinenFroschsteinImInventar() {
     container.testFroschsteinInventar =
-        container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer() -
-            1].getInventar();
+        container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer()
+            - 1].getInventar();
     int rotCounter = 0;
     for (Froschstein froschstein : container.testFroschsteinInventar) {
       if (froschstein.getFroschsteinFarbe() == Color.Red) {
@@ -182,14 +182,14 @@ public class ZugSteps {
       }
     }
     if (rotCounter == 2) {
-      container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer() -
-          1].getInventar().remove(1);
-      container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer() -
-          1].getInventar().add(new Froschstein(Color.Blue));
+      container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer()
+          - 1].getInventar().remove(1);
+      container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer()
+          - 1].getInventar().add(new Froschstein(Color.Blue));
     }
     assertFalse(
-        container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer() -
-            1].getInventar().isEmpty());
+        container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer()
+            - 1].getInventar().isEmpty());
     assertFalse(container.testFroschsteinInventar.isEmpty());
   }
 
@@ -232,4 +232,22 @@ public class ZugSteps {
     }
   }
 
+  @Und("der Spieler der am Zug ist hat mindestens einen weissen Froschstein im Inventar")
+  public void derSpielerDerAmZugIstHatMindestensEinenWeissenFroschsteinImInventar() {
+    container.testFroschsteinInventar =
+        container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer()
+            - 1].getInventar();
+    int rotCounter = 0;
+    for (Froschstein froschstein : container.testFroschsteinInventar) {
+      if (froschstein.getFroschsteinFarbe() == Color.Blue) {
+        rotCounter++;
+      }
+    }
+    if (rotCounter < 1) {
+      container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer()
+          - 1].getInventar().remove(1);
+      container.logicUnderTest.getReihenfolge()[container.logicUnderTest.getCurrentPlayer()
+          - 1].getInventar().add(new Froschstein(Color.White));
+    }
+  }
 }

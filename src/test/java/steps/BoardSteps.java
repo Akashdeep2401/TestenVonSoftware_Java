@@ -225,4 +225,10 @@ public class BoardSteps {
   public void erkenntDasSystemDieInsel() {
     assertThat(testBoard.hasIsland()).isTrue();
   }
+
+  @Wenn("ein Stein auf {int} {int} gelegt wird")
+  public void einSteinAufGelegtWird(int arg0, int arg1) {
+    container.logicUnderTest.selectedFrogInHand(Color.Blue, Color.White);
+    container.logicUnderTest.clicked(new Position(Color.None, arg0, arg1, Color.None));
+  }
 }

@@ -79,8 +79,8 @@ public class BeutelSteps {
         .froschNehmen(container.logicUnderTest.getReihenfolge()[currentPlayer - 1]);
     assertThat(container.logicUnderTest.frogsInBag()).isGreaterThan(
         container.AnzFröscheBeutelVorAktion);
-    assertThat(container.logicUnderTest.getReihenfolge()[currentPlayer -
-        1].getInventorySize()).isGreaterThan(container.AnzFröscheInventarVorAktion);
+    assertThat(container.logicUnderTest.getReihenfolge()[currentPlayer
+        - 1].getInventorySize()).isGreaterThan(container.AnzFröscheInventarVorAktion);
   }
 }
 

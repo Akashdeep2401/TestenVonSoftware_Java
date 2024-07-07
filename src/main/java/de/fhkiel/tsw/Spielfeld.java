@@ -27,7 +27,8 @@ public class Spielfeld {
   private Set<Position> froschfeld = new HashSet<>();
   private Position selectedFrog = null;
 
-  public Spielfeld() {
+  public Spielfeld(Gamelogic gamelogic) {
+    this.gamelogic = gamelogic;
   }
 
   public Spielfeld(Set<Position> board, Gamelogic gamelogic) {
@@ -47,6 +48,7 @@ public class Spielfeld {
     }
 
     if (isAdjacent(toBePlacedFrog, true)) {
+      System.out.println("Frosch ist neben einem Frosch mit der gleichen Farbe");
       gamelogic.infoString = "Frosch ist neben einem Frosch mit der gleichen Farbe";
       return false;
     }
@@ -177,48 +179,17 @@ public class Spielfeld {
   // Check if there are chains of 3 individual connections between frogs
   private boolean hasChain() {
     Set<Position> visited = new HashSet<>();
-    Set<Position> chain = new HashSet<>();
+    LinkedList<Position> chain = new LinkedList<>();
     for (Position frog : froschfeld) {
       if (!visited.contains(frog)) {
         chain.clear();
-        if (dfs(frog, visited, chain, 3)) {
+        if (dfs(frog, visited, chain, 4)) {
           keineKetten = false;
           return true;
         }
       }
     }
     keineKetten = true;
-    return false;
-  }
-
-  private boolean dfs(Position frog, Set<Position> visited, Set<Position> chain, int chainLength) {
-    visited.add(frog);
-    chain.add(frog);
-
-    List<Position> neighbors = getNeighbors(frog);
-    if (neighbors.size() > 2) {
-      return false;
-    }
-
-    for (Position neighbor : neighbors) {
-      if (!visited.contains(neighbor) && getNeighbors(neighbor).size() <= 2) {
-        if (dfs(neighbor, visited, chain, chainLength)) {
-          return true;
-        }
-      } else if (chain.size() >= chainLength && chain.contains(neighbor)) {
-        return true;
-      }
-    }
-
-    chain.remove(frog);
-
-    // Check if there's an element in the chain that has only one neighbor
-    for (Position position : chain) {
-      if (getNeighbors(position).size() == 1 && chain.size() >= 3) {
-        return true;
-      }
-    }
-
     return false;
   }
 
@@ -243,11 +214,11 @@ public class Spielfeld {
   // Gibt eine Position zurück, an der ein Froschstein platziert werden kann, um eine Kette zu bilden
   public Position getChainPlacement() {
     Set<Position> visited = new HashSet<>();
-    Set<Position> chain = new HashSet<>();
+    LinkedList<Position> chain = new LinkedList<>();
     for (Position frog : froschfeld) {
       if (!visited.contains(frog)) {
         chain.clear();
-        if (dfs(frog, visited, chain, 2)) {
+        if (dfs(frog, visited, chain, 3)) {
           for (Position neighbor : chain) {
             if (getNeighbors(neighbor).size() == 1) {
               for (AbstractMap.SimpleEntry<Integer, Integer> addend : neighbor.y() % 2 == 0 ?
@@ -330,5 +301,61 @@ public class Spielfeld {
       }
     }
     return false;
+  }
+
+
+  public boolean dfs(Position current, Set<Position> visited, LinkedList<Position> chain, final int chainLength) {
+    visited.add(current);
+    chain.add(current);
+
+    // Check if the chain is valid up to this point
+    if (chain.size() >= chainLength && isValidChain(chain, chainLength)) {
+      return true; // Valid chain found
+    }
+
+    // Continue searching only if we haven't reached the desired length
+    if (chain.size() < chainLength) {
+      for (Position neighbor : getNeighbors(current)) {
+        if (!visited.contains(neighbor) && dfs(neighbor, visited, chain, chainLength)) {
+            return true; // Successful chain found
+          }
+      }
+    }
+
+    // Backtrack if the path doesn't lead to a solution
+    visited.remove(current);
+    chain.removeLast(); // Efficiently remove the last element
+    return false;
+  }
+
+  private boolean isValidChain(LinkedList<Position> chain, int chainLength) {
+    if (chain.size() < chainLength) {
+      return false; // Ensure the chain has the desired length
+    }
+
+    Position first = chain.getFirst();
+    Position last = chain.getLast();
+
+    boolean isValidStartOrEnd = isValidStartOrEndPosition(first) && isValidStartOrEndPosition(last)
+        && !(getNeighbors(first).size() > 2 && getNeighbors(last).size() > 2);
+
+    if (!isValidStartOrEnd) {
+      return false; // Start or end position doesn't meet criteria
+    }
+
+    // Check middle positions
+    for (int i = 1; i < chain.size() - 1; i++) {
+      Position middle = chain.get(i);
+      if (getNeighbors(middle).size() != 2) {
+        return false; // Middle elements must have exactly 2 neighbors
+      }
+    }
+
+    return true; // Chain meets all criteria
+  }
+
+  private boolean isValidStartOrEndPosition(Position pos) {
+    int neighborCount = getNeighbors(pos).size();
+    return neighborCount == 1 || neighborCount <= 4;
   }
 }
