@@ -274,19 +274,36 @@ public class Spielfeld {
       if (!visited.contains(frog)) {
         chain.clear();
         if (dfs(frog, visited, chain, 3)) {
-          for (Position neighbor : chain) {
-            if (getNeighbors(neighbor).size() == 1) {
-              for (AbstractMap.SimpleEntry<Integer, Integer> addend : neighbor.y() % 2 == 0
-                  ? adjacentGerade : adjacentUngerade) {
-                Position chainPosition = new Position(Color.None, neighbor.x() + addend.getKey(),
-                    neighbor.y() + addend.getValue(), Color.None);
-                if (getNeighbors(chainPosition).size() == 1) {
-                  return chainPosition;
-                }
-              }
-            }
+          Position chainPosition = findChainPosition(chain);
+          if (chainPosition != null) {
+            return chainPosition;
           }
         }
+      }
+    }
+    return null;
+  }
+
+  private Position findChainPosition(LinkedList<Position> chain) {
+    for (Position neighbor : chain) {
+      if (getNeighbors(neighbor).size() == 1) {
+        Position chainPosition = getChainPositionForNeighbor(neighbor);
+        if (chainPosition != null) {
+          return chainPosition;
+        }
+      }
+    }
+    return null;
+  }
+
+  private Position getChainPositionForNeighbor(Position neighbor) {
+    List<AbstractMap.SimpleEntry<Integer, Integer>> addends
+        = neighbor.y() % 2 == 0 ? adjacentGerade : adjacentUngerade;
+    for (AbstractMap.SimpleEntry<Integer, Integer> addend : addends) {
+      Position chainPosition = new Position(Color.None, neighbor.x() + addend.getKey(),
+          neighbor.y() + addend.getValue(), Color.None);
+      if (getNeighbors(chainPosition).size() == 1) {
+        return chainPosition;
       }
     }
     return null;
