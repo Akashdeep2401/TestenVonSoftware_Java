@@ -5,35 +5,52 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * The class Beutel represents the bag of frogs in the game.
+ * It has a list of frog stones and a boolean to check if the bag is filled.
+ */
 public class Beutel {
-  private final List<Froschstein> Froschsteine;
-  private boolean BeutelBefüllt = false;
+  private final List<Froschstein> froschsteine;
 
   private Random random = new Random();
-  private int AnzFrösche;
-  public Beutel(List<Color> SpielerFarben) {
-    this.AnzFrösche = 0;
-    Froschsteine = new ArrayList<>();
-    for (Color einzSpielerFarbe : SpielerFarben) {
+  private int anzFroesche;
+
+  /**
+   * Constructor for the class Beutel.
+   *
+   * @param spielerFarben .
+   *
+   */
+  public Beutel(List<Color> spielerFarben) {
+    this.anzFroesche = 0;
+    froschsteine = new ArrayList<>();
+    for (Color einzSpielerFarbe : spielerFarben) {
       for (int i = 0; i < 10; i++) {
-        this.AnzFrösche++;
-        this.Froschsteine.add(new Froschstein(einzSpielerFarbe));
+        this.anzFroesche++;
+        this.froschsteine.add(new Froschstein(einzSpielerFarbe));
       }
     }
-    this.BeutelBefüllt = true;
   }
 
-  public int getAnzFrösche() {
-    AnzFrösche = Froschsteine.size();
-    return AnzFrösche;
+  public int getAnzFroesche() {
+    anzFroesche = froschsteine.size();
+    return anzFroesche;
   }
 
-  public boolean froschNehmen(Spieler EinSpieler) {
-    if (AnzFrösche > 0) {
-      int Random = random.nextInt(Froschsteine.size());
-      if (EinSpieler.froschHinzufügen(Froschsteine.get(Random))) {
-        Froschsteine.remove(Random);
-        AnzFrösche -= 1;
+  /**
+   * Method to take a frog from the bag.
+   *
+   * @param einSpieler .
+   *
+   * @return .
+   *
+   */
+  public boolean froschNehmen(Spieler einSpieler) {
+    if (anzFroesche > 0) {
+      int newRandom = random.nextInt(froschsteine.size());
+      if (einSpieler.froschHinzufuegen(froschsteine.get(newRandom))) {
+        froschsteine.remove(newRandom);
+        anzFroesche -= 1;
         return true;
       } else {
         return false;
@@ -43,6 +60,6 @@ public class Beutel {
   }
 
   public List<Froschstein> getFroschsteine() {
-    return Froschsteine;
+    return froschsteine;
   }
 }

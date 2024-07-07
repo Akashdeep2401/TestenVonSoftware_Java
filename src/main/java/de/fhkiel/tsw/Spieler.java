@@ -1,34 +1,35 @@
 package de.fhkiel.tsw;
 
 import de.fhkiel.tsw.armyoffrogs.Color;
-
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The class Spieler represents a player in the game.
+ * It has a color, an inventory and a position on the board.
+ */
 public class Spieler {
 
 
-  private final List<Froschstein> Inventar = new ArrayList<>();
-  Color SpielerFarbe = Color.None;
-  private Beutel beutel;
+  private final List<Froschstein> inventar = new ArrayList<>();
+  Color spielerFarbe = Color.None;
   private boolean startspieler = false;
-  private int ZugPosition;
+  private int zugPosition;
 
-  public Spieler(Color NeueFarbe) {
-    this.SpielerFarbe = NeueFarbe;
-    this.beutel = new Beutel(new ArrayList<>()); //Initialize the bag
+  public Spieler(Color neueFarbe) {
+    this.spielerFarbe = neueFarbe;
   }
 
   public Spieler(Color neueFarbe, int age) {
-    this.SpielerFarbe = neueFarbe;
+    this.spielerFarbe = neueFarbe;
   }
 
   public Color getSpielerFarbe() {
-    return SpielerFarbe;
+    return spielerFarbe;
   }
 
   public void setSpielerFarbe(Color spielerFarbe) {
-    SpielerFarbe = spielerFarbe;
+    this.spielerFarbe = spielerFarbe;
   }
 
   public boolean isStartspieler() {
@@ -40,26 +41,33 @@ public class Spieler {
   }
 
   public int getZugPosition() {
-    return ZugPosition;
+    return zugPosition;
   }
 
   public void setZugPosition(int zugPosition) {
-    ZugPosition = zugPosition;
+    this.zugPosition = zugPosition;
   }
 
-  public boolean froschHinzufügen(Froschstein EinFroschstein) {
-    if (Inventar.size() >= 2) {
+  /**
+   * Adds a frog to the inventory of the player.
+   *
+   * @param einFroschstein .
+   *
+   * @return .
+   */
+  public boolean froschHinzufuegen(Froschstein einFroschstein) {
+    if (inventar.size() >= 2) {
       return false;
     }
-    Inventar.add(EinFroschstein);
+    inventar.add(einFroschstein);
     return true;
   }
 
   public int getInventorySize() {
-    return Inventar.size();
+    return inventar.size();
   }
 
   public List<Froschstein> getInventar() {
-    return Inventar;
+    return inventar;
   }
 }

@@ -2,10 +2,20 @@ package de.fhkiel.tsw;
 
 import de.fhkiel.tsw.armyoffrogs.Color;
 import de.fhkiel.tsw.armyoffrogs.Position;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Logger;
 
-import java.util.*;
-
+/**
+ * Spielfeld class.
+ */
 public class Spielfeld {
+  Logger logger = Logger.getLogger(Spielfeld.class.getName());
   private final List<AbstractMap.SimpleEntry<Integer, Integer>> adjacentGerade = Arrays.asList(
       new AbstractMap.SimpleEntry<>(-1, 0),  // left
       new AbstractMap.SimpleEntry<>(1, 0),   // right
@@ -22,7 +32,7 @@ public class Spielfeld {
       new AbstractMap.SimpleEntry<>(0, -1),  // top-left
       new AbstractMap.SimpleEntry<>(0, 1)    // bottom-left
   );
-  public boolean keineKetten;
+  private boolean keineKetten;
   private Gamelogic gamelogic;
   private Set<Position> froschfeld = new HashSet<>();
   private Position selectedFrog = null;
@@ -40,6 +50,22 @@ public class Spielfeld {
     return froschfeld;
   }
 
+  public boolean getKeineKetten() {
+    return keineKetten;
+  }
+
+  public void setKeineKetten(boolean keineKetten) {
+    this.keineKetten = keineKetten;
+  }
+
+
+  /**
+   * Place a frog on the board.
+   *
+   * @param toBePlacedFrog .
+   *
+   * @return .
+   */
   public boolean froschSetzen(Position toBePlacedFrog) {
     // For placing frogs
     if (froschfeld.isEmpty()) {
@@ -48,7 +74,7 @@ public class Spielfeld {
     }
 
     if (isAdjacent(toBePlacedFrog, true)) {
-      System.out.println("Frosch ist neben einem Frosch mit der gleichen Farbe");
+      logger.info("Frosch ist neben einem Frosch mit der gleichen Farbe");
       gamelogic.infoString = "Frosch ist neben einem Frosch mit der gleichen Farbe";
       return false;
     }
@@ -56,6 +82,13 @@ public class Spielfeld {
     return testPlacability(toBePlacedFrog);
   }
 
+  /**
+   * Move a frog on the board.
+   *
+   * @param jumpingPosition .
+   *
+   * @return .
+   */
   public boolean froschBewegen(Position jumpingPosition) {
     if (jumpingPosition.equals(selectedFrog)) {
       selectedFrog = null;
@@ -76,6 +109,13 @@ public class Spielfeld {
     return jumped;
   }
 
+  /**
+   * Check if a frog is movable.
+   *
+   * @param frog .
+   *
+   * @return .
+   */
   public boolean isFrogMovable(Position frog) {
     if (frog.frog() != Color.None && frog.frog() != Color.Black) {
       Position saveFrog = selectedFrog;
@@ -137,7 +177,8 @@ public class Spielfeld {
   }
 
   private boolean testColorAdjacency(Position position,
-                                     List<AbstractMap.SimpleEntry<Integer, Integer>> adjacentAddend) {
+                                     List<AbstractMap.SimpleEntry<Integer,
+                                         Integer>> adjacentAddend) {
     return adjacentAddend.stream().anyMatch(p -> froschfeld.contains(
         new Position(position.frog(), position.x() + p.getKey(), position.y() + p.getValue(),
             position.border())));
@@ -153,8 +194,8 @@ public class Spielfeld {
     for (Position placedFrog : froschfeld) {
       // get every adjacent position that is not occupied by a frog
 
-      for (AbstractMap.SimpleEntry<Integer, Integer> addend : placedFrog.y() % 2 == 0 ?
-          adjacentGerade : adjacentUngerade) {
+      for (AbstractMap.SimpleEntry<Integer, Integer> addend : placedFrog.y() % 2 == 0
+          ? adjacentGerade : adjacentUngerade) {
         Position placement = new Position(placedFrog.frog(), placedFrog.x() + addend.getKey(),
             placedFrog.y() + addend.getValue(), placedFrog.border());
         if (!froschfeld.contains(placement)) {
@@ -165,6 +206,14 @@ public class Spielfeld {
     return availablePositions;
   }
 
+  /**
+   * Get all possible placements.
+   *
+   * @param anlegeFarbe .
+   *
+   * @return .
+   *
+   */
   public List<Position> getPlacements(Color anlegeFarbe) {
     List<Position> allPlacements = new ArrayList<>();
     for (AbstractMap.SimpleEntry<Integer, Integer> freePos : testAvailablePlacingPositions()) {
@@ -211,7 +260,13 @@ public class Spielfeld {
     return neighbors;
   }
 
-  // Gibt eine Position zurück, an der ein Froschstein platziert werden kann, um eine Kette zu bilden
+  /**
+   * Get the position of a chain.
+   *
+   * @return .
+   *
+   */
+
   public Position getChainPlacement() {
     Set<Position> visited = new HashSet<>();
     LinkedList<Position> chain = new LinkedList<>();
@@ -221,14 +276,13 @@ public class Spielfeld {
         if (dfs(frog, visited, chain, 3)) {
           for (Position neighbor : chain) {
             if (getNeighbors(neighbor).size() == 1) {
-              for (AbstractMap.SimpleEntry<Integer, Integer> addend : neighbor.y() % 2 == 0 ?
-                  adjacentGerade : adjacentUngerade) {
+              for (AbstractMap.SimpleEntry<Integer, Integer> addend : neighbor.y() % 2 == 0
+                  ? adjacentGerade : adjacentUngerade) {
                 Position chainPosition = new Position(Color.None, neighbor.x() + addend.getKey(),
                     neighbor.y() + addend.getValue(), Color.None);
                 if (getNeighbors(chainPosition).size() == 1) {
                   return chainPosition;
                 }
-
               }
             }
           }
@@ -260,6 +314,12 @@ public class Spielfeld {
     return jumpablePositions;
   }
 
+  /**
+   * Get the position of a jumpable frog.
+   *
+   * @return .
+   *
+   */
   public Position getJumpablePosition() {
     List<Position> jumpablePositions = getJumpablePositions();
     if (jumpablePositions.isEmpty()) {
@@ -290,12 +350,18 @@ public class Spielfeld {
     return new AbstractMap.SimpleEntry<>(jumpPosition, jumpDistance);
   }
 
+  /**
+   * Check if there is an island.
+   *
+   * @return .
+   *
+   */
   public boolean hasIsland() {
     if (froschfeld.size() == 1) {
       return false;
     } else {
       for (Position frog : froschfeld) {
-        if (getNeighbors(frog).size() == 0) {
+        if (getNeighbors(frog).isEmpty()) {
           return true;
         }
       }
@@ -303,8 +369,22 @@ public class Spielfeld {
     return false;
   }
 
-
-  public boolean dfs(Position current, Set<Position> visited, LinkedList<Position> chain, final int chainLength) {
+  /**
+   * Check if there is a chain.
+   *
+   * @param current .
+   *
+   * @param visited .
+   *
+   * @param chain .
+   *
+   * @param chainLength .
+   *
+   * @return .
+   *
+   */
+  public boolean dfs(Position current, Set<Position> visited,
+                     LinkedList<Position> chain, final int chainLength) {
     visited.add(current);
     chain.add(current);
 
@@ -317,8 +397,8 @@ public class Spielfeld {
     if (chain.size() < chainLength) {
       for (Position neighbor : getNeighbors(current)) {
         if (!visited.contains(neighbor) && dfs(neighbor, visited, chain, chainLength)) {
-            return true; // Successful chain found
-          }
+          return true; // Successful chain found
+        }
       }
     }
 

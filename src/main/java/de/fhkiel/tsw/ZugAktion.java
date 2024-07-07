@@ -2,74 +2,115 @@ package de.fhkiel.tsw;
 
 import de.fhkiel.tsw.armyoffrogs.Color;
 import de.fhkiel.tsw.armyoffrogs.Position;
-
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+/**
+ * Class for handling player actions.
+ */
 public class ZugAktion {
+  Logger logger = Logger.getLogger(ZugAktion.class.getName());
 
   private final Map<String, Boolean> actionsPlayed;
   private final String[] actionOrder;
-  public Color ausgewählterHandFrosch;
+  private Color ausgewaehlterHandFrosch;
   private boolean turnStarted;
   private int currentActionIndex;
-  private int LastPlayer;
+  private int lastPlayer;
   private int currentPlayer;
 
   private int anzahlSpieler;
   private Gamelogic gamelogic;
   private boolean bewegenIstFertig = false;
+  private static final String BEWEGEN = "Bewegen";
+  private static final String ANLEGEN = "Anlegen";
+  private static final String NACHZIEHEN = "Nachziehen";
+  private static final String AKTION = "Aktion ";
+
+  public Color getAusgewaehlterHandFrosch() {
+    return ausgewaehlterHandFrosch;
+  }
+
+  public void setAusgewaehlterHandFrosch(Color ausgewaehlterHandFrosch) {
+    this.ausgewaehlterHandFrosch = ausgewaehlterHandFrosch;
+  }
+  /**
+   * Constructor for ZugAktion.
+   */
 
   public ZugAktion(Gamelogic gamelogic) {
     actionsPlayed = new HashMap<>();
-    actionsPlayed.put("Bewegen", false);
-    actionsPlayed.put("Anlegen", false);
-    actionsPlayed.put("Nachziehen", false);
-    actionOrder = new String[] {"Bewegen", "Anlegen", "Nachziehen"};
+    actionsPlayed.put(BEWEGEN, false);
+    actionsPlayed.put(ANLEGEN, false);
+    actionsPlayed.put(NACHZIEHEN, false);
+    actionOrder = new String[] {BEWEGEN, ANLEGEN, NACHZIEHEN};
     currentActionIndex = 0;
     this.gamelogic = gamelogic;
   }
 
+  /**
+   * Constructor for ZugAktion.
+   */
   public ZugAktion() {
     actionsPlayed = new HashMap<>();
-    actionsPlayed.put("Bewegen", false);
-    actionsPlayed.put("Anlegen", false);
-    actionsPlayed.put("Nachziehen", false);
-    actionOrder = new String[] {"Bewegen", "Anlegen", "Nachziehen"};
+    actionsPlayed.put(BEWEGEN, false);
+    actionsPlayed.put(ANLEGEN, false);
+    actionsPlayed.put(NACHZIEHEN, false);
+    actionOrder = new String[] {BEWEGEN, ANLEGEN, NACHZIEHEN};
     currentActionIndex = 0;
     currentPlayer = 0;
   }
 
+  /**
+   * Play the action "Nachziehen".
+   * This method is used to play the action "Nachziehen".
+   *
+   * @param action .
+   *
+   */
   public void playNachziehen(String action) {
     if (actionsPlayed.containsKey(action) && action.equals(actionOrder[currentActionIndex])) {
       executeNachziehen();
       actionsPlayed.put(action, true);
-      System.out.println("Aktion " + action + " wurde gespielt");
+      if (logger.isLoggable(Level.INFO)) {
+        logger.info(String.format("Aktion %s wurde gespielt", action));
+      }
       zugBeenden(gamelogic.getReihenfolge()[currentPlayer - 1]);
       gamelogic.infoString = "Nachziehen wurde gespielt";
       zugStarten(gamelogic.getReihenfolge()[currentPlayer == anzahlSpieler ? 0 : currentPlayer]);
     } else {
       throw new IllegalStateException(
-          "Aktion " + action + " ist entweder ungültig oder in falscher Reihenfolge");
+          AKTION + action + " ist entweder ungültig oder in falscher Reihenfolge");
     }
   }
 
+  /**
+   * Play the action.
+   *
+   * @param action .
+   * @param board .
+   * @param position .
+   */
   public void playAction(String action, Spielfeld board, Position position) {
     if (actionsPlayed.containsKey(action) && action.equals(actionOrder[currentActionIndex])) {
       boolean actionSuccess = executeAction(action, board, position);
       if (actionSuccess) {
         actionsPlayed.put(action, true);
-        System.out.println("Aktion " + action + " wurde gespielt");
+        if (logger.isLoggable(Level.INFO)) {
+          logger.info(String.format("Aktion %s wurde gespielt", action));
+        }
         currentActionIndex++;
-        if (action.equals("Anlegen")) {
-          playNachziehen("Nachziehen");
+        if (action.equals(ANLEGEN)) {
+          playNachziehen(NACHZIEHEN);
         } else {
           skipAction();
         }
       }
     } else {
       throw new IllegalStateException(
-          "Aktion " + action + " ist entweder ungültig oder in falscher Reihenfolge");
+          AKTION + action + " ist entweder ungültig oder in falscher Reihenfolge");
     }
   }
 
@@ -77,29 +118,40 @@ public class ZugAktion {
     drawFrog();
   }
 
+  /**
+   * Execute the action.
+   *
+   * @param action .
+   * @param board .
+   * @param position .
+   * @return .
+   *
+   */
   public boolean executeAction(String action, Spielfeld board, Position position) {
     switch (action) {
-      case "Bewegen":
+      case BEWEGEN:
         moveFrog(board, position);
-        System.out.println("Froschstein wurde bewegt");
+        logger.info("Froschstein wurde bewegt");
         gamelogic.infoString = "Froschstein wurde bewegt";
         return bewegenIstFertig;
-      case "Anlegen":
-        if (ausgewählterHandFrosch == null) {
-          System.out.println("Kein Froschstein ausgewählt");
+      case ANLEGEN:
+        if (ausgewaehlterHandFrosch == null) {
+          logger.info("Kein Froschstein ausgewählt");
           gamelogic.infoString = "Kein Froschstein ausgewählt";
           return false;
         }
-        boolean placeSuccess = placeFrog(board, ausgewählterHandFrosch, position);
+        boolean placeSuccess = placeFrog(board, ausgewaehlterHandFrosch, position);
         if (placeSuccess) {
-          ausgewählterHandFrosch = null;
-          System.out.println("Froschstein wurde angelegt");
+          ausgewaehlterHandFrosch = null;
+          logger.info("Froschstein wurde angelegt");
           gamelogic.infoString = "Froschstein wurde angelegt";
         }
         return placeSuccess;
-      case "Nachziehen":
+      case NACHZIEHEN:
         drawFrog();
         break;
+      default:
+        return false;
     }
     return false;
     // Logik zum Ausführen der Aktion
@@ -116,8 +168,7 @@ public class ZugAktion {
   private void moveFrog(Spielfeld board, Position position) {
     if (board.isFrogSelected()) {
       if (board.froschBewegen(position)) {
-        System.out.println(
-            "Froschstein an Position X:" + position.x() + " Y:" + position.y() + " bewegt");
+        logger.info("Froschstein an Position X:" + position.x() + " Y:" + position.y() + " bewegt");
         gamelogic.infoString +=
             "Froschstein an Position X:" + position.x() + " Y:" + position.y() + " bewegt";
         if (!board.isFrogSelected()) {
@@ -125,7 +176,8 @@ public class ZugAktion {
         }
       }
     } else if (
-        gamelogic.getReihenfolge()[getCurrentPlayer() - 1].getSpielerFarbe() == position.frog() &&
+        gamelogic.getReihenfolge()[getCurrentPlayer() - 1].getSpielerFarbe() == position.frog()
+            &&
             board.isFrogMovable(
                 position)) { // Ob der Spieler den Froschstein fürs Bewegen auswählen darf
       bewegenIstFertig = false;
@@ -139,6 +191,12 @@ public class ZugAktion {
     return true;
   }
 
+  /**
+   * Check if a frog can be moved.
+   *
+   * @return .
+   *
+   */
   public boolean canMoveFrog() {
     // Prüft, ob ein Froschstein bewegt werden kann
     if (gamelogic.getBoard().size() < 2) {
@@ -157,18 +215,30 @@ public class ZugAktion {
     // Logik zum Versuchen, eine Aktion zu starten
   }
 
+  /**
+   * Start the next action.
+   *
+   * @param board .
+   * @param position .
+   * @return .
+   *
+   */
   public boolean startNextAction(Spielfeld board, Position position) {
     // Logik zum Starten der nächsten Aktion
     playAction(actionOrder[currentActionIndex], board, position);
-    //System.out.println("Aktion " + actionOrder[currentActionIndex] + " wurde gestartet");
-    //gamelogic.infoString = "Aktion " + actionOrder[currentActionIndex] + " wurde gestartet";
     return true;
   }
 
+  /**
+   * Start the next action.
+   *
+   *@return .
+   *
+   */
   public boolean startNextAction() {
     // Logik zum Starten der nächsten Aktion
     playNachziehen(actionOrder[currentActionIndex]);
-    gamelogic.infoString = "Aktion " + actionOrder[currentActionIndex] + " wurde gestartet";
+    gamelogic.infoString = AKTION + actionOrder[currentActionIndex] + " wurde gestartet";
     return true;
   }
 
@@ -177,12 +247,16 @@ public class ZugAktion {
     return actionsPlayed.getOrDefault(action, false);
   }
 
+  /**
+   * Check the current turn.
+   *
+   */
   public void checkCurrentTurn() {
     // Ensure that actions are in the correct order
     for (int i = 0; i < currentActionIndex; i++) {
-      if (!actionsPlayed.get(actionOrder[i])) {
+      if (Boolean.FALSE.equals(actionsPlayed.get(actionOrder[i]))) {
         throw new IllegalStateException(
-            "Aktion " + actionOrder[i] + " wurde nicht korrekt gespielt");
+            AKTION + actionOrder[i] + " wurde nicht korrekt gespielt");
       }
     }
   }
@@ -191,6 +265,12 @@ public class ZugAktion {
     return actionOrder[currentActionIndex];
   }
 
+  /**
+   * Set the current action.
+   *
+   * @param action .
+   *
+   */
   public void setCurrentAction(String action) {
     for (int i = 0; i < actionOrder.length; i++) {
       if (actionOrder[i].equals(action)) {
@@ -198,7 +278,8 @@ public class ZugAktion {
         break;
       }
     }
-    // for every action in actionOrder, set every action to true until the specific action is reached
+    // for every action in actionOrder,
+    // set every action to true until the specific action is reached
     for (String actionInOrder : actionOrder) {
       if (actionInOrder.equals(action)) {
         break;
@@ -207,46 +288,63 @@ public class ZugAktion {
     }
   }
 
-  public boolean zugStarten(Spieler SpielerStarten) {
-    if (SpielerStarten.getZugPosition() == LastPlayer + 1 ||
-        ((LastPlayer == anzahlSpieler) && (SpielerStarten.getZugPosition() == 1))) {
-      currentPlayer = SpielerStarten.getZugPosition();
+  /**
+   * start the turn.
+   *
+   * @param spielerStarten .
+   *
+   * @return .
+   *
+   */
+  public boolean zugStarten(Spieler spielerStarten) {
+    if (spielerStarten.getZugPosition() == lastPlayer + 1
+        || ((lastPlayer == anzahlSpieler) && (spielerStarten.getZugPosition() == 1))) {
+      currentPlayer = spielerStarten.getZugPosition();
       turnStarted = true;
       for (String action : actionOrder) {
         actionsPlayed.put(action, false);
       }
       currentActionIndex = 0;
-      System.out.println("Spieler " + currentPlayer + "/" + SpielerStarten.getSpielerFarbe() + " ist am Zug");
-      skipAction();
-      /*
-      if (gamelogic.getBoard().size() < 2) {
-        actionsPlayed.put("Bewegen", true);
-        currentActionIndex++;
-        System.out.println("Aktion Bewegen wurde uebersprungen");
+      if (logger.isLoggable(Level.INFO)) {
+        logger.info(String.format("Spieler %d/%s ist am Zug", currentPlayer,
+            spielerStarten.getSpielerFarbe()));
       }
-      */
+      skipAction();
       return true;
     } else {
       return false;
     }
   }
 
-  public boolean zugBeenden(Spieler SpielerBeendet) {
-    if (SpielerBeendet.getZugPosition() == currentPlayer) {
-      LastPlayer = currentPlayer;
+  /**
+   * End the turn.
+   *
+   * @param spielerBeendet .
+   *
+   * @return .
+   */
+  public boolean zugBeenden(Spieler spielerBeendet) {
+    if (spielerBeendet.getZugPosition() == currentPlayer) {
+      lastPlayer = currentPlayer;
       return true;
     }
     return false;
   }
 
+  /**
+   * Set the next player.
+   *
+   * @param color .
+   *
+   */
   public void setNextPlayer(Color color) {
     for (int i = 0; i < gamelogic.getReihenfolge().length; i++) {
       if (gamelogic.getReihenfolge()[i].getSpielerFarbe() == color) {
         currentPlayer = i + 1;
         if (i == 0) {
-          LastPlayer = anzahlSpieler;
+          lastPlayer = anzahlSpieler;
         } else {
-          LastPlayer = i;
+          lastPlayer = i;
         }
       }
     }
@@ -266,25 +364,30 @@ public class ZugAktion {
 
   private void skipAction() {
     if (!actionIsPossible(actionOrder[currentActionIndex])) {
-      System.out.println("Aktion " + actionOrder[currentActionIndex] + " wurde uebersprungen");
-      actionsPlayed.put(actionOrder[currentActionIndex], true);
+      if (logger.isLoggable(Level.INFO)) {
+        logger.info(
+            String.format("%s%s wurde uebersprungen", AKTION, actionOrder[currentActionIndex]));
+        actionsPlayed.put(actionOrder[currentActionIndex], true);
+      }
       currentActionIndex++;
-      if (actionOrder[currentActionIndex].equals("Nachziehen")) {
+      if (actionOrder[currentActionIndex].equals(NACHZIEHEN)) {
         playNachziehen(actionOrder[currentActionIndex]);
       } else {
         skipAction();
       }
     } else {
-      System.out.println("Aktion " + actionOrder[currentActionIndex] + " kann ausgeführt werden");
+      if (logger.isLoggable(Level.INFO)) {
+        logger.info(AKTION + actionOrder[currentActionIndex] + " kann ausgeführt werden");
+      }
     }
   }
 
   private boolean actionIsPossible(String action) {
     return switch (action) {
-      case "Bewegen" -> canMoveFrog();
-      case "Anlegen" -> canPlaceFrog();
+      case BEWEGEN -> canMoveFrog();
+      case ANLEGEN -> canPlaceFrog();
       default -> {
-        System.out.println("Fehler aufgetreten");
+        logger.info("Fehler aufgetreten");
         yield false;
       }
     };

@@ -126,7 +126,7 @@ public class ZugSteps {
       container.logicUnderTest.clicked(new Position(Color.None, 2, 2, Color.None));
       container.logicUnderTest.clicked(new Position(Color.Green, 2, 2, Color.None));
     } else if (action.equals("Anlegen")) {
-      container.logicUnderTest.zugAktion.ausgewählterHandFrosch = Color.Green;
+      container.logicUnderTest.zugAktion.setAusgewaehlterHandFrosch(Color.Green);
       container.logicUnderTest.clicked(new Position(Color.Green, 3, 0, Color.None));
     }
 
@@ -201,7 +201,7 @@ public class ZugSteps {
       currentPlayer.getInventar().remove(1);
     }
     container.testFroschsteinInventar = currentPlayer.getInventar();
-    assertThat(currentPlayer.getInventar().size()).isLessThanOrEqualTo(1);
+    assertThat(currentPlayer.getInventar()).hasSizeLessThanOrEqualTo(1);
   }
 
   @Wenn("die Aktion {string} beendet wird")

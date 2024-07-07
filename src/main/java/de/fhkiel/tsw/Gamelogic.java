@@ -3,54 +3,70 @@ package de.fhkiel.tsw;
 import de.fhkiel.tsw.armyoffrogs.Color;
 import de.fhkiel.tsw.armyoffrogs.Game;
 import de.fhkiel.tsw.armyoffrogs.Position;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+import java.util.logging.Logger;
 
-import java.util.*;
-
+/**
+ * The class Gamelogic represents the game logic of the game.
+ */
 public class Gamelogic implements Game {
+  private final Random newRandom = new Random();
+  Logger logger = Logger.getLogger(Gamelogic.class.getName());
 
 
-  public boolean keineKetten;
+
   public ZugAktion zugAktion;
   public String infoString;
-  int LastPlayer;
-  private Beutel SpielBeutel;
-  private int iSpieler;
-  private boolean GameIsRunning;
-  private Color[] CPlayers;
-  private Spieler[] AlleSpieler;
-  private Spieler[] Reihenfolge;
-  //private Set<Position> frogBoard = new HashSet<>();
+  int lastPlayer;
+  private Beutel spielBeutel;
+  private int intSpieler;
+  private boolean gameIsRunning;
+  private Color[] colorPlayers;
+  private Spieler[] alleSpieler;
+  private Spieler[] reihenfolge;
   private Spielfeld frogBoard;
-  private Color ausgewählterFrosch;
 
+  /**
+   * Constructor for the class Gamelogic.
+   */
   public Gamelogic() {
-    GameIsRunning = false;
-    iSpieler = 0;
-    LastPlayer = 0;
-    SpielBeutel = new Beutel(new ArrayList<>());
-    CPlayers = new Color[0];
+    gameIsRunning = false;
+    intSpieler = 0;
+    lastPlayer = 0;
+    spielBeutel = new Beutel(new ArrayList<>());
+    colorPlayers = new Color[0];
     zugAktion = new ZugAktion(this);
     frogBoard = new Spielfeld(this);
     infoString = "Das Spiel wurde geladen";
   }
 
+  /**
+   * Constructor for the class Gamelogic.
+   *
+   * @param newBoard .
+   */
+
   public Gamelogic(Set<Position> newBoard) {
-    GameIsRunning = false;
-    iSpieler = 0;
-    LastPlayer = 0;
-    SpielBeutel = new Beutel(new ArrayList<>());
-    CPlayers = new Color[0];
+    gameIsRunning = false;
+    intSpieler = 0;
+    lastPlayer = 0;
+    spielBeutel = new Beutel(new ArrayList<>());
+    colorPlayers = new Color[0];
     zugAktion = new ZugAktion(this);
     frogBoard = new Spielfeld(newBoard, this);
     infoString = "Das Spiel wurde geladen";
   }
 
   private void clearPreviousGame() {
-    GameIsRunning = false;
-    iSpieler = 0;
-    LastPlayer = 0;
-    SpielBeutel = new Beutel(new ArrayList<>());
-    CPlayers = new Color[0];
+    gameIsRunning = false;
+    intSpieler = 0;
+    lastPlayer = 0;
+    spielBeutel = new Beutel(new ArrayList<>());
+    colorPlayers = new Color[0];
     zugAktion = new ZugAktion(this);
     frogBoard = new Spielfeld(this);
   }
@@ -65,7 +81,7 @@ public class Gamelogic implements Game {
 
   @Override
   public Color[] players() {
-    return CPlayers;
+    return colorPlayers;
   }
 
   @Override
@@ -75,19 +91,18 @@ public class Gamelogic implements Game {
 
   @Override
   public int frogsInBag() {
-    return SpielBeutel.getAnzFrösche();
+    return spielBeutel.getAnzFroesche();
   }
 
   @Override
   public List<Color> getFrogsInHand(Color color) {
-    for (Spieler EinSpieler : AlleSpieler) {
-      if (EinSpieler.getSpielerFarbe() == color) {
-        //System.out.println("Spieler hat " + EinSpieler.getInventar().size() + " Frösche ");
-        return EinSpieler.getInventar().stream().map(Froschstein::getFroschsteinFarbe)
+    for (Spieler einSpieler : alleSpieler) {
+      if (einSpieler.getSpielerFarbe() == color) {
+        return einSpieler.getInventar().stream().map(Froschstein::getFroschsteinFarbe)
             .toList();
       }
     }
-    return new ArrayList<>(List.of(new Color[] {Color.Blue, Color.Green}));
+    return new ArrayList<>(List.of(Color.Blue, Color.Green));
   }
 
   @Override
@@ -99,33 +114,30 @@ public class Gamelogic implements Game {
   public void clicked(Position position) {
 
     if (zugAktion.getCurrentAction().equals("Nachziehen")) {
-      System.out.println("Du kannst keine Frösche setzen, wenn du ziehst");
+      logger.info("Du kannst keine Frösche setzen, wenn du ziehst");
       infoString += "Du kannst keine Frösche setzen, wenn du ziehst";
       return;
     }
 
-    if (zugAktion.ausgewählterHandFrosch == null &&
-        zugAktion.getCurrentAction().equals("Anlegen")) {
-      System.out.println("Kein Froschstein ausgewählt");
+    if (zugAktion.getAusgewaehlterHandFrosch() == null
+        && zugAktion.getCurrentAction().equals("Anlegen")) {
+      logger.info("Kein Froschstein ausgewählt");
       infoString = "Kein Froschstein ausgewählt";
       return;
     }
     zugAktion.startNextAction(frogBoard, position);
-
-    //frogBoard.froschSetzen(new Position(ausgewählterFrosch, position.x(), position.y(), position.border()));
-    //zugAktion.ausgewählterHandFrosch = null;
   }
 
   @Override
-  public void selectedFrogInHand(Color SpielerFarbe, Color FroschFarbe) {
+  public void selectedFrogInHand(Color spielerFarbe, Color froschFarbe) {
     infoString = "Spieler nicht gefunden";
-    for (Spieler EinSpieler : AlleSpieler) {
-      if (EinSpieler.getZugPosition() == getCurrentPlayer() &&
-          EinSpieler.getSpielerFarbe() == SpielerFarbe) {
-        for (Froschstein froschstein : EinSpieler.getInventar()) {
-          if (froschstein.getFroschsteinFarbe() == FroschFarbe) {
-            EinSpieler.getInventar().remove(froschstein);
-            zugAktion.ausgewählterHandFrosch = FroschFarbe;
+    for (Spieler einSpieler : alleSpieler) {
+      if (einSpieler.getZugPosition() == getCurrentPlayer()
+          && einSpieler.getSpielerFarbe() == spielerFarbe) {
+        for (Froschstein froschstein : einSpieler.getInventar()) {
+          if (froschstein.getFroschsteinFarbe() == froschFarbe) {
+            einSpieler.getInventar().remove(froschstein);
+            zugAktion.setAusgewaehlterHandFrosch(froschFarbe);
             infoString = "Froschstein ausgewählt";
             return;
           }
@@ -133,7 +145,6 @@ public class Gamelogic implements Game {
         infoString = "Froschstein nicht im Inventar gefunden";
       }
     }
-    //zugAktion.executeAction("Anlegen", frogBoard, new Position(FroschFarbe, 0, 0, Color.None));
   }
 
   @Override
@@ -151,101 +162,122 @@ public class Gamelogic implements Game {
     return true;
   }
 
-  public boolean startGame(int spieler, List<Color> SpielerFarben) {
-    AlleSpieler = new Spieler[spieler];
-    Reihenfolge = new Spieler[spieler];
-    iSpieler = spieler;
-    if (spieler < SpielerFarben.size()) {
-      SpielerFarben = SpielerFarben.subList(0, spieler);
+  /**
+   * Method to start the game.
+   *
+   * @param spieler .
+   *
+   * @param spielerFarben .
+   *
+   * @return .
+   *
+   */
+  public boolean startGame(int spieler, List<Color> spielerFarben) {
+    alleSpieler = new Spieler[spieler];
+    reihenfolge = new Spieler[spieler];
+    intSpieler = spieler;
+    if (spieler < spielerFarben.size()) {
+      spielerFarben = spielerFarben.subList(0, spieler);
     }
 
     if (!checkPlayerCount(spieler)) {
-      GameIsRunning = false;
-      System.out.println(
-          "Spiel kann nicht gestartet werden. Zu viele oder zu wenige Spieler");
-      return GameIsRunning;
+      gameIsRunning = false;
+      logger.info("Spiel kann nicht gestartet werden. Zu viele oder zu wenige Spieler");
+      return gameIsRunning;
     }
-    CPlayers = new Color[spieler];
+    colorPlayers = new Color[spieler];
     int j = 0;
-    for (Color EinzSpielerFarbe : SpielerFarben) {
-      AlleSpieler[j] = new Spieler(EinzSpielerFarbe);
-      CPlayers[j] = EinzSpielerFarbe;
+    for (Color einzSpielerFarbe : spielerFarben) {
+      alleSpieler[j] = new Spieler(einzSpielerFarbe);
+      colorPlayers[j] = einzSpielerFarbe;
       j++;
     }
 
-    beutelBefüllen(SpielerFarben);
+    beutelBefuellen(spielerFarben);
 
-    reihenfolgeBestimmen(AlleSpieler);
-    erstesFröscheNehmen(2);
+    reihenfolgeBestimmen(alleSpieler);
+    erstesFroescheNehmen(2);
 
-    System.out.println("Spiel ist gestartet");
-    GameIsRunning = true;
-    zugAktion.setAnzahlSpieler(iSpieler);
-    zugAktion.zugStarten(Reihenfolge[0]);
-    System.out.println("Der erste Spieler ist " + Reihenfolge[0].getSpielerFarbe());
-    return GameIsRunning;
+    logger.info("Spiel ist gestartet");
+    gameIsRunning = true;
+    zugAktion.setAnzahlSpieler(intSpieler);
+    zugAktion.zugStarten(reihenfolge[0]);
+    logger.info("Der erste Spieler ist " + reihenfolge[0].getSpielerFarbe());
+    return gameIsRunning;
   }
 
-  public void erstesFröscheNehmen(int AnzahlFrösche) {
-    for (Spieler EinSpieler : AlleSpieler) {
-      for (int i = 0; i < AnzahlFrösche; i++) {
-        SpielBeutel.froschNehmen(EinSpieler);
+  /**
+   * Method to take the first frogs.
+   *
+   * @param anzahlFroesche .
+   *
+   */
+  public void erstesFroescheNehmen(int anzahlFroesche) {
+    for (Spieler einSpieler : alleSpieler) {
+      for (int i = 0; i < anzahlFroesche; i++) {
+        spielBeutel.froschNehmen(einSpieler);
       }
     }
-    System.out.println("Die ersten Frösche wurden gezogen");
+    logger.info("Die ersten Frösche wurden gezogen");
   }
 
-  public void takeFrogFromBag(Spieler EinSpieler) {
-    SpielBeutel.froschNehmen(EinSpieler);
+  public void takeFrogFromBag(Spieler einSpieler) {
+    spielBeutel.froschNehmen(einSpieler);
   }
 
-  private boolean checkPlayerCount(int iAnzSpieler) {
-    return iAnzSpieler <= 4 && iAnzSpieler >= 2;
+  private boolean checkPlayerCount(int intAnzSpieler) {
+    return intAnzSpieler <= 4 && intAnzSpieler >= 2;
   }
 
-  public void beutelBefüllen(List<Color> FarbenInBeutel) {
-    SpielBeutel = new Beutel(FarbenInBeutel);
+  public void beutelBefuellen(List<Color> farbenInBeutel) {
+    spielBeutel = new Beutel(farbenInBeutel);
   }
 
   public int getPlayerCount() {
-    return iSpieler;
+    return intSpieler;
   }
 
   public boolean isGameIsRunning() {
-    return GameIsRunning;
+    return gameIsRunning;
   }
 
   public Beutel getSpielBeutel() {
-    return SpielBeutel;
+    return spielBeutel;
   }
 
-  public void reihenfolgeBestimmen(Spieler[] AlleSpieler) {
-    int Index = new Random().nextInt(AlleSpieler.length);
-    Spieler ersterSpieler = AlleSpieler[Index];
-    Reihenfolge[0] = ersterSpieler;
-    Reihenfolge[0].setStartspieler(true);
-    Reihenfolge[0].setZugPosition(1);
+  /**
+   * Method to determine the order of the players.
+   *
+   * @param alleSpieler .
+   *
+   */
+  public void reihenfolgeBestimmen(Spieler[] alleSpieler) {
+    int index =  newRandom.nextInt(alleSpieler.length);
+    Spieler ersterSpieler = alleSpieler[index];
+    reihenfolge[0] = ersterSpieler;
+    reihenfolge[0].setStartspieler(true);
+    reihenfolge[0].setZugPosition(1);
     int i = 1;
-    for (Spieler spieler : AlleSpieler) {
+    for (Spieler spieler : alleSpieler) {
       if (spieler == ersterSpieler) {
         continue;
       }
-      Reihenfolge[i] = spieler;
-      Reihenfolge[i].setZugPosition(i + 1);
+      reihenfolge[i] = spieler;
+      reihenfolge[i].setZugPosition(i + 1);
       i++;
     }
   }
 
   public Spieler getStartSpieler() {
-    return Reihenfolge[0];
+    return reihenfolge[0];
   }
 
   public Spieler[] getReihenfolge() {
-    return Reihenfolge;
+    return reihenfolge;
   }
 
   public int getLastPlayer() {
-    return LastPlayer;
+    return lastPlayer;
   }
 
 
@@ -254,7 +286,7 @@ public class Gamelogic implements Game {
   }
 
   public Spieler[] getAlleSpieler() {
-    return AlleSpieler;
+    return alleSpieler;
   }
 
   public Spielfeld getFrogBoard() {
@@ -262,13 +294,19 @@ public class Gamelogic implements Game {
   }
 
   public boolean hasNoChains() {
-    return frogBoard.keineKetten;
+    return frogBoard.getKeineKetten();
   }
 
+  /**
+   * Method to get the wrong placement.
+   *
+   * @return .
+   *
+   */
   public Position getWrongPlacement() {
     Position wrongPlacement = frogBoard.getChainPlacement();
     if (wrongPlacement == null) {
-      System.out.println("Keine falsche Position gefunden");
+      logger.info("Keine falsche Position gefunden");
     }
     return wrongPlacement;
   }
