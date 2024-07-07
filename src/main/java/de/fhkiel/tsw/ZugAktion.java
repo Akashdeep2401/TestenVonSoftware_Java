@@ -16,7 +16,6 @@ public class ZugAktion {
   private final Map<String, Boolean> actionsPlayed;
   private final String[] actionOrder;
   private Color ausgewaehlterHandFrosch;
-  private boolean turnStarted;
   private int currentActionIndex;
   private int lastPlayer;
   private int currentPlayer;
@@ -300,7 +299,6 @@ public class ZugAktion {
     if (spielerStarten.getZugPosition() == lastPlayer + 1
         || ((lastPlayer == anzahlSpieler) && (spielerStarten.getZugPosition() == 1))) {
       currentPlayer = spielerStarten.getZugPosition();
-      turnStarted = true;
       for (String action : actionOrder) {
         actionsPlayed.put(action, false);
       }
